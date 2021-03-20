@@ -2,6 +2,7 @@ import ArgumentParser
 import Foundation
 import ShellOut
 
+/// Generates `key.pem` key from `.p12` file
 public struct PrivateKeyCommand: ParsableCommand {
     public static let configuration = CommandConfiguration(commandName: "keygen", abstract: "generates private signing key")
     

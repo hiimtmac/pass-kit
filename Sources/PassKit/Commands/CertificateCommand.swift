@@ -2,6 +2,7 @@ import ArgumentParser
 import Foundation
 import ShellOut
 
+/// Generates `cert.pem` certificate from `.p12` file
 public struct CertificateCommand: ParsableCommand {
     public static let configuration = CommandConfiguration(commandName: "certgen", abstract: "generates signing certificate")
     
