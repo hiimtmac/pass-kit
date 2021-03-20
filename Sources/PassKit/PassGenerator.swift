@@ -8,7 +8,6 @@ private let temp = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: tru
 public struct PassGenerator {
     public let folder: URL
     public let fileManager: FileManager
-        
     
     /// Creates a pass generator object with a base folder location
     /// - Parameters:
@@ -25,12 +24,12 @@ public struct PassGenerator {
         {
             throw PassError.nonEmptyDirectory
         }
-    }
-    
-    /// Creates folder for pass files to be created in
-    /// - Throws:
-    public func setup() throws {
-        try fileManager.createDirectory(at: folder, withIntermediateDirectories: true, attributes: nil)
+        
+        try self.fileManager.createDirectory(
+            at: self.folder,
+            withIntermediateDirectories: true,
+            attributes: nil
+        )
     }
     
     /// Copies a file into the pass directory.
