@@ -2,8 +2,8 @@ import ArgumentParser
 import Foundation
 import ShellOut
 
-struct CertificateCommand: ParsableCommand {
-    static let configuration = CommandConfiguration(commandName: "certgen", abstract: "generates signing certificate")
+public struct CertificateCommand: ParsableCommand {
+    public static let configuration = CommandConfiguration(commandName: "certgen", abstract: "generates signing certificate")
     
     @Argument(completion: .file(extensions: ["p12"]), transform: fileTransform)
     var input: URL
@@ -14,7 +14,9 @@ struct CertificateCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "Certificate password")
     var password: String?
     
-    func run() throws {
+    public init() {}
+    
+    public func run() throws {
         let out = output ?? input.deletingLastPathComponent().appendingPathComponent("cert.pem")
 
         try shellOut(to: .generateCertificate(

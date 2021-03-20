@@ -2,8 +2,8 @@ import ArgumentParser
 import Foundation
 import ShellOut
 
-struct PrivateKeyCommand: ParsableCommand {
-    static let configuration = CommandConfiguration(commandName: "keygen", abstract: "generates private signing key")
+public struct PrivateKeyCommand: ParsableCommand {
+    public static let configuration = CommandConfiguration(commandName: "keygen", abstract: "generates private signing key")
     
     @Argument(completion: .file(extensions: ["p12"]), transform: fileTransform)
     var input: URL
@@ -14,7 +14,9 @@ struct PrivateKeyCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "Certificate password")
     var password: String?
     
-    func run() throws {
+    public init() {}
+    
+    public func run() throws {
         let out = output ?? input.deletingLastPathComponent().appendingPathComponent("key.pem")
 
         try shellOut(to: .generateKey(
