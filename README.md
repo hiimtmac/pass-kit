@@ -55,9 +55,35 @@ In the developer portal under "Certificates, Identifiers & Profiles":
   
 ## Running `PassGenerator`
 
+1. Initialize a `PassGenerator`
+  - You can specify a folder to generate the pass in or it can use the temp directory if no folder is declared
+2. Copy items like images into the folder with `copy(itemAt:as:)`
+3. Add and serialize the `Pass` object to `pass.json` using `preparePass(pass:)`
+4. Generate manifest of the files in the folder using `generateManifest()`
+5. Generate signature using `generateSignature(certificate:key:wwdr:password)` using resources created above
+6. Zip pass to file (generally with extension `.pkpass`)
 
+Example:
+
+```swift
+let resources: URL = ...
+let wwdr: URL = ...
+let cert: URL = ...
+let key: URL = ...
+let pass = Pass.init(...)
+let output = URL(...).appendingPathComponent("MyPass.pkpass")
+
+let generator = try PassGenerator(folder: directory)
+try generator.preparePass(pass: pass)
+try generator.copy(itemAt: resources.appendingPathComponent("myicon.png", as: "icon.png")
+try generator.copy(itemAt: resources.appendingPathComponent("myicon@2x.png", as: "icon@2x.png")
+try generator.copy(itemAt: resources.appendingPathComponent("myicon@3x.png", as: "icon@3x.png")
+try generator.generateManifest()
+try generator.generateSignature(certificate: cert, key: key, wwdr: wwdr, password: "")
+try generator.zipPass(url: output)
+```
 
 ## More
 
-[Ray Wenderlich](https://www.raywenderlich.com/2855-beginning-passbook-in-ios-6-part-1-2)
-[Apple PassKit](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/)
+- [Ray Wenderlich](https://www.raywenderlich.com/2855-beginning-passbook-in-ios-6-part-1-2)
+- [Apple PassKit](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/)
