@@ -25,7 +25,8 @@ let package = Package(
             .product(name: "ArgumentParser", package: "swift-argument-parser")
         ]),
         .testTarget(name: "PassKitTests", dependencies: [
-            .target(name: "PassKit")
+            .target(name: "PassKit"),
+            .product(name: "ZIPFoundation", package: "ZIPFoundation")
         ]),
     ]
 )

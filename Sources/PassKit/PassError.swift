@@ -1,6 +1,7 @@
 import Foundation
 
 enum PassError: Error {
+    case createArchive
     case nonEmptyDirectory
     case passWrite
     case manifestWrite
@@ -9,6 +10,7 @@ enum PassError: Error {
 extension PassError: LocalizedError {
     var errorDescription: String? {
         switch self {
+        case .createArchive: return "cannot create archive"
         case .nonEmptyDirectory: return "target pass directory has contents in it"
         case .passWrite: return "pass.json failed to write"
         case .manifestWrite: return "manifest.json failed to write"
