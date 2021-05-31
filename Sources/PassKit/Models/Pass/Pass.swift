@@ -1,6 +1,7 @@
 import Foundation
 
-/// See: https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
+// https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
+/// The following sections list the required and optional keys used in this dictionary
 public struct Pass: Codable {
     
     /// - Standard Keys
@@ -132,9 +133,39 @@ public struct Pass: Codable {
     /// Available in iOS 9.0.
     public var nfc: PassNFC?
     
+    /// Creates a Pass object
+    /// - Parameters:
+    ///   - description: Brief description of the pass, used by the iOS accessibility technologies
+    ///   - organizationName: Display name of the organization that originated and signed the pass
+    ///   - passTypeIdentifier: Pass type identifier, as issued by Apple
+    ///   - serialNumber: Serial number that uniquely identifies the pass
+    ///   - teamIdentifier: Team identifier of the organization that originated and signed the pass, as issued by Apple
+    ///   - appLaunchURL: A URL to be passed to the associated app when launching it
+    ///   - associatedStoreIdentifiers: A list of iTunes Store item identifiers for the associated apps
+    ///   - userInfo: Custom information for companion apps
+    ///   - expirationDate: Date and time when the pass expires
+    ///   - voided: Indicates that the pass is void
+    ///   - beacons: Beacons marking locations where the pass is relevant
+    ///   - locations: Locations where the pass is relevant
+    ///   - maxDistance: Maximum distance in meters from a relevant latitude and longitude that the pass is relevant
+    ///   - relevantDate: Date and time when the pass becomes relevant
+    ///   - boardingPass: Information specific to a boarding pass
+    ///   - coupon: Information specific to a coupon
+    ///   - eventTicket: Information specific to an event ticket
+    ///   - generic: Information specific to a generic pass
+    ///   - storeCard: Information specific to a store card
+    ///   - barcodes: Information specific to the pass’s barcode
+    ///   - backgroundColor: Background color of the pass, specified as an CSS-style RGB triple
+    ///   - foregroundColor: Foreground color of the pass, specified as a CSS-style RGB triple
+    ///   - groupingIdentifier: Identifier used to group related passes
+    ///   - labelColor: Color of the label text, specified as a CSS-style RGB triple
+    ///   - logoText: Text displayed next to the logo on the pass
+    ///   - suppressStripShine: If true, the strip image is displayed without a shine effect
+    ///   - authenticationToken: The authentication token to use with the web service
+    ///   - webServiceURL: The URL of a web service that conforms to the API described in PassKit Web Service Reference
+    ///   - nfc: NFC-enabled pass keys support sending reward card information as part of an Apple Pay transaction
     public init(
         description: String,
-        formatVersion: Int,
         organizationName: String,
         passTypeIdentifier: String,
         serialNumber: String,
@@ -165,7 +196,7 @@ public struct Pass: Codable {
         nfc: PassNFC? = nil
     ) {
         self.description = description
-        self.formatVersion = formatVersion
+        self.formatVersion = 1
         self.organizationName = organizationName
         self.passTypeIdentifier = passTypeIdentifier
         self.serialNumber = serialNumber

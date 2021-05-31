@@ -4,7 +4,11 @@ import ShellOut
 
 /// Generates `cert.pem` certificate from `.p12` file
 public struct CertificateCommand: ParsableCommand {
-    public static let configuration = CommandConfiguration(commandName: "certgen", abstract: "generates signing certificate")
+    public static let configuration = CommandConfiguration(
+        commandName: "certgen",
+        abstract: "generates signing certificate",
+        discussion: "Take in .p12 bundle and exports certificate for signature genration"
+    )
     
     @Argument(completion: .file(extensions: ["p12"]), transform: fileTransform)
     var input: URL
@@ -18,12 +22,13 @@ public struct CertificateCommand: ParsableCommand {
     public init() {}
     
     public func run() throws {
-        let out = output ?? input.deletingLastPathComponent().appendingPathComponent("cert.pem")
+        let name = input.deletingPathExtension().lastPathComponent
+        let out = output ?? input.deletingLastPathComponent().appendingPathComponent("\(name).cer")
 
         try shellOut(to: .generateCertificate(
             certificateIn: input,
             certificateOut: out,
-            password: password ?? ""
+            passIn: password
         ))
     }
 }

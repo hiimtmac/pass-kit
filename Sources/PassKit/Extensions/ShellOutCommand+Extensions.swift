@@ -6,16 +6,17 @@ extension ShellOutCommand {
     /// - Parameters:
     ///   - certificateIn: location of `.p12` certificate
     ///   - keyOut: location for `key.pem` to be created
-    ///   - password: password of `.p12`
+    ///   - passIn: password of `.p12` (if set)
+    ///   - passOut: password for private key
     ///
     /// - Note: Requires `openssl` installed on machine running this command
-    public static func generateKey(certificateIn: URL, keyOut: URL, password: String) -> ShellOutCommand {
+    public static func generateKey(certificateIn: URL, keyOut: URL, passIn: String?, passOut: String) -> ShellOutCommand {
         var command = "openssl pkcs12"
-        command.append(" -in \(certificateIn.path)")
+        command.append(" -in '\(certificateIn.path)'")
         command.append(" -nocerts")
-        command.append(" -out \(keyOut.path)")
-        command.append(" -passin pass:\(password)")
-        command.append(" -passout pass:\(password)")
+        command.append(" -out '\(keyOut.path)'")
+        command.append(" -passin pass:\(passIn ?? "")")
+        command.append(" -passout pass:\(passOut)")
         
         return ShellOutCommand(string: command)
     }
@@ -24,16 +25,16 @@ extension ShellOutCommand {
     /// - Parameters:
     ///   - certificateIn: location of `.p12` certificate
     ///   - certificateOut: location for `cert.pem` to be created
-    ///   - password: password of `.p12`
+    ///   - passIn: password of `.p12` (if set)
     ///
     /// - Note: Requires `openssl` installed on machine running this command
-    public static func generateCertificate(certificateIn: URL, certificateOut: URL, password: String) -> ShellOutCommand {
+    public static func generateCertificate(certificateIn: URL, certificateOut: URL, passIn: String?) -> ShellOutCommand {
         var command = "openssl pkcs12"
-        command.append(" -in \(certificateIn.path)")
+        command.append(" -in '\(certificateIn.path)'")
         command.append(" -clcerts")
         command.append(" -nokeys")
-        command.append(" -out \(certificateOut.path)")
-        command.append(" -passin pass:\(password)")
+        command.append(" -out '\(certificateOut.path)'")
+        command.append(" -passin pass:\(passIn ?? "")")
         
         return ShellOutCommand(string: command)
     }
