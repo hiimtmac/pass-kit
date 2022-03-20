@@ -6,8 +6,6 @@ import Foundation
 import ShellOut
 import ZIPFoundation
 
-private let temp = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-
 public struct PassGenerator {
     public let folder: URL
     public let fileManager: FileManager
@@ -18,7 +16,7 @@ public struct PassGenerator {
     ///   - fileManager: `FileManager` for customization if you don't want the stock default
     /// - Throws: `PassError` if target folder is not empty
     public init(folder: URL? = nil, fileManager: FileManager = .default) throws {
-        self.folder = folder ?? temp.appendingPathComponent(UUID().uuidString)
+        self.folder = folder ?? FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         self.fileManager = fileManager
 
         if

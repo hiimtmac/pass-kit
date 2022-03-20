@@ -6,7 +6,8 @@ import XCTest
 
 final class PassKitTests: XCTestCase {
     let fm = FileManager.default
-    let url = URL(fileURLWithPath: NSTemporaryDirectory())
+    let url = FileManager.default
+        .temporaryDirectory
         .appendingPathComponent(UUID().uuidString)
 
     override func tearDownWithError() throws {
@@ -30,9 +31,9 @@ final class PassKitTests: XCTestCase {
 
     func testCopyWithName() throws {
         let gen = try PassGenerator(folder: url, fileManager: fm)
-        let file = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("file")
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("file")
         defer {
-            try! fm.removeItem(at: file)
+            try? fm.removeItem(at: file)
         }
         let data = Data("doc".utf8)
         self.fm.createFile(atPath: file.path, contents: data, attributes: nil)
@@ -45,9 +46,9 @@ final class PassKitTests: XCTestCase {
 
     func testCopyWithoutName() throws {
         let gen = try PassGenerator(folder: url, fileManager: fm)
-        let file = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("file")
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("file")
         defer {
-            try! fm.removeItem(at: file)
+            try? fm.removeItem(at: file)
         }
         let data = Data("doc".utf8)
         self.fm.createFile(atPath: file.path, contents: data, attributes: nil)
