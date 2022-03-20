@@ -1,3 +1,6 @@
+// PassField.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/FieldDictionary.html#//apple_ref/doc/uid/TP40012026-CH4-SW5
@@ -26,7 +29,7 @@ public struct PassField: Codable {
     public var textAligment: PassTextAlignment?
     /// Value of the field, for example, 42.
     public var value: PassValue?
-    
+
     /// Information about a field
     /// - Parameters:
     ///   - attributedValue: Attributed value of the field.
@@ -59,7 +62,7 @@ extension PassField {
     public enum PassValue: Codable {
         case double(Double)
         case string(String)
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             do {
@@ -72,13 +75,13 @@ extension PassField {
                 }
             }
         }
-        
+
         public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
             switch self {
-            case .double(let double):
+            case let .double(double):
                 try container.encode(double)
-            case .string(let string):
+            case let .string(string):
                 try container.encode(string)
             }
         }

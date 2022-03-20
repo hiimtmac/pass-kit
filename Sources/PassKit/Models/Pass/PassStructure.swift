@@ -1,3 +1,6 @@
+// PassStructure.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW14
@@ -17,7 +20,7 @@ public struct PassStructure: Codable {
     /// Required for boarding passes; otherwise not allowed. Type of transit.
     /// Must be one of the following values: PKTransitTypeAir, PKTransitTypeBoat, PKTransitTypeBus, PKTransitTypeGeneric,PKTransitTypeTrain.
     public var transitType: PassTransitType?
-    
+
     /// These keys are used for all pass styles and partition the fields into the various parts of the pass
     /// - Parameters:
     ///   - auxiliaryFields: Additional fields to be displayed on the front of the pass

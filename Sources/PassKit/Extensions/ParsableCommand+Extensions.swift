@@ -1,5 +1,8 @@
-import Foundation
+// ParsableCommand+Extensions.swift
+// Copyright © 2022 hiimtmac
+
 import ArgumentParser
+import Foundation
 
 extension ParsableCommand {
     public static func folderTransform(_ string: String) throws -> URL {

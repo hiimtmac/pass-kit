@@ -1,3 +1,6 @@
+// ShellOutCommand+Extensions.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 import ShellOut
 
@@ -17,10 +20,10 @@ extension ShellOutCommand {
         command.append(" -out '\(keyOut.path)'")
         command.append(" -passin pass:\(passIn ?? "")")
         command.append(" -passout pass:\(passOut)")
-        
+
         return ShellOutCommand(string: command)
     }
-    
+
     /// Takes a `.p12` file and generates certificate needed for manifest signing
     /// - Parameters:
     ///   - certificateIn: location of `.p12` certificate
@@ -35,10 +38,10 @@ extension ShellOutCommand {
         command.append(" -nokeys")
         command.append(" -out '\(certificateOut.path)'")
         command.append(" -passin pass:\(passIn ?? "")")
-        
+
         return ShellOutCommand(string: command)
     }
-    
+
     /// Generates signature of manifest file
     /// - Parameters:
     ///   - certificate: location of `cert.pem` certificate
@@ -60,7 +63,7 @@ extension ShellOutCommand {
         command.append(" -outform DER")
         command.append(" -binary")
         command.append(" -passin pass:\(password)")
-        
+
         return ShellOutCommand(string: command)
     }
 }

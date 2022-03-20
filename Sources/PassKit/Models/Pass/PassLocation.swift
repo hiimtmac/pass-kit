@@ -1,3 +1,6 @@
+// PassLocation.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW2
@@ -11,7 +14,7 @@ public struct PassLocation: Codable {
     public var longitude: Double
     /// Text displayed on the lock screen when the pass is currently relevant. For example, a description of the nearby location such as “Store nearby on 1st and Main.”
     public var relevantText: String?
-    
+
     /// Information about a location
     /// - Parameters:
     ///   - altitude: Altitude, in meters, of the location
