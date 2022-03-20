@@ -59,7 +59,7 @@ final class PassKitTests: XCTestCase {
     func testPreparePass() throws {
         let gen = try PassGenerator(folder: url, fileManager: fm)
         
-        let pass = Pass(description: "desc", formatVersion: 1, organizationName: "org", passTypeIdentifier: "id", serialNumber: "serial", teamIdentifier: "team")
+        let pass = Pass(description: "desc", organizationName: "org", passTypeIdentifier: "id", serialNumber: "serial", teamIdentifier: "team")
         
         try gen.preparePass(pass: pass)
         XCTAssert(fm.fileExists(atPath: gen.folder.appendingPathComponent("pass.json").path))

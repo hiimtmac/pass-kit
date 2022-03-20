@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.6
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,14 +6,14 @@ import PackageDescription
 let package = Package(
     name: "pass-kit",
     platforms: [
-        .macOS(.v11)
+        .macOS(.v10_15)
     ],
     products: [
         .library(name: "PassKit", targets: ["PassKit"])
     ],
     dependencies: [
         .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.3.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "0.4.0")),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.1.0"),
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.0")),
         .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.0")
     ],
