@@ -1,3 +1,6 @@
+// PassBarcode.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW3
@@ -11,7 +14,7 @@ public struct PassBarcode: Codable {
     public var message: String
     /// Text encoding that is used to convert the message from the string representation to a data representation to render the barcode. The value is typically iso-8859-1, but you may use another encoding that is supported by your barcode scanning infrastructure.
     public var messageEncoding: PassCharacterEncoding?
-    
+
     /// Information about a pass’s barcode
     /// - Parameters:
     ///   - altText: Text displayed near the barcode
@@ -44,12 +47,12 @@ extension PassBarcode {
     /// See: https://docs.lansa.com/14/en/lansa093/content/lansa/intb7_0510.htm
     public enum PassCharacterEncoding: String, Codable {
         case utf8 = "utf-8"
-        
+
         case utf16be = "utf-16be"
         case utf16le = "utf-16le"
-        
+
         case ascii = "ascii"
-        
+
         case iso88591 = "iso-8859-1"
         case iso88592 = "iso-8859-2"
         case iso88593 = "iso-8859-3"
@@ -61,7 +64,7 @@ extension PassBarcode {
         case iso88599 = "iso-8859-9"
         case iso885913 = "iso-8859-13"
         case iso885915 = "iso-8859-15"
-        
+
         case windows1250 = "windows-1250"
         case windows1251 = "windows-1251"
         case windows1252 = "windows-1252"
@@ -75,7 +78,7 @@ extension PassBarcode {
         case windows936 = "windows-936"
         case windows949 = "windows-949"
         case windows950 = "windows-950"
-        
+
         case ebcdiccpus = "ebcdic-cp-us"
         case ebcdiccpdk = "ebcdic-cp-dk"
         case ebcdiccpfi = "ebcdic-cp-fi"
@@ -100,22 +103,22 @@ extension PassBarcode {
         case ebcdicfr297euro = "ebcdic-fr-297+euro"
         case ebcdicinternational500euro = "ebcdic-international-500+euro"
         case ebcdicis871euro = "ebcdic-is-871+euro"
-        
+
         case eucjis = "euc-jis"
         case eucjp = "euc-jp"
-        
+
         case iso2022jp = "iso2022-jp"
-        
+
         case shiftjis = "Shift_JIS"
-        
+
         case big5 = "big5"
-        
+
         case gb2312 = "gb2312"
-        
+
         case koi8r = "koi8-r"
-        
+
         case euckr = "euc-kr"
-        
+
         case ibm273 = "ibm-273"
         case ibm437 = "ibm-437"
         case ibm775 = "ibm-775"

@@ -1,3 +1,6 @@
+// PassNFC.swift
+// Copyright © 2022 hiimtmac
+
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW5
@@ -7,7 +10,7 @@ public struct PassNFC: Codable {
     public var message: String
     /// The public encryption key used by the Value Added Services protocol. Use a Base64 encoded X.509 SubjectPublicKeyInfo structure containing a ECDH public key for group P256.
     public var encryptionPublicKey: String?
-    
+
     /// Information about the NFC payload passed to an Apple Pay terminal.
     /// - Parameters:
     ///   - message: The payload to be transmitted to the Apple Pay terminal
