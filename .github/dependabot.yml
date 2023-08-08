@@ -7,3 +7,14 @@ updates:
       interval: "weekly"
     labels:
       - dependencies
+    commit-message:
+      prefix: "gha"
+
+  - package-ecosystem: "swift"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - dependencies
+    commit-message:
+      prefix: "spm"

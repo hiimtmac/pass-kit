@@ -1,13 +1,11 @@
-// PassBeacon.swift
-// Copyright © 2022 hiimtmac
+// PKPassBeacon.swift
+// Copyright (c) 2023 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW4
 /// Information about a location beacon
-///
-///  - Note: Available in iOS 7.0
-public struct PassBeacon: Codable {
+public struct PKPassBeacon: Codable, Equatable, Hashable {
     /// Major identifier of a Bluetooth Low Energy location beacon.
     public var major: UInt16?
     /// Minor identifier of a Bluetooth Low Energy location beacon.

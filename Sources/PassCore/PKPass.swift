@@ -1,11 +1,11 @@
-// Pass.swift
-// Copyright © 2022 hiimtmac
+// PKPass.swift
+// Copyright (c) 2023 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
 /// The following sections list the required and optional keys used in this dictionary
-public struct Pass: Codable {
+public struct PKPass: Codable, Equatable, Hashable {
     /// - Standard Keys
     /// Information that is required for all passes.
 
@@ -30,7 +30,7 @@ public struct Pass: Codable {
     /// A URL to be passed to the associated app when launching it.
     /// The app receives this URL in the application:didFinishLaunchingWithOptions: and application:openURL:options: methods of its app delegate.
     /// If this key is present, the associatedStoreIdentifiers key must also be present.
-    public var appLaunchURL: String?
+    public var appLaunchURL: URL?
     /// A list of iTunes Store item identifiers for the associated apps.
     /// Only one item in the list is used—the first item identifier for an app compatible with the current device. If the app is not installed, the link opens the App Store and shows the app. If the app is already installed, the link launches the app.
     public var associatedStoreIdentifiers: [Double]?
@@ -40,7 +40,6 @@ public struct Pass: Codable {
 
     /// Custom information for companion apps. This data is not displayed to the user.
     /// For example, a pass for a cafe could include information about the user’s favorite drink and sandwich in a machine-readable form for the companion app to read, making it easy to place an order for “the usual” from the app.
-    /// Available in iOS 7.0.
     public var userInfo: [String: String]?
 
     /// - Expiration Keys
@@ -49,70 +48,55 @@ public struct Pass: Codable {
 
     /// Date and time when the pass expires.
     /// The value must be a complete date with hours and minutes, and may optionally include seconds.
-    /// Available in iOS 7.0.
-    public var expirationDate: String?
+    public var expirationDate: Date?
     /// Indicates that the pass is void—for example, a one time use coupon that has been redeemed. The default value is false.
-    /// Available in iOS 7.0.
     public var voided: Bool?
 
     /// - Relevance Keys
     /// Information about where and when a pass is relevant.
 
     /// Beacons marking locations where the pass is relevant.
-    public var beacons: [PassBeacon]?
+    public var beacons: [PKPassBeacon]?
     /// Locations where the pass is relevant. For example, the location of your store.
-    public var locations: [PassLocation]?
+    public var locations: [PKPassLocation]?
     /// Maximum distance in meters from a relevant latitude and longitude that the pass is relevant. This number is compared to the pass’s default distance and the smaller value is used.
     public var maxDistance: Double?
     /// Recommended for event tickets and boarding passes; otherwise optional.
     /// Date and time when the pass becomes relevant. For example, the start time of a movie.
     /// The value must be a complete date with hours and minutes, and may optionally include seconds.
-    public var relevantDate: String?
+    public var relevantDate: Date?
 
     /// - Style Keys
     /// Keys that specify the pass style
     /// Provide exactly one key—the key that corresponds with the pass’s type.
 
     /// Information specific to a boarding pass.
-    public var boardingPass: PassStructure?
+    public var boardingPass: PKPassStructure?
     /// Information specific to a coupon.
-    public var coupon: PassStructure?
+    public var coupon: PKPassStructure?
     /// Information specific to an event ticket.
-    public var eventTicket: PassStructure?
+    public var eventTicket: PKPassStructure?
     /// Information specific to a generic pass.
-    public var generic: PassStructure?
+    public var generic: PKPassStructure?
     /// Information specific to a store card.
-    public var storeCard: PassStructure?
+    public var storeCard: PKPassStructure?
 
     /// - Visual Appearance Keys
     /// Keys that define the visual style and appearance of the pass.
-    /// With the release of iOS 9, there are two ways to display a barcode:
-    /// - The barcodes key (new and required for iOS 9 and later)
-    /// - The barcode key (for iOS 8 and earlier)
-    /// To support older versions of iOS, use both keys. The system automatically selects the barcodes array for iOS 9 and later and uses the barcode dictionary for iOS 8 and earlier.
-
-    /// Information specific to the pass’s barcode. For this dictionary’s keys, see Barcode Dictionary Keys.
-    @available(*, deprecated, message: "Deprecated in iOS 9.0 and later; use barcodes instead.")
-    public var barcode: PassBarcode?
     /// Information specific to the pass’s barcode. The system uses the first valid barcode dictionary in the array. Additional dictionaries can be added as fallbacks. For this dictionary’s keys, see Barcode Dictionary Keys.
-    /// Note: Available only in iOS 9.0 and later.
-    public var barcodes: [PassBarcode]?
+    public var barcodes: [PKPassBarcode]?
     /// Background color of the pass, specified as an CSS-style RGB triple. For example, rgb(23, 187, 82).
-    public var backgroundColor: String?
+    public var backgroundColor: PassColor?
     /// Foreground color of the pass, specified as a CSS-style RGB triple. For example, rgb(100, 10, 110).
-    public var foregroundColor: String?
+    public var foregroundColor: PassColor?
     /// Optional for event tickets and boarding passes; otherwise not allowed. Identifier used to group related passes. If a grouping identifier is specified, passes with the same style, pass type identifier, and grouping identifier are displayed as a group. Otherwise, passes are grouped automatically.
     /// Use this to group passes that are tightly related, such as the boarding passes for different connections of the same trip.
-    /// Available in iOS 7.0.
     public var groupingIdentifier: String?
     /// Color of the label text, specified as a CSS-style RGB triple. For example, rgb(255, 255, 255).
     /// If omitted, the label color is determined automatically.
-    public var labelColor: String?
+    public var labelColor: PassColor?
     /// Text displayed next to the logo on the pass.
     public var logoText: String?
-    /// If true, the strip image is displayed without a shine effect. The default value prior to iOS 7.0 is false.
-    /// In iOS 7.0, a shine effect is never applied, and this key is deprecated.
-    public var suppressStripShine: Bool?
 
     /// - Web Service Keys
     /// Information used to update passes using the web service.
@@ -123,7 +107,7 @@ public struct Pass: Codable {
     /// The URL of a web service that conforms to the API described in PassKit Web Service Reference (https://developer.apple.com/library/archive/documentation/PassKit/Reference/PassKit_WebService/WebService.html#//apple_ref/doc/uid/TP40011988).
     /// The web service must use the HTTPS protocol; the leading https:// is included in the value of this key.
     /// On devices configured for development, there is UI in Settings to allow HTTP web services.
-    public var webServiceURL: String?
+    public var webServiceURL: URL?
 
     /// - NFC-Enabled Pass Keys
     /// NFC-enabled pass keys support sending reward card information as part of an Apple Pay transaction.
@@ -132,8 +116,7 @@ public struct Pass: Codable {
     /// Passes provide the required information using the nfc key. The value of this key is a dictionary containing the keys described in NFC Dictionary Keys. This functionality allows passes to act as the user’s credentials in the context of the NFC Value Added Service Protocol. It is available only for storeCard style passes.
 
     /// Information used for Value Added Service Protocol transactions.
-    /// Available in iOS 9.0.
-    public var nfc: PassNFC?
+    public var nfc: PKPassNFC?
 
     /// Creates a Pass object
     /// - Parameters:
@@ -172,30 +155,29 @@ public struct Pass: Codable {
         passTypeIdentifier: String,
         serialNumber: String,
         teamIdentifier: String,
-        appLaunchURL: String? = nil,
+        appLaunchURL: URL? = nil,
         associatedStoreIdentifiers: [Double]? = nil,
         userInfo: [String: String]? = nil,
-        expirationDate: String? = nil,
+        expirationDate: Date? = nil,
         voided: Bool? = nil,
-        beacons: [PassBeacon]? = nil,
-        locations: [PassLocation]? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
         maxDistance: Double? = nil,
-        relevantDate: String? = nil,
-        boardingPass: PassStructure? = nil,
-        coupon: PassStructure? = nil,
-        eventTicket: PassStructure? = nil,
-        generic: PassStructure? = nil,
-        storeCard: PassStructure? = nil,
-        barcodes: [PassBarcode]? = nil,
-        backgroundColor: String? = nil,
-        foregroundColor: String? = nil,
+        relevantDate: Date? = nil,
+        boardingPass: PKPassStructure? = nil,
+        coupon: PKPassStructure? = nil,
+        eventTicket: PKPassStructure? = nil,
+        generic: PKPassStructure? = nil,
+        storeCard: PKPassStructure? = nil,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
         groupingIdentifier: String? = nil,
-        labelColor: String? = nil,
+        labelColor: PassColor? = nil,
         logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
         authenticationToken: String? = nil,
-        webServiceURL: String? = nil,
-        nfc: PassNFC? = nil
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
     ) {
         self.description = description
         self.formatVersion = 1
@@ -223,9 +205,276 @@ public struct Pass: Codable {
         self.groupingIdentifier = groupingIdentifier
         self.labelColor = labelColor
         self.logoText = logoText
-        self.suppressStripShine = suppressStripShine
         self.authenticationToken = authenticationToken
         self.webServiceURL = webServiceURL
         self.nfc = nfc
+    }
+}
+
+// MARK: - Conveniences
+
+extension PKPass {
+    public static func boardingPass(
+        description: String,
+        organizationName: String,
+        passTypeIdentifier: String,
+        serialNumber: String,
+        teamIdentifier: String,
+        appLaunchURL: URL? = nil,
+        associatedStoreIdentifiers: [Double]? = nil,
+        userInfo: [String: String]? = nil,
+        expirationDate: Date? = nil,
+        voided: Bool? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
+        maxDistance: Double? = nil,
+        relevantDate: Date? = nil,
+        structure: PKPassStructure,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        groupingIdentifier: String? = nil,
+        labelColor: PassColor? = nil,
+        logoText: String? = nil,
+        authenticationToken: String? = nil,
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
+    ) -> Self {
+        self.init(
+            description: description,
+            organizationName: organizationName,
+            passTypeIdentifier: passTypeIdentifier,
+            serialNumber: serialNumber,
+            teamIdentifier: teamIdentifier,
+            appLaunchURL: appLaunchURL,
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            userInfo: userInfo,
+            expirationDate: expirationDate,
+            voided: voided,
+            beacons: beacons,
+            locations: locations,
+            maxDistance: maxDistance,
+            relevantDate: relevantDate,
+            boardingPass: structure,
+            barcodes: barcodes,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            groupingIdentifier: groupingIdentifier,
+            labelColor: labelColor,
+            logoText: logoText,
+            authenticationToken: authenticationToken,
+            webServiceURL: webServiceURL,
+            nfc: nfc
+        )
+    }
+
+    public static func coupon(
+        description: String,
+        organizationName: String,
+        passTypeIdentifier: String,
+        serialNumber: String,
+        teamIdentifier: String,
+        appLaunchURL: URL? = nil,
+        associatedStoreIdentifiers: [Double]? = nil,
+        userInfo: [String: String]? = nil,
+        expirationDate: Date? = nil,
+        voided: Bool? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
+        maxDistance: Double? = nil,
+        relevantDate: Date? = nil,
+        structure: PKPassStructure,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        labelColor: PassColor? = nil,
+        logoText: String? = nil,
+        authenticationToken: String? = nil,
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
+    ) -> Self {
+        self.init(
+            description: description,
+            organizationName: organizationName,
+            passTypeIdentifier: passTypeIdentifier,
+            serialNumber: serialNumber,
+            teamIdentifier: teamIdentifier,
+            appLaunchURL: appLaunchURL,
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            userInfo: userInfo,
+            expirationDate: expirationDate,
+            voided: voided,
+            beacons: beacons,
+            locations: locations,
+            maxDistance: maxDistance,
+            relevantDate: relevantDate,
+            coupon: structure,
+            barcodes: barcodes,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            labelColor: labelColor,
+            logoText: logoText,
+            authenticationToken: authenticationToken,
+            webServiceURL: webServiceURL,
+            nfc: nfc
+        )
+    }
+
+    public static func eventTicket(
+        description: String,
+        organizationName: String,
+        passTypeIdentifier: String,
+        serialNumber: String,
+        teamIdentifier: String,
+        appLaunchURL: URL? = nil,
+        associatedStoreIdentifiers: [Double]? = nil,
+        userInfo: [String: String]? = nil,
+        expirationDate: Date? = nil,
+        voided: Bool? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
+        maxDistance: Double? = nil,
+        relevantDate: Date? = nil,
+        structure: PKPassStructure,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        groupingIdentifier: String? = nil,
+        labelColor: PassColor? = nil,
+        logoText: String? = nil,
+        authenticationToken: String? = nil,
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
+    ) -> Self {
+        self.init(
+            description: description,
+            organizationName: organizationName,
+            passTypeIdentifier: passTypeIdentifier,
+            serialNumber: serialNumber,
+            teamIdentifier: teamIdentifier,
+            appLaunchURL: appLaunchURL,
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            userInfo: userInfo,
+            expirationDate: expirationDate,
+            voided: voided,
+            beacons: beacons,
+            locations: locations,
+            maxDistance: maxDistance,
+            relevantDate: relevantDate,
+            eventTicket: structure,
+            barcodes: barcodes,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            groupingIdentifier: groupingIdentifier,
+            labelColor: labelColor,
+            logoText: logoText,
+            authenticationToken: authenticationToken,
+            webServiceURL: webServiceURL,
+            nfc: nfc
+        )
+    }
+
+    public static func generic(
+        description: String,
+        organizationName: String,
+        passTypeIdentifier: String,
+        serialNumber: String,
+        teamIdentifier: String,
+        appLaunchURL: URL? = nil,
+        associatedStoreIdentifiers: [Double]? = nil,
+        userInfo: [String: String]? = nil,
+        expirationDate: Date? = nil,
+        voided: Bool? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
+        maxDistance: Double? = nil,
+        relevantDate: Date? = nil,
+        structure: PKPassStructure,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        labelColor: PassColor? = nil,
+        logoText: String? = nil,
+        authenticationToken: String? = nil,
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
+    ) -> Self {
+        self.init(
+            description: description,
+            organizationName: organizationName,
+            passTypeIdentifier: passTypeIdentifier,
+            serialNumber: serialNumber,
+            teamIdentifier: teamIdentifier,
+            appLaunchURL: appLaunchURL,
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            userInfo: userInfo,
+            expirationDate: expirationDate,
+            voided: voided,
+            beacons: beacons,
+            locations: locations,
+            maxDistance: maxDistance,
+            relevantDate: relevantDate,
+            generic: structure,
+            barcodes: barcodes,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            labelColor: labelColor,
+            logoText: logoText,
+            authenticationToken: authenticationToken,
+            webServiceURL: webServiceURL,
+            nfc: nfc
+        )
+    }
+
+    public static func storeCard(
+        description: String,
+        organizationName: String,
+        passTypeIdentifier: String,
+        serialNumber: String,
+        teamIdentifier: String,
+        appLaunchURL: URL? = nil,
+        associatedStoreIdentifiers: [Double]? = nil,
+        userInfo: [String: String]? = nil,
+        expirationDate: Date? = nil,
+        voided: Bool? = nil,
+        beacons: [PKPassBeacon]? = nil,
+        locations: [PKPassLocation]? = nil,
+        maxDistance: Double? = nil,
+        relevantDate: Date? = nil,
+        structure: PKPassStructure,
+        barcodes: [PKPassBarcode]? = nil,
+        backgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        labelColor: PassColor? = nil,
+        logoText: String? = nil,
+        authenticationToken: String? = nil,
+        webServiceURL: URL? = nil,
+        nfc: PKPassNFC? = nil
+    ) -> Self {
+        self.init(
+            description: description,
+            organizationName: organizationName,
+            passTypeIdentifier: passTypeIdentifier,
+            serialNumber: serialNumber,
+            teamIdentifier: teamIdentifier,
+            appLaunchURL: appLaunchURL,
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            userInfo: userInfo,
+            expirationDate: expirationDate,
+            voided: voided,
+            beacons: beacons,
+            locations: locations,
+            maxDistance: maxDistance,
+            relevantDate: relevantDate,
+            storeCard: structure,
+            barcodes: barcodes,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            labelColor: labelColor,
+            logoText: logoText,
+            authenticationToken: authenticationToken,
+            webServiceURL: webServiceURL,
+            nfc: nfc
+        )
     }
 }

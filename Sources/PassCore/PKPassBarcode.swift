@@ -1,19 +1,19 @@
-// PassBarcode.swift
-// Copyright © 2022 hiimtmac
+// PKPassBarcode.swift
+// Copyright (c) 2023 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW3
 /// Information about a pass’s barcode
-public struct PassBarcode: Codable {
+public struct PKPassBarcode: Codable, Equatable, Hashable {
     /// Text displayed near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
     public var altText: String?
     /// Barcode format.
-    public var format: PassBarcodeFormat
+    public var format: PKPassBarcodeFormat
     /// Message or payload to be displayed as a barcode.
     public var message: String
     /// Text encoding that is used to convert the message from the string representation to a data representation to render the barcode. The value is typically iso-8859-1, but you may use another encoding that is supported by your barcode scanning infrastructure.
-    public var messageEncoding: PassCharacterEncoding?
+    public var messageEncoding: PKPassCharacterEncoding?
 
     /// Information about a pass’s barcode
     /// - Parameters:
@@ -23,9 +23,9 @@ public struct PassBarcode: Codable {
     ///   - messageEncoding: Text encoding that is used to convert the message from the string representation to a data representation to render the barcode
     public init(
         altText: String? = nil,
-        format: PassBarcodeFormat,
+        format: PKPassBarcodeFormat,
         message: String,
-        messageEncoding: PassCharacterEncoding? = nil
+        messageEncoding: PKPassCharacterEncoding? = nil
     ) {
         self.altText = altText
         self.format = format
@@ -34,24 +34,22 @@ public struct PassBarcode: Codable {
     }
 }
 
-extension PassBarcode {
-    public enum PassBarcodeFormat: String, Codable {
+extension PKPassBarcode {
+    public enum PKPassBarcodeFormat: String, Codable, Equatable, Hashable, CaseIterable {
         case qr = "PKBarcodeFormatQR"
         case pdf = "PKBarcodeFormatPDF417"
         case aztec = "PKBarcodeFormatAztec"
         case code128 = "PKBarcodeFormatCode128"
     }
-}
 
-extension PassBarcode {
     /// See: https://docs.lansa.com/14/en/lansa093/content/lansa/intb7_0510.htm
-    public enum PassCharacterEncoding: String, Codable {
+    public enum PKPassCharacterEncoding: String, Codable, Equatable, Hashable, CaseIterable {
         case utf8 = "utf-8"
 
         case utf16be = "utf-16be"
         case utf16le = "utf-16le"
 
-        case ascii = "ascii"
+        case ascii
 
         case iso88591 = "iso-8859-1"
         case iso88592 = "iso-8859-2"
@@ -111,9 +109,9 @@ extension PassBarcode {
 
         case shiftjis = "Shift_JIS"
 
-        case big5 = "big5"
+        case big5
 
-        case gb2312 = "gb2312"
+        case gb2312
 
         case koi8r = "koi8-r"
 
