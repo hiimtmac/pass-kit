@@ -4,7 +4,7 @@
 import Crypto
 import Foundation
 
-public class Manifest {
+class Manifest {
     var hashes: [String: String] = [:]
 
     func addHash(name: String, data: Data) {
@@ -12,7 +12,7 @@ public class Manifest {
         hashes[name] = hashData.map { String(format: "%02hhx", $0) }.joined()
     }
 
-    public func makeData() throws -> Data {
+    func makeData() throws -> Data {
         try JSONSerialization.data(
             withJSONObject: hashes,
             options: [.prettyPrinted, .sortedKeys]
