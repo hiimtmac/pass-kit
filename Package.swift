@@ -1,31 +1,40 @@
-// swift-tools-version:5.8
+// swift-tools-version: 5.8
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "pass-kit",
+    name: "PassKit",
     platforms: [
-        .macOS(.v10_15),
+        .iOS(.v16),
+        .macOS(.v13)
     ],
     products: [
-        .library(name: "PassKit", targets: ["PassKit"]),
+        .library(name: "PassCore", targets: ["PassCore"]),
+        .library(name: "PassGen", targets: ["PassGen"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.3.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2"),
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.16")),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.5.0"),
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.5.0")
     ],
     targets: [
-        .target(name: "PassKit", dependencies: [
-            .product(name: "ShellOut", package: "ShellOut"),
-            .product(name: "ZIPFoundation", package: "ZIPFoundation"),
-            .product(name: "Crypto", package: "swift-crypto"),
-            .product(name: "ArgumentParser", package: "swift-argument-parser"),
-        ]),
+        .target(
+            name: "PassCore",
+            swiftSettings: [
+                .enableUpcomingFeature("BareSlashRegexLiterals")
+            ]
+        ),
+        .target(
+            name: "PassGen",
+            dependencies: [
+                .target(name: "PassCore"),
+                .product(name: "ZIPFoundation", package: "ZIPFoundation"),
+                .product(name: "Crypto", package: "swift-crypto")
+            ]
+        ),
         .testTarget(name: "PassKitTests", dependencies: [
-            .target(name: "PassKit"),
+            .target(name: "PassCore"),
+            .target(name: "PassGen")
         ]),
     ]
 )

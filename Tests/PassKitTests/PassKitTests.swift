@@ -1,113 +1,64 @@
 // PassKitTests.swift
-// Copyright © 2022 hiimtmac
+// Copyright (c) 2023 hiimtmac inc.
 
+import PassCore
 import XCTest
-@testable import PassKit
+@testable import PassGen
 
 final class PassKitTests: XCTestCase {
-    let fm = FileManager.default
-    let url = FileManager.default
-        .temporaryDirectory
-        .appendingPathComponent(UUID().uuidString)
-
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-
-        try self.fm.removeItem(at: self.url)
-    }
-
-    func testInitThrowsWhenNonEmpty() throws {
-        let doc = self.url.appendingPathComponent("doc")
-        let data = Data("doc".utf8)
-        try self.fm.createDirectory(at: self.url, withIntermediateDirectories: true, attributes: nil)
-        self.fm.createFile(atPath: doc.path, contents: data, attributes: nil)
-        XCTAssertThrowsError(try PassGenerator(folder: self.url))
-    }
-
-    func testInitCreatesDirectory() throws {
-        let _ = try PassGenerator(folder: url, fileManager: fm)
-        XCTAssert(self.fm.fileExists(atPath: self.url.path))
-    }
-
-    func testCopyWithName() throws {
-        let gen = try PassGenerator(folder: url, fileManager: fm)
-        let file = FileManager.default.temporaryDirectory.appendingPathComponent("file")
-        defer {
-            try? fm.removeItem(at: file)
-        }
-        let data = Data("doc".utf8)
-        self.fm.createFile(atPath: file.path, contents: data, attributes: nil)
-        XCTAssert(self.fm.fileExists(atPath: file.path))
-
-        try gen.copy(itemAt: file)
-
-        XCTAssert(self.fm.fileExists(atPath: gen.folder.appendingPathComponent("file").path))
-    }
-
-    func testCopyWithoutName() throws {
-        let gen = try PassGenerator(folder: url, fileManager: fm)
-        let file = FileManager.default.temporaryDirectory.appendingPathComponent("file")
-        defer {
-            try? fm.removeItem(at: file)
-        }
-        let data = Data("doc".utf8)
-        self.fm.createFile(atPath: file.path, contents: data, attributes: nil)
-        XCTAssert(self.fm.fileExists(atPath: file.path))
-
-        try gen.copy(itemAt: file, as: "cool")
-
-        XCTAssert(self.fm.fileExists(atPath: gen.folder.appendingPathComponent("cool").path))
-    }
-
-    func testPreparePass() throws {
-        let gen = try PassGenerator(folder: url, fileManager: fm)
-
-        let pass = Pass(description: "desc", organizationName: "org", passTypeIdentifier: "id", serialNumber: "serial", teamIdentifier: "team")
-
-        try gen.preparePass(pass: pass)
-        XCTAssert(self.fm.fileExists(atPath: gen.folder.appendingPathComponent("pass.json").path))
-
-        let data = try Data(contentsOf: gen.folder.appendingPathComponent("pass.json"))
-        let decode = try JSONDecoder().decode(Pass.self, from: data)
-        XCTAssertEqual(decode.description, pass.description)
-        XCTAssertEqual(decode.formatVersion, pass.formatVersion)
-        XCTAssertEqual(decode.organizationName, pass.organizationName)
-        XCTAssertEqual(decode.passTypeIdentifier, pass.passTypeIdentifier)
-        XCTAssertEqual(decode.serialNumber, pass.serialNumber)
-        XCTAssertEqual(decode.teamIdentifier, pass.teamIdentifier)
-    }
-
     func testGenerateManifest() throws {
-        let gen = try PassGenerator(folder: url, fileManager: fm)
-        let f1Data = Data("f1".utf8)
-        let f2Data = Data("f2".utf8)
+        let manifest = Manifest()
+        manifest.addHash(name: "hi", data: "hi".asData)
+        manifest.addHash(name: "bye", data: "bye".asData)
 
-        try f1Data.write(to: gen.folder.appendingPathComponent("f1"))
-        try f2Data.write(to: gen.folder.appendingPathComponent("f2"))
-
-        XCTAssert(self.fm.fileExists(atPath: gen.folder.appendingPathComponent("f1").path))
-        XCTAssert(self.fm.fileExists(atPath: gen.folder.appendingPathComponent("f2").path))
-
-        try gen.generateManifest()
-
-        let data = try Data(contentsOf: gen.folder.appendingPathComponent("manifest.json"))
-
-        struct Manifest: Codable, Equatable {
-            let f1: String
-            let f2: String
-        }
-
-        let manifest = try JSONDecoder().decode(Manifest.self, from: data)
-
-        XCTAssertEqual(manifest, .init(f1: "c09bb890b096f7306f688cc6d1dad34e7e52a223", f2: "cf1126f67238bf3e85fcc8c8737b72e80ddcfddb"))
+        let data = try manifest.makeData()
+        XCTAssertEqual(data.asString, """
+            {
+              "bye" : "78c9a53e2f28b543ea62c8266acfdf36d5c63e61",
+              "hi" : "c22b5f9178342609428d6f51b2c5af4c0bde6a42"
+            }
+            """)
     }
+    
+    func testAddItems() throws {
+        let generator = try PassGenerator()
+        try generator.add(pass: .init(description: "", organizationName: "", passTypeIdentifier: "", serialNumber: "", teamIdentifier: ""))
+        try generator.add(image: "background".asData, as: .background(.x1))
+        try generator.add(image: "strip@2x".asData, as: .strip(.x2), localization: "en")
+        try generator.add(strings: "hello".asData, for: "fr")
+        try generator.add(manifest: "manifest".asData)
+        try generator.add(signature: "signature".asData)
+        
+        let entries = generator.archive.map(\.path).sorted()
+        XCTAssertEqual(entries, [
+            "background.png",
+            "en.lproj/strip@2x.png",
+            "fr.lproj/pass.strings",
+            "manifest.json",
+            "pass.json",
+            "signature"
+        ])
+        
+        let manifest = try generator.manifest.makeData()
+        XCTAssertEqual(manifest.asString, #"""
+            {
+              "background.png" : "248a20b62efba8f4303c75830c83230f1b088f1e",
+              "en.lproj\/strip@2x.png" : "7f43a4b8b7b4436fb4271e51b9d8c55334f26c59",
+              "fr.lproj\/pass.strings" : "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d",
+              "pass.json" : "5e9fde65c087932395ddff7faf54fa0625f8453c"
+            }
+            """#)
+    }
+}
 
-    static var allTests = [
-        ("testInitThrowsWhenNonEmpty", testInitThrowsWhenNonEmpty),
-        ("testInitCreatesDirectory", testInitCreatesDirectory),
-        ("testCopyWithName", testCopyWithName),
-        ("testCopyWithoutName", testCopyWithoutName),
-        ("testPreparePass", testPreparePass),
-        ("testGenerateManifest", testGenerateManifest),
-    ]
+extension Data {
+    var asString: String {
+        String(decoding: self, as: UTF8.self)
+    }
+}
+
+extension String {
+    var asData: Data {
+        Data(self.utf8)
+    }
 }

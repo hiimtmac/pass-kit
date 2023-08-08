@@ -1,11 +1,11 @@
-// PassLocation.swift
-// Copyright © 2022 hiimtmac
+// PKPassLocation.swift
+// Copyright (c) 2023 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW2
 /// Information about a location
-public struct PassLocation: Codable {
+public struct PKPassLocation: Codable, Equatable, Hashable {
     /// Altitude, in meters, of the location.
     public var altitude: Double?
     /// Latitude, in degrees, of the location.
