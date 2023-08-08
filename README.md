@@ -4,7 +4,7 @@ PassKit Models and Generator
 
 ## Installation
 
-> **Warning**
+> **Note**
 > OpenSSL is needed for signature generation of manifest.
 
 ```swift
@@ -13,7 +13,8 @@ dependencies: [
 ],
 ```
 
-> **Warning**: This is a pre-release and is subject to change
+> **Warning**
+> This is a pre-release and is subject to change
 
 ## Usage
 

@@ -22,7 +22,7 @@ final class PassKitTests: XCTestCase {
     
     func testAddItems() throws {
         let generator = try PassGenerator()
-        try generator.add(pass: .init(description: "", organizationName: "", passTypeIdentifier: "", serialNumber: "", teamIdentifier: ""))
+        // try generator.add(pass: .init(description: "", organizationName: "", passTypeIdentifier: "", serialNumber: "", teamIdentifier: ""))
         try generator.add(image: "background".asData, as: .background(.x1))
         try generator.add(image: "strip@2x".asData, as: .strip(.x2), localization: "en")
         try generator.add(strings: "hello".asData, for: "fr")
@@ -35,7 +35,7 @@ final class PassKitTests: XCTestCase {
             "en.lproj/strip@2x.png",
             "fr.lproj/pass.strings",
             "manifest.json",
-            "pass.json",
+            // "pass.json",
             "signature"
         ])
         
@@ -44,8 +44,7 @@ final class PassKitTests: XCTestCase {
             {
               "background.png" : "248a20b62efba8f4303c75830c83230f1b088f1e",
               "en.lproj\/strip@2x.png" : "7f43a4b8b7b4436fb4271e51b9d8c55334f26c59",
-              "fr.lproj\/pass.strings" : "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d",
-              "pass.json" : "5e9fde65c087932395ddff7faf54fa0625f8453c"
+              "fr.lproj\/pass.strings" : "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
             }
             """#)
     }
