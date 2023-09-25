@@ -4,9 +4,6 @@ PassKit Models and Generator
 
 ## Installation
 
-> **Note**
-> OpenSSL is needed for signature generation of manifest.
-
 ```swift
 dependencies: [
     .package(url: "https://github.com/hiimtmac/pass-kit.git", .branch("main"))
@@ -37,7 +34,7 @@ try generator.add(strings: Data(...), localization: "en")
 let manifest = try generator.manifestData()
 try generator.add(manifest: manifest)
 // generate signature
-let signature = try generateSignatureWithOpenSSL(manifest) // not in this package
+let signature = try generator.signatureData(manifest: manifest, cert: urlToCert, key: urlToKey)
 try generator.add(signature: signature)
 // get zip data
 let archive = try generator.archiveData()

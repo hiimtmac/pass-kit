@@ -15,7 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.16")),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.5.0")
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.6.0"),
+        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.0.0-beta.1")
     ],
     targets: [
         .target(
@@ -29,7 +30,11 @@ let package = Package(
             dependencies: [
                 .target(name: "PassCore"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
-                .product(name: "Crypto", package: "swift-crypto")
+                .product(name: "Crypto", package: "swift-crypto"),
+                .product(name: "X509", package: "swift-certificates")
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(name: "PassKitTests", dependencies: [
