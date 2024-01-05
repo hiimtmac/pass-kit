@@ -2,7 +2,7 @@
 --exclude .fastlane,.github
 
 # Swift Version
---swiftversion 5.8
+--swiftversion 5.9
 
 # Minimum SwiftFormat Version
 --minversion 0.51.00
@@ -177,7 +177,7 @@
 --semicolons inline
 
 # Sort import statements alphabetically.
---rules sortedImports
+--rules sortImports
 --importgrouping testable-last
 
 # Add or remove space around curly braces.

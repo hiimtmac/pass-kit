@@ -1,10 +1,10 @@
 // PKPass+Extensions.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 import PassCore
 
-extension PKPass {
+extension Pass {
     func makeData() throws -> Data {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601

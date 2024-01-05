@@ -1,5 +1,5 @@
 // Signature.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Copyright (c) 2024 hiimtmac inc.
 
 import _CryptoExtras
 import Crypto
@@ -8,12 +8,26 @@ import SwiftASN1
 import X509
 
 class Signature {
-    func makeData(manifest: Data, cert: URL, wwdr: URL, key: URL) throws -> Data {
+    func makeData(
+        manifest: Data,
+        cert: Data,
+        wwdr: Data,
+        key: Data
+    ) throws -> Data {
         let digest = try generateDigest(from: manifest)
         let wwdr = try loadCertificate(from: wwdr)
         let cert = try loadCertificate(from: cert)
         let key = try loadPrivateKey(from: key)
 
+        return try makeData(digest: digest, cert: cert, wwdr: wwdr, key: key)
+    }
+
+    func makeData(
+        digest: ArraySlice<UInt8>,
+        cert: Certificate,
+        wwdr: Certificate,
+        key: _RSA.Signing.PrivateKey
+    ) throws -> Data {
         let authAttributes = AuthenticatedAttributes(messageDigest: digest)
         let encryptedDigest = try generateEncryptedDigest(authAttributes: authAttributes, key: key)
 
@@ -25,14 +39,12 @@ class Signature {
         )
     }
 
-    private func loadCertificate(from url: URL) throws -> Certificate {
-        let data = try Data(contentsOf: url)
+    private func loadCertificate(from data: Data) throws -> Certificate {
         let string = String(decoding: data, as: UTF8.self)
         return try Certificate(pemEncoded: string)
     }
 
-    private func loadPrivateKey(from url: URL) throws -> _RSA.Signing.PrivateKey {
-        let data = try Data(contentsOf: url)
+    private func loadPrivateKey(from data: Data) throws -> _RSA.Signing.PrivateKey {
         let string = String(decoding: data, as: UTF8.self)
         return try _RSA.Signing.PrivateKey(pemRepresentation: string)
     }

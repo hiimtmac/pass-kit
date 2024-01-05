@@ -1,5 +1,5 @@
 // PassGenerator.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 import PassCore
@@ -22,7 +22,7 @@ public struct PassGenerator {
         manifest.addHash(name: path, data: data)
     }
 
-    public mutating func add(pass: PKPass) throws {
+    public mutating func add(pass: Pass) throws {
         let data = try pass.makeData()
         try insert(item: data, as: "pass.json")
     }
@@ -47,10 +47,12 @@ public struct PassGenerator {
         try manifest.makeData()
     }
 
-    public func signatureData(manifest: Data, cert: URL, key: URL) throws -> Data {
-        guard let wwdr = Bundle.module.url(forResource: "wwdr", withExtension: "pem") else {
+    public func signatureData(manifest: Data, cert: Data, key: Data) throws -> Data {
+        guard let wwdrUrl = Bundle.module.url(forResource: "wwdr", withExtension: "pem") else {
             throw Error.missingWWDR
         }
+
+        let wwdr = try Data(contentsOf: wwdrUrl)
 
         return try signature.makeData(manifest: manifest, cert: cert, wwdr: wwdr, key: key)
     }
@@ -78,12 +80,12 @@ public struct PassGenerator {
 
         var name: String {
             switch self {
-            case let .icon(size): return "icon\(size.postfix)"
-            case let .logo(size): return "logo\(size.postfix)"
-            case let .thumbnail(size): return "thumbnail\(size.postfix)"
-            case let .strip(size): return "strip\(size.postfix)"
-            case let .background(size): return "background\(size.postfix)"
-            case let .footer(size): return "footer\(size.postfix)"
+            case let .icon(size): "icon\(size.postfix)"
+            case let .logo(size): "logo\(size.postfix)"
+            case let .thumbnail(size): "thumbnail\(size.postfix)"
+            case let .strip(size): "strip\(size.postfix)"
+            case let .background(size): "background\(size.postfix)"
+            case let .footer(size): "footer\(size.postfix)"
             }
         }
 
@@ -94,9 +96,9 @@ public struct PassGenerator {
 
             var postfix: String {
                 switch self {
-                case .x1: return ""
-                case .x2: return "@2x"
-                case .x3: return "@3x"
+                case .x1: ""
+                case .x2: "@2x"
+                case .x3: "@3x"
                 }
             }
         }
@@ -106,9 +108,9 @@ public struct PassGenerator {
 extension PassGenerator.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .creatingArchive: return "could not create in-memory archive"
-        case .archiveData: return "could not get in-memory archive data"
-        case .missingWWDR: return "could not find WWDR certificate in bundle"
+        case .creatingArchive: "could not create in-memory archive"
+        case .archiveData: "could not get in-memory archive data"
+        case .missingWWDR: "could not find WWDR certificate in bundle"
         }
     }
 }

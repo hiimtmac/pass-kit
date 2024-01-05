@@ -1,5 +1,5 @@
 // PassContainer.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 import PassCore
@@ -16,161 +16,133 @@ import PassCore
 /// - The logo image (logo.png) is displayed in the top left corner of the pass, next to the logo text. The allotted space is 160 x 50 points; in most cases it should be narrower.
 /// - The strip image (strip.png) is displayed behind the primary fields. The allotted space is 375 x 98 points for event tickets, 375 x 144 points for gift cards and coupons, and 375 x 123 in all other cases.
 /// - The thumbnail image (thumbnail.png) displayed next to the fields on the front of the pass. The allotted space is 90 x 90 points. The aspect ratio should be in the range of 2:3 to 3:2, otherwise the image is cropped.
-
-// MARK: - Boarding Pass
-
-public struct BoardingPass<Image> {
-    public var pass: PKPass
-    /// base64 encoded @ 87x87 pixels (29x29pts @3x)
+public struct PassContainer<Image> {
+    public var pass: Pass
     public var icon: Image
-    /// base64 encoded
     public var logo: Image?
-    /// base64 encoded
+    public var strip: Image?
     public var footer: Image?
-
-    public init(
-        pass: PKPass,
-        icon: Image,
-        logo: Image? = nil,
-        footer: Image? = nil
-    ) {
-        self.pass = pass
-        self.icon = icon
-        self.logo = logo
-        self.footer = footer
-    }
-}
-
-extension BoardingPass: Codable where Image: Codable {}
-extension BoardingPass: Equatable where Image: Equatable {}
-extension BoardingPass: Hashable where Image: Hashable {}
-
-// MARK: - Coupon
-
-public struct Coupon<Image> {
-    public var pass: PKPass
-    /// base64 encoded @ 87x87 pixels (29x29pts @3x)
-    public var icon: Image
-    /// base64 encoded
-    public var logo: Image?
-    /// base64 encoded
-    public var strip: Image?
-
-    public init(
-        pass: PKPass,
-        icon: Image,
-        logo: Image? = nil,
-        strip: Image? = nil
-    ) {
-        self.pass = pass
-        self.icon = icon
-        self.logo = logo
-        self.strip = strip
-    }
-}
-
-extension Coupon: Codable where Image: Codable {}
-extension Coupon: Equatable where Image: Equatable {}
-extension Coupon: Hashable where Image: Hashable {}
-
-// MARK: - Event Ticket
-
-public struct EventTicket<Image> {
-    public var pass: PKPass
-    /// base64 encoded @ 87x87 pixels (29x29pts @3x)
-    public var icon: Image
-    /// base64 encoded
-    public var logo: Image?
-    /// base64 encoded
-    public var strip: Image?
-    /// base64 encoded
     public var thumbnail: Image?
-    /// base64 encoded
     public var background: Image?
 
     public init(
-        pass: PKPass,
+        pass: Pass,
         icon: Image,
         logo: Image? = nil,
-        strip: Image? = nil
-    ) {
-        self.pass = pass
-        self.icon = icon
-        self.logo = logo
-        self.strip = strip
-    }
-
-    public init(
-        pass: PKPass,
-        icon: Image,
-        logo: Image? = nil,
+        strip: Image? = nil,
+        footer: Image? = nil,
         thumbnail: Image? = nil,
         background: Image? = nil
     ) {
         self.pass = pass
         self.icon = icon
         self.logo = logo
+        self.strip = strip
+        self.footer = footer
         self.thumbnail = thumbnail
         self.background = background
     }
-}
 
-extension EventTicket: Codable where Image: Codable {}
-extension EventTicket: Equatable where Image: Equatable {}
-extension EventTicket: Hashable where Image: Hashable {}
-
-// MARK: - Generic Pass
-
-public struct GenericPass<Image> {
-    public var pass: PKPass
-    /// base64 encoded @ 87x87 pixels (29x29pts @3x)
-    public var icon: Image
-    /// base64 encoded
-    public var logo: Image?
-    /// base64 encoded
-    public var thumbnail: Image?
-
-    public init(
-        pass: PKPass,
+    public static func boardingPass(
+        pass: Pass,
         icon: Image,
         logo: Image? = nil,
-        thumbnail: Image? = nil
-    ) {
-        self.pass = pass
-        self.icon = icon
-        self.logo = logo
-        self.thumbnail = thumbnail
+        footer: Image? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: nil,
+            footer: footer,
+            thumbnail: nil,
+            background: nil
+        )
     }
-}
 
-extension GenericPass: Codable where Image: Codable {}
-extension GenericPass: Equatable where Image: Equatable {}
-extension GenericPass: Hashable where Image: Hashable {}
-
-// MARK: - Store Card
-
-public struct StoreCard<Image> {
-    public var pass: PKPass
-    /// base64 encoded @ 87x87 pixels (29x29pts @3x)
-    public var icon: Image
-    /// base64 encoded
-    public var logo: Image?
-    /// base64 encoded
-    public var strip: Image?
-
-    public init(
-        pass: PKPass,
+    public static func coupon(
+        pass: Pass,
         icon: Image,
         logo: Image? = nil,
         strip: Image? = nil
-    ) {
-        self.pass = pass
-        self.icon = icon
-        self.logo = logo
-        self.strip = strip
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: strip,
+            footer: nil,
+            thumbnail: nil,
+            background: nil
+        )
+    }
+
+    public static func eventTicket(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        strip: Image? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: strip,
+            footer: nil,
+            thumbnail: nil,
+            background: nil
+        )
+    }
+
+    public static func eventTicket(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        thumbnail: Image? = nil,
+        background: Image? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: nil,
+            footer: nil,
+            thumbnail: thumbnail,
+            background: background
+        )
+    }
+
+    public static func generic(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        thumbnail: Image? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: nil,
+            footer: nil,
+            thumbnail: thumbnail,
+            background: nil
+        )
+    }
+
+    public static func storeCard(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        strip: Image? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            strip: strip,
+            footer: nil,
+            thumbnail: nil,
+            background: nil
+        )
     }
 }
-
-extension StoreCard: Codable where Image: Codable {}
-extension StoreCard: Equatable where Image: Equatable {}
-extension StoreCard: Hashable where Image: Hashable {}

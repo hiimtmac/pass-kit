@@ -1,41 +1,51 @@
-// PKPassBarcode.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Barcode.swift
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 
-// https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW3
-/// Information about a pass’s barcode
-public struct PKPassBarcode: Codable, Equatable, Hashable {
-    /// Text displayed near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
-    public var altText: String?
-    /// Barcode format.
-    public var format: PKPassBarcodeFormat
-    /// Message or payload to be displayed as a barcode.
-    public var message: String
-    /// Text encoding that is used to convert the message from the string representation to a data representation to render the barcode. The value is typically iso-8859-1, but you may use another encoding that is supported by your barcode scanning infrastructure.
-    public var messageEncoding: PKPassCharacterEncoding?
-
+// https://developer.apple.com/documentation/walletpasses/pass/barcodes
+extension Pass {
     /// Information about a pass’s barcode
-    /// - Parameters:
-    ///   - altText: Text displayed near the barcode
-    ///   - format: Barcode format
-    ///   - message: Message or payload to be displayed as a barcode
-    ///   - messageEncoding: Text encoding that is used to convert the message from the string representation to a data representation to render the barcode
-    public init(
-        altText: String? = nil,
-        format: PKPassBarcodeFormat,
-        message: String,
-        messageEncoding: PKPassCharacterEncoding? = nil
-    ) {
-        self.altText = altText
-        self.format = format
-        self.message = message
-        self.messageEncoding = messageEncoding
+    public struct Barcode: Codable, Equatable, Hashable {
+        /// The text to display near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
+        ///
+        /// The alternative text isn’t displayed for watchOS.
+        public var altText: String?
+
+        /// The format of the barcode.
+        ///
+        /// The barcode format PKBarcodeFormatCode128 isn’t supported for watchOS.
+        /// Possible Values: PKBarcodeFormatQR, PKBarcodeFormatPDF417, PKBarcodeFormatAztec, PKBarcodeFormatCode128
+        public var format: BarcodeFormat
+
+        /// The message or payload to display as a barcode.
+        public var message: String
+
+        /// The IANA character set name of the text encoding to use to convert message from a string representation to a data representation that the system renders as a barcode, such as “iso-8859-1”.
+        public var messageEncoding: CharacterEncoding
+
+        /// Information about a pass’s barcode
+        /// - Parameters:
+        ///   - altText: The text to display near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
+        ///   - format: The format of the barcode.
+        ///   - message: The message or payload to display as a barcode.
+        ///   - messageEncoding: The IANA character set name of the text encoding to use to convert message from a string representation to a data representation that the system renders as a barcode, such as “iso-8859-1”.
+        public init(
+            altText: String? = nil,
+            format: BarcodeFormat,
+            message: String,
+            messageEncoding: CharacterEncoding
+        ) {
+            self.altText = altText
+            self.format = format
+            self.message = message
+            self.messageEncoding = messageEncoding
+        }
     }
 }
 
-extension PKPassBarcode {
-    public enum PKPassBarcodeFormat: String, Codable, Equatable, Hashable, CaseIterable {
+extension Pass.Barcode {
+    public enum BarcodeFormat: String, Codable, Equatable, Hashable, CaseIterable {
         case qr = "PKBarcodeFormatQR"
         case pdf = "PKBarcodeFormatPDF417"
         case aztec = "PKBarcodeFormatAztec"
@@ -43,7 +53,7 @@ extension PKPassBarcode {
     }
 
     /// See: https://docs.lansa.com/14/en/lansa093/content/lansa/intb7_0510.htm
-    public enum PKPassCharacterEncoding: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum CharacterEncoding: String, Codable, Equatable, Hashable, CaseIterable {
         case utf8 = "utf-8"
 
         case utf16be = "utf-16be"
