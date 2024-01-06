@@ -9,66 +9,53 @@ import PassCore
 import Foundation
 import ZIPFoundation
 
-public enum PassReader {
-    public static func parse(from data: Data) throws -> PassContainer<String> {
+public struct PassReader {
+    let archive: Archive
+    
+    public init(data: Data) throws {
         guard let archive = Archive(data: data, accessMode: .read) else {
             throw Error.archive
         }
         
-        guard let passEntry = archive["pass.json"] else {
-            throw Error.entry("pass.json")
+        self.archive = archive
+    }
+    
+    // TODO: need to use data before extracting another
+    public func extract(
+        path: String,
+        bufferSize: Int = defaultReadChunkSize
+    ) throws -> Data {
+        guard let entry = archive[path] else {
+            throw Error.entry(path)
         }
         
-        guard let iconEntry = archive["icon@3x.png"] else {
-            throw Error.entry("icon@3x.png")
+        var data: Data?
+        _ = try archive.extract(entry, bufferSize: bufferSize) { data = $0 }
+        
+        guard let data else {
+            throw Error.data(path)
         }
         
-        var pass: Pass?
-        _ = try archive.extract(passEntry) { data in
-            pass = try JSONDecoder.passKit.decode(Pass.self, from: data)
+        return data
+    }
+    
+    public func optionallyExtract(
+        path: String,
+        bufferSize: Int = defaultReadChunkSize
+    ) throws -> Data? {
+        guard let entry = archive[path] else {
+            return nil
         }
         
-        var icon: String?
-        _ = try archive.extract(iconEntry) { data in
-            icon = data.base64EncodedString()
-        }
+        var data: Data?
+        _ = try archive.extract(entry, bufferSize: bufferSize) { data = $0 }
         
-        guard let pass else {
-            throw Error.parsed("Pass")
-        }
-        
-        guard let icon else {
-            throw Error.parsed("icon")
-        }
-        
-        return try .init(
-            pass: pass,
-            icon: icon,
-            logo: imageData(for: "logo", in: archive)?.base64EncodedString(),
-            strip: imageData(for: "strip", in: archive)?.base64EncodedString(),
-            footer: imageData(for: "footer", in: archive)?.base64EncodedString(),
-            thumbnail: imageData(for: "thumbnail", in: archive)?.base64EncodedString(),
-            background: imageData(for: "background", in: archive)?.base64EncodedString()
-        )
+        return data
     }
     
     enum Error: Swift.Error {
         case archive
         case entry(String)
-        case parsed(String)
-    }
-    
-    static func imageData(
-        for name: String,
-        in archive: Archive
-    ) throws -> Data? {
-        guard let entry = archive["\(name)@3x.png"] else {
-            return nil
-        }
-        
-        var data: Data?
-        _ = try archive.extract(entry) { data = $0 }
-        
-        return data
+        case data(String)
     }
 }
