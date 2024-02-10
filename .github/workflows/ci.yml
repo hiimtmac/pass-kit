@@ -12,16 +12,16 @@ jobs:
   test-linux:
     name: "Test Linux"
     runs-on: ubuntu-latest
-    container: swift:5.8-jammy
+    container: swift:5.9-jammy
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache Swift PM
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .build
-          key: ${{ runner.os }}-${{ matrix.images }}-spm-${{ hashFiles('Package.resolved') }}-v3
-          restore-keys: ${{ runner.os }}-${{ matrix.images }}-spm-
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.resolved') }}-v4
+          restore-keys: ${{ runner.os }}-spm-
       - name: Resolve Swift dependencies
         run: swift package resolve
       - name: Build & Test

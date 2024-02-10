@@ -12,6 +12,7 @@ let package = Package(
     products: [
         .library(name: "PassCore", targets: ["PassCore"]),
         .library(name: "PassGen", targets: ["PassGen"]),
+        .library(name: "PassHelpers", targets: ["PassHelpers"]),
     ],
     dependencies: [
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.18")),
@@ -35,6 +36,12 @@ let package = Package(
             ],
             resources: [
                 .process("Resources")
+            ]
+        ),
+        .target(
+            name: "PassHelpers",
+            dependencies: [
+                .target(name: "PassCore")
             ]
         ),
         .testTarget(name: "PassKitTests", dependencies: [
