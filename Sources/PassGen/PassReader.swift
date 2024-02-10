@@ -14,7 +14,7 @@ public struct PassReader {
     
     public init(data: Data) throws {
         guard let archive = Archive(data: data, accessMode: .read) else {
-            throw Error.archive
+            throw ReaderError.archive
         }
         
         self.archive = archive
@@ -26,14 +26,14 @@ public struct PassReader {
         bufferSize: Int = defaultReadChunkSize
     ) throws -> Data {
         guard let entry = archive[path] else {
-            throw Error.entry(path)
+            throw ReaderError.entry(path)
         }
         
         var data: Data?
         _ = try archive.extract(entry, bufferSize: bufferSize) { data = $0 }
         
         guard let data else {
-            throw Error.data(path)
+            throw ReaderError.data(path)
         }
         
         return data
@@ -53,7 +53,7 @@ public struct PassReader {
         return data
     }
     
-    enum Error: Swift.Error {
+    enum ReaderError: Error {
         case archive
         case entry(String)
         case data(String)
