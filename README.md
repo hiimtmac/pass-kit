@@ -1,11 +1,8 @@
 # PassKit
 
-PassKit Models and Generator
+Generate PassKit passes without external dependencies like openssl
 
 ## Installation
-
-> **Note**
-> OpenSSL is needed for signature generation of manifest.
 
 ```swift
 dependencies: [
@@ -13,7 +10,7 @@ dependencies: [
 ],
 ```
 
-> **Warning**
+> [!Warning]
 > This is a pre-release and is subject to change
 
 ## Usage
@@ -22,10 +19,14 @@ dependencies: [
 import PassCore
 import PassGen
 
+let pass: Pass = ...
+let cert: Data = ...
+let key: Data = ...
+
 let generator = try PassGenerator()
 
 // add pass
-try generator.add(pass: PKPass(...))
+try generator.add(pass: pass)
 
 // add image
 try generator.add(image: Data(...), as: .icon(.x2))
@@ -37,7 +38,7 @@ try generator.add(strings: Data(...), localization: "en")
 let manifest = try generator.manifestData()
 try generator.add(manifest: manifest)
 // generate signature
-let signature = try generateSignatureWithOpenSSL(manifest) // not in this package
+let signature = try generator.signatureData(manifest: manifest, cert: cert, key: key)
 try generator.add(signature: signature)
 // get zip data
 let archive = try generator.archiveData()

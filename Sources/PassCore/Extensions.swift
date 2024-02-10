@@ -1,5 +1,5 @@
-// Codable.swift
-// Copyright (c) 2023 hiimtmac inc.
+// Extensions.swift
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 
