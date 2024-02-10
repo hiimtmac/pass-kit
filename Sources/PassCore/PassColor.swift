@@ -26,7 +26,7 @@ public struct PassColor: Codable, Equatable, Hashable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
-        
+
         let regex = /rgb\((?<r>\d{1,3}),\s?(?<g>\d{1,3}),\s?(?<b>\d{1,3})\)/
         guard let match = string.wholeMatch(of: regex) else {
             throw DecodingError.dataCorrupted(.init(
@@ -34,7 +34,7 @@ public struct PassColor: Codable, Equatable, Hashable {
                 debugDescription: "Unhandled rgb format: `\(string)`. Should be `rgb(r,g,b)` or `rgb(r, g, b)`"
             ))
         }
-        
+
         guard
             let r = Int(match.output.r),
             let g = Int(match.output.g),
@@ -45,7 +45,7 @@ public struct PassColor: Codable, Equatable, Hashable {
                 debugDescription: "rgb values must be 1-3 digit integers"
             ))
         }
-        
+
         self.r = r
         self.g = g
         self.b = b

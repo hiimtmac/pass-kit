@@ -11,10 +11,7 @@ public struct PassGenerator {
     let signature = Signature()
 
     public init() throws {
-        guard let archive = Archive(accessMode: .create) else {
-            throw Error.creatingArchive
-        }
-        self.archive = archive
+        self.archive = try Archive(accessMode: .create)
     }
 
     mutating func insert(item data: Data, as path: String) throws {
@@ -23,7 +20,7 @@ public struct PassGenerator {
     }
 
     public mutating func add(pass: Pass) throws {
-        let data = try pass.makeData()
+        let data = try JSONEncoder.passKit.encode(pass)
         try insert(item: data, as: "pass.json")
     }
 
@@ -65,7 +62,6 @@ public struct PassGenerator {
     }
 
     public enum Error: Swift.Error {
-        case creatingArchive
         case archiveData
         case missingWWDR
     }
@@ -108,7 +104,6 @@ public struct PassGenerator {
 extension PassGenerator.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .creatingArchive: "could not create in-memory archive"
         case .archiveData: "could not get in-memory archive data"
         case .missingWWDR: "could not find WWDR certificate in bundle"
         }

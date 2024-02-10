@@ -28,14 +28,22 @@ class Signature {
         wwdr: Certificate,
         key: _RSA.Signing.PrivateKey
     ) throws -> Data {
-        let authAttributes = AuthenticatedAttributes(messageDigest: digest)
-        let encryptedDigest = try generateEncryptedDigest(authAttributes: authAttributes, key: key)
+        let attibutes: [CMSAttribute] = [
+            .contentType,
+            .signingTime(),
+            .messageDigest(signature: .init(contentBytes: digest))
+        ]
+
+        let attibutesSignature = try generateAttributesSignature(
+            attibutes: attibutes,
+            key: key
+        )
 
         return try generateSignature(
             certificate: cert,
             wwdr: wwdr,
-            authAttributes: authAttributes,
-            encryptedDigest: encryptedDigest
+            signedAttrs: attibutes,
+            signature: attibutesSignature
         )
     }
 
@@ -54,31 +62,47 @@ class Signature {
         return ArraySlice(digest)
     }
 
-    func generateEncryptedDigest(
-        authAttributes: AuthenticatedAttributes,
+    func generateAttributesSignature(
+        attibutes: [CMSAttribute],
         key: _RSA.Signing.PrivateKey
-    ) throws -> ArraySlice<UInt8> {
+    ) throws -> ASN1OctetString {
         var serializer = DER.Serializer()
-        try serializer.appendConstructedNode(identifier: .set) { coder in
-            try coder.serialize(authAttributes)
-        }
-        let signature = try key.signature(for: serializer.serializedBytes, padding: .insecurePKCS1v1_5)
-        return ArraySlice(signature.rawRepresentation)
+        try serializer.serializeSetOf(attibutes)
+        let signature = try key.signature(
+            for: serializer.serializedBytes,
+            padding: .insecurePKCS1v1_5
+        )
+        let bytes = ArraySlice(signature.rawRepresentation)
+        return ASN1OctetString(contentBytes: bytes)
     }
 
     func generateSignature(
         certificate: Certificate,
         wwdr: Certificate,
-        authAttributes: AuthenticatedAttributes,
-        encryptedDigest: ArraySlice<UInt8>
+        signedAttrs: [CMSAttribute],
+        signature: ASN1OctetString
     ) throws -> Data {
+        let signerInfo = CMSSignerInfo(
+            version: .v1,
+            signerIdentifier: .init(issuerAndSerialNumber: certificate),
+            digestAlgorithm: .sha256,
+            signedAttrs: signedAttrs,
+            signatureAlgorithm: .rsaKey,
+            signature: signature
+        )
+
+        let signedData = CMSSignedData(
+            version: .v1,
+            digestAlgorithms: [.sha256],
+            encapContentInfo: .cmsData,
+            certificates: [wwdr, certificate],
+            signerInfos: [signerInfo]
+        )
+
+        let contentInfo = try CMSContentInfo(signedData)
+
         var serializer = DER.Serializer()
-        try serializer.serialize(CMSContentInfo(
-            certificate: certificate,
-            wwdr: wwdr,
-            authenticatedAttributes: authAttributes,
-            encryptedDigest: encryptedDigest
-        ))
+        try serializer.serialize(contentInfo)
         return Data(serializer.serializedBytes)
     }
 }

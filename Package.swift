@@ -14,9 +14,9 @@ let package = Package(
         .library(name: "PassGen", targets: ["PassGen"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.16")),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "2.6.0"),
-        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.0.0-beta.1")
+        .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.18")),
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.2.0"),
+        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.2.0")
     ],
     targets: [
         .target(

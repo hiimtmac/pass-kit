@@ -23,7 +23,7 @@ public enum PassImage {
             case .storeCard: CGSize(width: 375, height: 123)
             }
         }
-        
+
         public var ratio: CGFloat {
             size.width / size.height
         }
@@ -39,7 +39,7 @@ public enum PassImage {
         case .footer: CGSize(width: 286, height: 15)
         }
     }
-    
+
     public var ratio: CGFloat {
         size.width / size.height
     }
