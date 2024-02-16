@@ -112,7 +112,7 @@ extension PassFieldContent {
         case string(String)
         case date(Date)
 
-        public init(from decoder: Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let double = try? container.decode(Double.self) {
                 self = .double(double)
@@ -133,7 +133,7 @@ extension PassFieldContent {
             }
         }
 
-        public func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: any Encoder) throws {
             var container = encoder.singleValueContainer()
             switch self {
             case let .double(double):
@@ -199,7 +199,7 @@ extension PassFieldContent {
             self.display = display
         }
 
-        public init(from decoder: Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             let regex = #/<a href='(?<href>\S+)'>(?<display>.+)</a>/#
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)
@@ -218,7 +218,7 @@ extension PassFieldContent {
             self.display = String(match.output.display)
         }
 
-        public func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: any Encoder) throws {
             var container = encoder.singleValueContainer()
             try container.encode("<a href='\(href)'>\(display)</a>")
         }

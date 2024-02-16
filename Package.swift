@@ -16,14 +16,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.18")),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.2.0"),
         .package(url: "https://github.com/apple/swift-certificates.git", from: "1.2.0")
     ],
     targets: [
         .target(
             name: "PassCore",
             swiftSettings: [
-                .enableUpcomingFeature("BareSlashRegexLiterals")
+                .enableUpcomingFeature("BareSlashRegexLiterals"),
+                .enableUpcomingFeature("ExistentialAny"),
+                .enableUpcomingFeature("StrictConcurrency"),
+                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
         .target(
@@ -31,17 +33,26 @@ let package = Package(
             dependencies: [
                 .target(name: "PassCore"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
-                .product(name: "Crypto", package: "swift-crypto"),
                 .product(name: "X509", package: "swift-certificates")
             ],
             resources: [
                 .process("Resources")
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("ExistentialAny"),
+                .enableUpcomingFeature("StrictConcurrency"),
+                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
         .target(
             name: "PassHelpers",
             dependencies: [
                 .target(name: "PassCore")
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("ExistentialAny"),
+                .enableUpcomingFeature("StrictConcurrency"),
+                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
         .testTarget(name: "PassKitTests", dependencies: [

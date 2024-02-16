@@ -58,7 +58,7 @@ extension CMSAttribute {
     static func signingTime(date: Date = .now) -> CMSAttribute {
         .init(
             attrType: .signingTime,
-            attrValue: try! ASN1Any(erasing: UTCTime(date: date))
+            attrValue: try! ASN1Any(erasing: Time.makeTime(from: date))
         )
     }
 
@@ -66,22 +66,6 @@ extension CMSAttribute {
         .init(
             attrType: .messageDigest,
             attrValue: try! ASN1Any(erasing: signature)
-        )
-    }
-}
-
-extension UTCTime {
-    init(date: Date = .now) throws {
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-
-        try self.init(
-            year: calendar.component(.year, from: date),
-            month: calendar.component(.month, from: date),
-            day: calendar.component(.day, from: date),
-            hours: calendar.component(.hour, from: date),
-            minutes: calendar.component(.minute, from: date),
-            seconds: calendar.component(.second, from: date)
         )
     }
 }
