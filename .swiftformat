@@ -1,5 +1,5 @@
 # Exclusions
---exclude .fastlane,.github
+--exclude .github,.build,.swiftpm
 
 # Swift Version
 --swiftversion 5.9
