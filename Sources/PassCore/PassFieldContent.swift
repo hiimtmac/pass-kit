@@ -5,7 +5,7 @@ import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/passfieldcontent
 /// An object that represents the information to display in a field on a pass.
-public struct PassFieldContent: Codable, Equatable, Hashable {
+public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
     /// Attributed value of the field.
     /// The value may contain HTML markup for links. Only the <a> tag and its href attribute are supported.
     /// For example, the following is key-value pair specifies a link with the text “Edit my profile”: "attributedValue": "<a href='http://example.com/customers/123'>Edit my profile</a>"
@@ -107,7 +107,7 @@ public struct PassFieldContent: Codable, Equatable, Hashable {
 }
 
 extension PassFieldContent {
-    public enum Value: Codable, Equatable, Hashable {
+    public enum Value: Codable, Equatable, Hashable, Sendable {
         case double(Double)
         case string(String)
         case date(Date)
@@ -146,27 +146,27 @@ extension PassFieldContent {
             }
         }
 
-        public static let dateFormatter: ISO8601DateFormatter = {
+        static let dateFormatter: ISO8601DateFormatter = {
             let formatter = ISO8601DateFormatter()
             return formatter
         }()
     }
 
-    public enum DataDetectorType: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum DataDetectorType: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case phoneNumber = "PKDataDetectorTypePhoneNumber"
         case link = "PKDataDetectorTypeLink"
         case address = "PKDataDetectorTypeAddress"
         case calendarEvent = "PKDataDetectorTypeCalendarEvent"
     }
 
-    public enum TextAlignment: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum TextAlignment: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case left = "PKTextAlignmentLeft"
         case center = "PKTextAlignmentCenter"
         case right = "PKTextAlignmentRight"
         case natural = "PKTextAlignmentNatural"
     }
 
-    public enum DateTimeStyle: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum DateTimeStyle: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case none = "PKDateStyleNone"
         case short = "PKDateStyleShort"
         case medium = "PKDateStyleMedium"
@@ -174,14 +174,14 @@ extension PassFieldContent {
         case full = "PKDateStyleFull"
     }
 
-    public enum NumberStyle: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum NumberStyle: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case decimal = "PKNumberStyleDecimal"
         case percent = "PKNumberStylePercent"
         case scientific = "PKNumberStyleScientific"
         case spellOut = "PKNumberStyleSpellOut"
     }
 
-    public enum Row: Int, Codable, Equatable, Hashable, CaseIterable {
+    public enum Row: Int, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case zero
         case one
     }
@@ -190,7 +190,7 @@ extension PassFieldContent {
 // MARK: - Conveniences
 
 extension PassFieldContent {
-    public struct AttributedValue: Codable, Equatable, Hashable {
+    public struct AttributedValue: Codable, Equatable, Hashable, Sendable {
         public var href: URL
         public var display: String
 

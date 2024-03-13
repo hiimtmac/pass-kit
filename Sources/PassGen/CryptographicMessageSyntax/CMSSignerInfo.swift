@@ -22,7 +22,7 @@ import SwiftASN1
 /// then the `version` MUST be 1.  If the `SignerIdentifier` is `subjectKeyIdentifier`,
 /// then the `version` MUST be 3.
 @usableFromInline
-struct CMSSignerInfo: DERSerializable {
+struct CMSSignerInfo: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var version: CMSVersion
 

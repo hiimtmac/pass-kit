@@ -1,12 +1,10 @@
 // Location.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/documentation/walletpasses/pass/locations
 extension Pass {
     /// Information about a location
-    public struct Location: Codable, Equatable, Hashable {
+    public struct Location: Codable, Equatable, Hashable, Sendable {
         /// Altitude, in meters, of the location.
         public var altitude: Double?
 

@@ -2,10 +2,10 @@
 --exclude .github,.build,.swiftpm
 
 # Swift Version
---swiftversion 5.9
+--swiftversion 5.10
 
 # Minimum SwiftFormat Version
---minversion 0.51.00
+--minversion 0.53.00
 
 # Prefer comma over && in if, guard or while conditions.
 --rules andOperator

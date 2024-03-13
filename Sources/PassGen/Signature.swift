@@ -7,8 +7,8 @@ import Foundation
 import SwiftASN1
 import X509
 
-class Signature {
-    func makeData(
+enum Signature {
+    static func makeData(
         manifest: Data,
         cert: Data,
         wwdr: Data,
@@ -22,7 +22,7 @@ class Signature {
         return try makeData(digest: digest, cert: cert, wwdr: wwdr, key: key)
     }
 
-    func makeData(
+    static func makeData(
         digest: ArraySlice<UInt8>,
         cert: Certificate,
         wwdr: Certificate,
@@ -47,22 +47,22 @@ class Signature {
         )
     }
 
-    private func loadCertificate(from data: Data) throws -> Certificate {
+    private static func loadCertificate(from data: Data) throws -> Certificate {
         let string = String(decoding: data, as: UTF8.self)
         return try Certificate(pemEncoded: string)
     }
 
-    private func loadPrivateKey(from data: Data) throws -> _RSA.Signing.PrivateKey {
+    private static func loadPrivateKey(from data: Data) throws -> _RSA.Signing.PrivateKey {
         let string = String(decoding: data, as: UTF8.self)
         return try _RSA.Signing.PrivateKey(pemRepresentation: string)
     }
 
-    private func generateDigest(from data: Data) throws -> ArraySlice<UInt8> {
+    private static func generateDigest(from data: Data) throws -> ArraySlice<UInt8> {
         let digest = SHA256.hash(data: data)
         return ArraySlice(digest)
     }
 
-    func generateAttributesSignature(
+    static func generateAttributesSignature(
         attibutes: [CMSAttribute],
         key: _RSA.Signing.PrivateKey
     ) throws -> ASN1OctetString {
@@ -76,7 +76,7 @@ class Signature {
         return ASN1OctetString(contentBytes: bytes)
     }
 
-    func generateSignature(
+    static func generateSignature(
         certificate: Certificate,
         wwdr: Certificate,
         signedAttrs: [CMSAttribute],

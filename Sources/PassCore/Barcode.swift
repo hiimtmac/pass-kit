@@ -1,12 +1,10 @@
 // Barcode.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/documentation/walletpasses/pass/barcodes
 extension Pass {
     /// Information about a pass’s barcode
-    public struct Barcode: Codable, Equatable, Hashable {
+    public struct Barcode: Codable, Equatable, Hashable, Sendable {
         /// The text to display near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
         ///
         /// The alternative text isn’t displayed for watchOS.
@@ -45,7 +43,7 @@ extension Pass {
 }
 
 extension Pass.Barcode {
-    public enum BarcodeFormat: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum BarcodeFormat: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case qr = "PKBarcodeFormatQR"
         case pdf = "PKBarcodeFormatPDF417"
         case aztec = "PKBarcodeFormatAztec"
@@ -53,7 +51,7 @@ extension Pass.Barcode {
     }
 
     /// See: https://docs.lansa.com/14/en/lansa093/content/lansa/intb7_0510.htm
-    public enum CharacterEncoding: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum CharacterEncoding: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case utf8 = "utf-8"
 
         case utf16be = "utf-16be"

@@ -23,7 +23,7 @@ extension ASN1ObjectIdentifier {
 /// ContentType ::= OBJECT IDENTIFIER
 /// ```
 @usableFromInline
-struct CMSContentInfo: DERSerializable {
+struct CMSContentInfo: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var contentType: ASN1ObjectIdentifier
 

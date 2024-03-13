@@ -5,7 +5,7 @@ import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/semantictags
 
-public struct SemanticTags: Codable, Equatable, Hashable {
+public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// The IATA airline code, such as “EX” for flightCode “EX123”. Use this key only for airline boarding passes.
     public var airlineCode: String?
 
@@ -211,7 +211,7 @@ public struct SemanticTags: Codable, Equatable, Hashable {
 }
 
 extension SemanticTags {
-    public enum EventType: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum EventType: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case generic = "PKEventTypeGeneric"
         case livePerformance = "PKEventTypeLivePerformance"
         case movie = "PKEventTypeMovie"
@@ -226,7 +226,7 @@ extension SemanticTags {
 public enum SemanticTagType {
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/personnamecomponents
     /// An object that represents the parts of a person’s name.
-    public struct PersonNameComponents: Codable, Equatable, Hashable {
+    public struct PersonNameComponents: Codable, Equatable, Hashable, Sendable {
         /// The person’s family name or last name.
         public var familyName: String?
 
@@ -269,7 +269,7 @@ public enum SemanticTagType {
 
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/seat
     /// An object that represents the identification of a seat for a transit journey or an event.
-    public struct Seat: Codable, Equatable, Hashable {
+    public struct Seat: Codable, Equatable, Hashable, Sendable {
         /// A description of the seat, such as “A flat bed seat”.
         public var seatDescription: String?
 
@@ -307,7 +307,7 @@ public enum SemanticTagType {
 
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/currencyamount
     /// An object that represents an amount of money and type of currency.
-    public struct CurrencyAmount: Codable, Equatable, Hashable {
+    public struct CurrencyAmount: Codable, Equatable, Hashable, Sendable {
         /// The amount of money.
         public var amount: String?
 
@@ -325,7 +325,7 @@ public enum SemanticTagType {
 
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/location
     /// An object that represents the coordinates of a location.
-    public struct Location: Codable, Equatable, Hashable {
+    public struct Location: Codable, Equatable, Hashable, Sendable {
         /// The latitude, in degrees.
         public var latitude: Double
 
@@ -340,7 +340,7 @@ public enum SemanticTagType {
 
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/wifinetwork
     /// An object that contains information required to connect to a WiFi network.
-    public struct WifiNetwork: Codable, Equatable, Hashable {
+    public struct WifiNetwork: Codable, Equatable, Hashable, Sendable {
         /// The password for the WiFi network.
         public var password: String
 

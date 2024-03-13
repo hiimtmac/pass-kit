@@ -5,7 +5,7 @@ import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
 /// The following sections list the required and optional keys used in this dictionary
-public struct Pass: Codable, Equatable, Hashable {
+public struct Pass: Codable, Equatable, Hashable, Sendable {
     // MARK: Standard Keys
 
     /// Information that is required for all passes.

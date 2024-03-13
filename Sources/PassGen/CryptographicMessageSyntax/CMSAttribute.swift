@@ -21,7 +21,7 @@ extension ASN1ObjectIdentifier {
 /// AttributeValue ::= ANY
 /// ```
 @usableFromInline
-struct CMSAttribute: DERSerializable {
+struct CMSAttribute: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var attrType: ASN1ObjectIdentifier
 

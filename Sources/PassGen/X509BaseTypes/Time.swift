@@ -8,7 +8,7 @@ import SwiftASN1
 // utcTime        UTCTime,
 // generalTime    GeneralizedTime }
 @usableFromInline
-enum Time: DERSerializable {
+enum Time: DERSerializable, Hashable, Sendable {
     case utcTime(UTCTime)
     case generalTime(GeneralizedTime)
 

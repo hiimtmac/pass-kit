@@ -1,9 +1,7 @@
 // PassColor.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
-public struct PassColor: Codable, Equatable, Hashable {
+public struct PassColor: Codable, Equatable, Hashable, Sendable {
     public let r: Int
     public let g: Int
     public let b: Int

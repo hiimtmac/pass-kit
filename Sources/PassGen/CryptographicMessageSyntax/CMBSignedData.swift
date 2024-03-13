@@ -32,7 +32,7 @@ import X509
 /// ```
 /// - Note: At the moment we don't support `crls` (`RevocationInfoChoices`)
 @usableFromInline
-struct CMSSignedData: DERSerializable {
+struct CMSSignedData: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var version: CMSVersion
 

@@ -1,8 +1,6 @@
 // PassFields.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW14
 /// These keys are used for all pass styles and partition the fields into the various parts of the pass
 ///
@@ -20,7 +18,7 @@ import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/passfields
 /// An object that represents the groups of fields that display information on the front and back of a pass.
-public struct PassFields: Codable, Equatable, Hashable {
+public struct PassFields: Codable, Equatable, Hashable, Sendable {
     /// Additional fields to be displayed on the front of the pass.
     public var auxiliaryFields: [PassFieldContent]?
 
@@ -67,7 +65,7 @@ public struct PassFields: Codable, Equatable, Hashable {
 }
 
 extension PassFields {
-    public enum TransitType: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum TransitType: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case air = "PKTransitTypeAir"
         case boat = "PKTransitTypeBoat"
         case bus = "PKTransitTypeBus"
