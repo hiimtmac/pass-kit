@@ -8,7 +8,7 @@ extension ASN1ObjectIdentifier.AlgorithmIdentifier {
 }
 
 @usableFromInline
-struct AlgorithmIdentifier: DERSerializable {
+struct AlgorithmIdentifier: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var algorithm: ASN1ObjectIdentifier
 

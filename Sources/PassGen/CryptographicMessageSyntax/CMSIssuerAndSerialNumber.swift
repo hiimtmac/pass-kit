@@ -13,7 +13,7 @@ import X509
 /// The definition of `Name` is taken from X.501 [X.501-88], and the
 /// definition of `CertificateSerialNumber` is taken from X.509 [X.509-97].
 @usableFromInline
-struct CMSIssuerAndSerialNumber: DERSerializable {
+struct CMSIssuerAndSerialNumber: DERSerializable, Hashable, Sendable {
     @usableFromInline
     var issuer: DistinguishedName
 

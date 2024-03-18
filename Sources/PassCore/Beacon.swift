@@ -1,12 +1,10 @@
 // Beacon.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/documentation/walletpasses/pass/beacons
 extension Pass {
     /// Information about a location beacon
-    public struct Beacon: Codable, Equatable, Hashable {
+    public struct Beacon: Codable, Equatable, Hashable, Sendable {
         /// Major identifier of a Bluetooth Low Energy location beacon.
         public var major: UInt16?
 

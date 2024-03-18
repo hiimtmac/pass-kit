@@ -11,7 +11,7 @@ import X509
 ///   subjectKeyIdentifier [0] SubjectKeyIdentifier }
 ///  ```
 @usableFromInline
-enum CMSSignerIdentifier: DERSerializable {
+enum CMSSignerIdentifier: DERSerializable, Hashable, Sendable {
     case issuerAndSerialNumber(CMSIssuerAndSerialNumber)
 
     @inlinable

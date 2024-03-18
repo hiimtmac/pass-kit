@@ -8,7 +8,6 @@ import ZIPFoundation
 public struct PassGenerator {
     let archive: Archive
     var manifest = Manifest()
-    let signature = Signature()
 
     public init() throws {
         self.archive = try Archive(accessMode: .create)
@@ -51,7 +50,7 @@ public struct PassGenerator {
 
         let wwdr = try Data(contentsOf: wwdrUrl)
 
-        return try signature.makeData(manifest: manifest, cert: cert, wwdr: wwdr, key: key)
+        return try Signature.makeData(manifest: manifest, cert: cert, wwdr: wwdr, key: key)
     }
 
     public func archiveData() throws -> Data {

@@ -1,11 +1,9 @@
 // Personalize.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/documentation/walletpasses/personalize
 /// An object that contains the personalization information for a rewards pass.
-public struct Personalize: Codable, Equatable, Hashable {
+public struct Personalize: Codable, Equatable, Hashable, Sendable {
     /// A brief description of the program for a pass that appears on the signup sheet, under the personalization logo.
     public var description: String
 
@@ -29,7 +27,7 @@ public struct Personalize: Codable, Equatable, Hashable {
 }
 
 extension Personalize {
-    public enum Fields: String, Codable, Equatable, Hashable, CaseIterable {
+    public enum Fields: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case name = "PKPassPersonalizationFieldName"
         case postalCode = "PKPassPersonalizationFieldPostalCode"
         case emailAddress = "PKPassPersonalizationFieldEmailAddress"

@@ -1,12 +1,10 @@
 // NFC.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import Foundation
-
 // hhttps://developer.apple.com/documentation/walletpasses/pass/nfc
 extension Pass {
     /// Information about the NFC payload passed to an Apple Pay terminal.
-    public struct NFC: Codable, Equatable, Hashable {
+    public struct NFC: Codable, Equatable, Hashable, Sendable {
         /// The public encryption key used by the Value Added Services protocol. Use a Base64 encoded X.509 SubjectPublicKeyInfo structure containing a ECDH public key for group P256.
         public var encryptionPublicKey: String?
 
