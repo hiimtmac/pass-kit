@@ -25,4 +25,5 @@ jobs:
       - name: Resolve Swift dependencies
         run: swift package resolve
       - name: Build & Test
-        run: swift test --parallel --sanitize=thread
+        # run: swift test --parallel --sanitize=thread
+        run: swift test # parallel is crashing on GH actions - FATAL: ThreadSanitizer: unexpected memory mapping
