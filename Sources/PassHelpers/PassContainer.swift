@@ -145,3 +145,8 @@ public struct PassContainer<Image> {
         )
     }
 }
+
+extension PassContainer: Codable where Image: Codable {}
+extension PassContainer: Equatable where Image: Equatable {}
+extension PassContainer: Hashable where Image: Hashable {}
+extension PassContainer: Sendable where Image: Sendable {}

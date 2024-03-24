@@ -12,37 +12,52 @@ public struct PassReader {
         self.archive = try Archive(data: data, accessMode: .read)
     }
 
-    // TODO: need to use data before extracting another
-    public func extract(
-        path: String,
-        bufferSize: Int = defaultReadChunkSize
-    ) throws -> Data {
-        guard let entry = archive[path] else {
-            throw ReaderError.entry(path)
+    public func extractPass() throws -> Pass {
+        guard let entry = archive["pass.json"] else {
+            throw ReaderError.entry("pass.json")
         }
 
-        var data: Data?
-        _ = try archive.extract(entry, bufferSize: bufferSize) { data = $0 }
-
-        guard let data else {
-            throw ReaderError.data(path)
+        var pass: Pass?
+        _ = try archive.extract(entry) {
+            pass = try JSONDecoder.passKit.decode(Pass.self, from: $0)
         }
 
-        return data
+        guard let pass else {
+            throw ReaderError.data("pass.json")
+        }
+
+        return pass
     }
 
-    public func optionallyExtract(
-        path: String,
-        bufferSize: Int = defaultReadChunkSize
-    ) throws -> Data? {
-        guard let entry = archive[path] else {
-            return nil
+    public func extract(
+        image: Image.ImageType,
+        localization: String? = nil
+    ) throws -> (x1: Data?, x2: Data?, x3: Data?) {
+        var data1: Data?
+        var data2: Data?
+        var data3: Data?
+
+        let e1 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x1).filename)"
+        let e2 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x2).filename)"
+        let e3 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x3).filename)"
+
+        if let x1 = archive[e1] {
+            _ = try archive.extract(x1) { data1 = Data($0) }
         }
 
-        var data: Data?
-        _ = try archive.extract(entry, bufferSize: bufferSize) { data = $0 }
+        if let x2 = archive[e2] {
+            _ = try archive.extract(x2) { data2 = Data($0) }
+        }
 
-        return data
+        if let x3 = archive[e3] {
+            _ = try archive.extract(x3) { data3 = Data($0) }
+        }
+
+        return (
+            x1: data1,
+            x2: data2,
+            x3: data3
+        )
     }
 
     enum ReaderError: Error {

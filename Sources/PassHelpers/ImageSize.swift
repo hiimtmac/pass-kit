@@ -1,17 +1,17 @@
-// ImageType.swift
+// ImageSize.swift
 // Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 
-public enum PassImage {
+public enum ImageSize {
     case icon
     case logo
     case thumbnail
-    case strip(StripType)
+    case strip(Strip)
     case background
     case footer
 
-    public enum StripType {
+    public enum Strip {
         case coupon
         case eventTicket
         case storeCard

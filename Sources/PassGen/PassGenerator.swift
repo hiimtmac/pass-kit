@@ -28,7 +28,7 @@ public struct PassGenerator {
     }
 
     public mutating func add(image data: Data, as type: Image, localization: String? = nil) throws {
-        try insert(item: data, as: "\(localization.flatMap { "\($0).lproj/" } ?? "")\(type.name).png")
+        try insert(item: data, as: "\(localization.flatMap { "\($0).lproj/" } ?? "")\(type.filename)")
     }
 
     public mutating func add(manifest data: Data) throws {
@@ -63,40 +63,6 @@ public struct PassGenerator {
     public enum Error: Swift.Error {
         case archiveData
         case missingWWDR
-    }
-
-    public enum Image {
-        case icon(Size)
-        case logo(Size)
-        case thumbnail(Size)
-        case strip(Size)
-        case background(Size)
-        case footer(Size)
-
-        var name: String {
-            switch self {
-            case let .icon(size): "icon\(size.postfix)"
-            case let .logo(size): "logo\(size.postfix)"
-            case let .thumbnail(size): "thumbnail\(size.postfix)"
-            case let .strip(size): "strip\(size.postfix)"
-            case let .background(size): "background\(size.postfix)"
-            case let .footer(size): "footer\(size.postfix)"
-            }
-        }
-
-        public enum Size {
-            case x1
-            case x2
-            case x3
-
-            var postfix: String {
-                switch self {
-                case .x1: ""
-                case .x2: "@2x"
-                case .x3: "@3x"
-                }
-            }
-        }
     }
 }
 

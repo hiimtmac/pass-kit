@@ -47,7 +47,8 @@ let package = Package(
         .target(
             name: "PassHelpers",
             dependencies: [
-                .target(name: "PassCore")
+                .target(name: "PassCore"),
+                .target(name: "PassGen")
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ExistentialAny"),
