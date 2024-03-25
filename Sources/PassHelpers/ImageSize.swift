@@ -3,7 +3,7 @@
 
 import Foundation
 
-public enum ImageSize {
+public enum ImageSize: Hashable {
     case icon
     case logo
     case thumbnail

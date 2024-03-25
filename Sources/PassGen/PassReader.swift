@@ -37,9 +37,10 @@ public struct PassReader {
         var data2: Data?
         var data3: Data?
 
-        let e1 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x1).filename)"
-        let e2 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x2).filename)"
-        let e3 = "\(localization.flatMap { "\($0).lproj/" })\(Image(type: image, scale: .x3).filename)"
+        let prefix = localization.flatMap { "\($0).lproj/" } ?? ""
+        let e1 = "\(prefix)\(Image(type: image, scale: .x1).filename)"
+        let e2 = "\(prefix)\(Image(type: image, scale: .x2).filename)"
+        let e3 = "\(prefix)\(Image(type: image, scale: .x3).filename)"
 
         if let x1 = archive[e1] {
             _ = try archive.extract(x1) { data1 = Data($0) }
