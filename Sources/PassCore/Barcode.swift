@@ -143,5 +143,23 @@ extension Pass.Barcode {
         case ibm869 = "ibm-869"
         case ibm1026 = "ibm-1026"
         case ibm1047 = "ibm-1047"
+
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self).lowercased()
+            guard let encoding = Self(rawValue: value) else {
+                throw DecodingError.dataCorrupted(.init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Cannot initialize \(Self.self) from invalid String value \(value)"
+                ))
+            }
+
+            self = encoding
+        }
+
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(rawValue.lowercased())
+        }
     }
 }

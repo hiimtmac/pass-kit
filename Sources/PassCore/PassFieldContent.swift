@@ -72,6 +72,9 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
     /// A number you use to add a row to the auxiliary field in an event ticket pass type. Set the value to 1 to add an auxiliary row. Each row displays up to four fields.
     public var row: Row?
 
+    /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
+    public var semantics: SemanticTags?
+
     /// Prefer conveniences over this initializer
     public init(
         attributedValue: AttributedValue? = nil,
@@ -87,7 +90,8 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
         timeStyle: DateTimeStyle? = nil,
         currencyCode: String? = nil,
         numberStyle: NumberStyle? = nil,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) {
         self.attributedValue = attributedValue
         self.changeMessage = changeMessage
@@ -103,6 +107,7 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
         self.currencyCode = currencyCode
         self.numberStyle = numberStyle
         self.row = row
+        self.semantics = semantics
     }
 }
 
@@ -237,7 +242,8 @@ extension PassFieldContent {
         label: String? = nil,
         textAligment: TextAlignment? = nil,
         value: String,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) {
         self.init(
             attributedValue: attributedValue,
@@ -247,7 +253,8 @@ extension PassFieldContent {
             label: label,
             textAligment: textAligment,
             value: .string(value),
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -256,14 +263,16 @@ extension PassFieldContent {
         changeMessage: String? = nil,
         key: String,
         label: String? = nil,
-        value: String
+        value: String,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
             changeMessage: changeMessage,
             key: key,
             label: label,
-            value: value
+            value: value,
+            semantics: semantics
         )
     }
 
@@ -273,7 +282,8 @@ extension PassFieldContent {
         key: String,
         label: String? = nil,
         textAligment: TextAlignment? = nil,
-        value: String
+        value: String,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -281,7 +291,8 @@ extension PassFieldContent {
             key: key,
             label: label,
             textAligment: textAligment,
-            value: value
+            value: value,
+            semantics: semantics
         )
     }
 
@@ -292,7 +303,8 @@ extension PassFieldContent {
         label: String? = nil,
         textAligment: TextAlignment? = nil,
         value: String,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -301,7 +313,8 @@ extension PassFieldContent {
             label: label,
             textAligment: textAligment,
             value: value,
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -311,7 +324,8 @@ extension PassFieldContent {
         key: String,
         label: String? = nil,
         textAligment: TextAlignment? = nil,
-        value: String
+        value: String,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -319,7 +333,8 @@ extension PassFieldContent {
             key: key,
             label: label,
             textAligment: textAligment,
-            value: value
+            value: value,
+            semantics: semantics
         )
     }
 
@@ -329,7 +344,8 @@ extension PassFieldContent {
         dataDetectorTypes: [DataDetectorType]? = nil,
         key: String,
         label: String? = nil,
-        value: String
+        value: String,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -337,7 +353,8 @@ extension PassFieldContent {
             dataDetectorTypes: dataDetectorTypes,
             key: key,
             label: label,
-            value: value
+            value: value,
+            semantics: semantics
         )
     }
 }
@@ -355,7 +372,8 @@ extension PassFieldContent {
         textAligment: TextAlignment? = nil,
         value: Double,
         style: NumberStyleType? = nil,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) {
         self.init(
             attributedValue: attributedValue,
@@ -367,7 +385,8 @@ extension PassFieldContent {
             value: .double(value),
             currencyCode: style?.currencyCode,
             numberStyle: style?.numberStyle,
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -377,7 +396,8 @@ extension PassFieldContent {
         key: String,
         label: String? = nil,
         value: Double,
-        style: NumberStyleType? = nil
+        style: NumberStyleType? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -385,7 +405,8 @@ extension PassFieldContent {
             key: key,
             label: label,
             value: value,
-            style: style
+            style: style,
+            semantics: semantics
         )
     }
 
@@ -396,7 +417,8 @@ extension PassFieldContent {
         label: String? = nil,
         textAligment: TextAlignment? = nil,
         value: Double,
-        style: NumberStyleType? = nil
+        style: NumberStyleType? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -405,7 +427,8 @@ extension PassFieldContent {
             label: label,
             textAligment: textAligment,
             value: value,
-            style: style
+            style: style,
+            semantics: semantics
         )
     }
 
@@ -417,7 +440,8 @@ extension PassFieldContent {
         textAligment: TextAlignment? = nil,
         value: Double,
         style: NumberStyleType? = nil,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -427,7 +451,8 @@ extension PassFieldContent {
             textAligment: textAligment,
             value: value,
             style: style,
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -438,7 +463,8 @@ extension PassFieldContent {
         label: String? = nil,
         textAligment: TextAlignment? = nil,
         value: Double,
-        style: NumberStyleType? = nil
+        style: NumberStyleType? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -447,7 +473,8 @@ extension PassFieldContent {
             label: label,
             textAligment: textAligment,
             value: value,
-            style: style
+            style: style,
+            semantics: semantics
         )
     }
 
@@ -458,7 +485,8 @@ extension PassFieldContent {
         key: String,
         label: String? = nil,
         value: Double,
-        style: NumberStyleType? = nil
+        style: NumberStyleType? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -467,7 +495,8 @@ extension PassFieldContent {
             key: key,
             label: label,
             value: value,
-            style: style
+            style: style,
+            semantics: semantics
         )
     }
 
@@ -507,7 +536,8 @@ extension PassFieldContent {
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
         timeStyle: DateTimeStyle? = nil,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) {
         self.init(
             attributedValue: attributedValue,
@@ -521,7 +551,8 @@ extension PassFieldContent {
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
             timeStyle: timeStyle,
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -534,7 +565,8 @@ extension PassFieldContent {
         dateStyle: DateTimeStyle? = nil,
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil
+        timeStyle: DateTimeStyle? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -545,7 +577,8 @@ extension PassFieldContent {
             dateStyle: dateStyle,
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
-            timeStyle: timeStyle
+            timeStyle: timeStyle,
+            semantics: semantics
         )
     }
 
@@ -559,7 +592,8 @@ extension PassFieldContent {
         dateStyle: DateTimeStyle? = nil,
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil
+        timeStyle: DateTimeStyle? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -571,7 +605,8 @@ extension PassFieldContent {
             dateStyle: dateStyle,
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
-            timeStyle: timeStyle
+            timeStyle: timeStyle,
+            semantics: semantics
         )
     }
 
@@ -586,7 +621,8 @@ extension PassFieldContent {
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
         timeStyle: DateTimeStyle? = nil,
-        row: Row? = nil
+        row: Row? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -599,7 +635,8 @@ extension PassFieldContent {
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
             timeStyle: timeStyle,
-            row: row
+            row: row,
+            semantics: semantics
         )
     }
 
@@ -613,7 +650,8 @@ extension PassFieldContent {
         dateStyle: DateTimeStyle? = nil,
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil
+        timeStyle: DateTimeStyle? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -625,7 +663,8 @@ extension PassFieldContent {
             dateStyle: dateStyle,
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
-            timeStyle: timeStyle
+            timeStyle: timeStyle,
+            semantics: semantics
         )
     }
 
@@ -639,7 +678,8 @@ extension PassFieldContent {
         dateStyle: DateTimeStyle? = nil,
         ignoresTimeZone: Bool? = nil,
         isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil
+        timeStyle: DateTimeStyle? = nil,
+        semantics: SemanticTags? = nil
     ) -> Self {
         self.init(
             attributedValue: attributedValue,
@@ -651,7 +691,8 @@ extension PassFieldContent {
             dateStyle: dateStyle,
             ignoresTimeZone: ignoresTimeZone,
             isRelative: isRelative,
-            timeStyle: timeStyle
+            timeStyle: timeStyle,
+            semantics: semantics
         )
     }
 }
