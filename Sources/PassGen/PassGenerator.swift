@@ -22,6 +22,11 @@ public struct PassGenerator {
         let data = try JSONEncoder.passKit.encode(pass)
         try insert(item: data, as: "pass.json")
     }
+    
+    public mutating func add(personalization: Personalization) throws {
+        let data = try JSONEncoder.passKit.encode(personalization)
+        try insert(item: data, as: "personalization.json")
+    }
 
     public mutating func add(strings data: Data, for localization: String) throws {
         try insert(item: data, as: "\(localization).lproj/pass.strings")

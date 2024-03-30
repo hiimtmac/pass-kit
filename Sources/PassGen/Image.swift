@@ -45,6 +45,7 @@ public struct Image {
         case strip
         case background
         case footer
+        case personalizationLogo
     }
 
     public enum Scale: String {
