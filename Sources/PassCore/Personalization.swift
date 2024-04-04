@@ -1,9 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by Taylor McIntyre on 2024-03-29.
-//
+// Personalization.swift
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 
@@ -18,10 +14,10 @@ public struct Personalization: Codable, Equatable, Hashable, Sendable {
 
     /// A description of the program’s terms and conditions. This string can contain HTML link tags to external content.
     ///
-    /// If present, this information is displayed after the user enters their personal information and taps the Next button. 
+    /// If present, this information is displayed after the user enters their personal information and taps the Next button.
     /// The user then has the option to agree to the terms, or to cancel out of the signup process.
     public var termsAndConditions: String?
-    
+
     public init(
         requiredPersonalizationFields: [Field],
         description: String,

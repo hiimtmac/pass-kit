@@ -208,7 +208,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
 
     /// An array of objects that represent the WiFi networks associated with the event; for example, the network name and password associated with a developer conference. Use this key for any type of pass.
     public var wifiAccess: [SemanticTagType.WifiNetwork]?
-    
+
     public init(
         airlineCode: String? = nil,
         artistIDs: [String]? = nil,

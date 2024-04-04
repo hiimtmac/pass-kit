@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "PassHelpers", targets: ["PassHelpers"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.18")),
+        .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.19")),
         .package(url: "https://github.com/apple/swift-certificates.git", from: "1.2.0")
     ],
     targets: [
@@ -52,8 +52,8 @@ let package = Package(
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency"),
-                .enableExperimentalFeature("StrictConcurrency")
+                .enableUpcomingFeature("StrictConcurrency")
+//                .enableUpcomingFeature("StrictConcurrency") // Swift 6
             ]
         ),
         .testTarget(name: "PassKitTests", dependencies: [
