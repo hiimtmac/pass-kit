@@ -39,6 +39,7 @@ let package = Package(
                 .process("Resources")
             ],
             swiftSettings: [
+                .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("ExistentialAny"),
                 .enableExperimentalFeature("StrictConcurrency")
 //                .enableUpcomingFeature("StrictConcurrency") // Swift 6
@@ -56,9 +57,13 @@ let package = Package(
 //                .enableUpcomingFeature("StrictConcurrency") // Swift 6
             ]
         ),
-        .testTarget(name: "PassKitTests", dependencies: [
-            .target(name: "PassCore"),
-            .target(name: "PassGen")
-        ]),
+        .testTarget(
+            name: "PassKitTests",
+            dependencies: [
+                .target(name: "PassCore"),
+                .target(name: "PassGen")
+            ],
+            resources: [.process("Resources")]
+        ),
     ]
 )

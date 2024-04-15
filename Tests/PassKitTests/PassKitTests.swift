@@ -51,13 +51,13 @@ final class PassKitTests: XCTestCase {
 }
 
 extension Data {
-    var asString: String {
+    fileprivate var asString: String {
         String(decoding: self, as: UTF8.self)
     }
 }
 
 extension String {
-    var asData: Data {
+    fileprivate var asData: Data {
         Data(self.utf8)
     }
 }
