@@ -61,7 +61,8 @@ let package = Package(
             name: "PassKitTests",
             dependencies: [
                 .target(name: "PassCore"),
-                .target(name: "PassGen")
+                .target(name: "PassGen"),
+                .product(name: "X509", package: "swift-certificates")
             ],
             resources: [.process("Resources")]
         ),

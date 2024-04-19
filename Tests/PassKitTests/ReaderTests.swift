@@ -1,7 +1,6 @@
 // ReaderTests.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import PassCore
 import XCTest
 @testable import PassGen
 
@@ -11,17 +10,17 @@ final class ReaderTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
 
-        // let url = Bundle.module.url(forResource: "test", withExtension: "pkpass")!
-        // let data = try Data(contentsOf: url)
-        // reader = try PassReader(data: data)
+        let url = Bundle.module.url(forResource: "Localized", withExtension: "pkpass")!
+        let data = try Data(contentsOf: url)
+        reader = try PassReader(data: data)
     }
 
-    func _testReadLocalizations() throws {
+    func testReadLocalizations() throws {
         let localizations = reader.localizations()
         XCTAssertEqual(localizations.sorted(), ["en", "fr"])
     }
 
-    func _testFullRead() throws {
+    func testFullRead() throws {
         XCTAssertNoThrow(try reader.pass())
 
         XCTAssertThrowsError(try reader.image(type: .icon(.x1)))

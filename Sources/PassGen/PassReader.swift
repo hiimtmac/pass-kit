@@ -91,7 +91,6 @@ public struct PassReader {
 
     public func localizations() -> [String] {
         archive
-            .makeIterator()
             .filter { $0.type == .directory }
             .compactMap { $0.path.wholeMatch(of: /(?<lang>[a-zA-Z\-]{2,}).lproj\//) }
             .map(\.output.lang)

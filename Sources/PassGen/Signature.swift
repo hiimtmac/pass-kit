@@ -47,17 +47,17 @@ enum Signature {
         )
     }
 
-    private static func loadCertificate(from data: Data) throws -> Certificate {
+    static func loadCertificate(from data: Data) throws -> Certificate {
         let string = String(decoding: data, as: UTF8.self)
         return try Certificate(pemEncoded: string)
     }
 
-    private static func loadPrivateKey(from data: Data) throws -> _RSA.Signing.PrivateKey {
+    static func loadPrivateKey(from data: Data) throws -> _RSA.Signing.PrivateKey {
         let string = String(decoding: data, as: UTF8.self)
         return try _RSA.Signing.PrivateKey(pemRepresentation: string)
     }
 
-    private static func generateDigest(from data: Data) throws -> ArraySlice<UInt8> {
+    static func generateDigest(from data: Data) throws -> ArraySlice<UInt8> {
         let digest = SHA256.hash(data: data)
         return ArraySlice(digest)
     }
