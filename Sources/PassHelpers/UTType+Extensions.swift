@@ -5,8 +5,8 @@
 import UniformTypeIdentifiers
 
 extension UTType {
-    public static let pkpass = UTType("com.app.pkpass-data")!
-    public static let pkpasses = UTType("com.app.pkpasses-data")!
+    public static let pkpass = UTType("com.apple.pkpass-data")!
+    public static let pkpasses = UTType("com.apple.pkpasses-data")!
 }
 
 #endif
