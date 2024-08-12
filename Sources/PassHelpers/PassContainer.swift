@@ -23,6 +23,9 @@ public struct PassContainer<Image> {
     public var thumbnailImage: Image?
     /// The background image (background.png) is displayed behind the entire front of the pass. The expected dimensions are 180 x 220 points. The image is cropped slightly on all sides and blurred. Depending on the image, you can often provide an image at a smaller size and let it be scaled up, because the blur effect hides details. This lets you reduce the file size without a noticeable difference in the pass.
     public var backgroundImage: Image?
+    
+    public var artwork: Image?
+    public var secondaryLogo: Image?
 
     public var personalization: Personalization?
     public var personalizationImage: Image?
@@ -37,6 +40,8 @@ public struct PassContainer<Image> {
         footer: Image? = nil,
         thumbnail: Image? = nil,
         background: Image? = nil,
+        artwork: Image? = nil,
+        secondaryLogo: Image? = nil,
         personalization: Personalization? = nil,
         personalizationLogo: Image? = nil,
         localizations: [Localization<Image>]? = nil
@@ -48,6 +53,8 @@ public struct PassContainer<Image> {
         self.footerImage = footer
         self.thumbnailImage = thumbnail
         self.backgroundImage = background
+        self.artwork = artwork
+        self.secondaryLogo = secondaryLogo
         self.personalization = personalization
         self.personalizationImage = personalizationLogo
         self.localizations = localizations
@@ -115,6 +122,26 @@ public struct PassContainer<Image> {
             logo: logo,
             thumbnail: thumbnail,
             background: background,
+            localizations: localizations
+        )
+    }
+    
+    public static func eventTicket(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        background: Image? = nil, // same background on all OS versions
+        artwork: Image? = nil, // previous OS render pass with Strip Image
+        secondaryLogo: Image? = nil,
+        localizations: [Localization<Image>]? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            background: background,
+            artwork: artwork,
+            secondaryLogo: secondaryLogo,
             localizations: localizations
         )
     }

@@ -208,6 +208,13 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
 
     /// An array of objects that represent the WiFi networks associated with the event; for example, the network name and password associated with a developer conference. Use this key for any type of pass.
     public var wifiAccess: [SemanticTagType.WifiNetwork]?
+    
+    /// Event Ticket with NFC Only
+    public var relevantDates: [SemanticTagType.RelevantDates]?
+    public var admissionLevel: String?
+    public var varvenueParkingLotsOpenDate: Date?
+    public var venueGatesOpenDate: Date?
+    public var venueRegionName: String?
 
     public init(
         airlineCode: String? = nil,
@@ -276,7 +283,12 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         venueName: String? = nil,
         venuePhoneNumber: String? = nil,
         venueRoom: String? = nil,
-        wifiAccess: [SemanticTagType.WifiNetwork]? = nil
+        wifiAccess: [SemanticTagType.WifiNetwork]? = nil,
+        relevantDates: [SemanticTagType.RelevantDates]? = nil,
+        admissionLevel: String? = nil,
+        varvenueParkingLotsOpenDate: Date? = nil,
+        venueGatesOpenDate: Date? = nil,
+        venueRegionName: String? = nil
     ) {
         self.airlineCode = airlineCode
         self.artistIDs = artistIDs
@@ -345,6 +357,11 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.venuePhoneNumber = venuePhoneNumber
         self.venueRoom = venueRoom
         self.wifiAccess = wifiAccess
+        self.relevantDates = relevantDates
+        self.admissionLevel = admissionLevel
+        self.varvenueParkingLotsOpenDate = varvenueParkingLotsOpenDate
+        self.venueGatesOpenDate = venueGatesOpenDate
+        self.venueRegionName = venueRegionName
     }
 }
 
@@ -362,6 +379,19 @@ extension SemanticTags {
 }
 
 public enum SemanticTagType {
+    public struct RelevantDates: Codable, Equatable, Hashable, Sendable {
+        public var startDate: Date
+        public var endDate: Date
+        
+        public init(
+            startDate: Date,
+            endDate: Date
+        ) {
+            self.startDate = startDate
+            self.endDate = endDate
+        }
+    }
+    
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/personnamecomponents
     /// An object that represents the parts of a person’s name.
     public struct PersonNameComponents: Codable, Equatable, Hashable, Sendable {
@@ -425,6 +455,8 @@ public enum SemanticTagType {
 
         /// The type of seat, such as “Reserved seating”.
         public var seatType: String?
+        
+        public var venueEntranceGate: String?
 
         public init(
             seatDescription: String? = nil,
@@ -432,7 +464,8 @@ public enum SemanticTagType {
             seatNumber: String? = nil,
             seatRow: String? = nil,
             seatSection: String? = nil,
-            seatType: String? = nil
+            seatType: String? = nil,
+            venueEntranceGate: String? = nil
         ) {
             self.seatDescription = seatDescription
             self.seatIdentifier = seatIdentifier
@@ -440,6 +473,7 @@ public enum SemanticTagType {
             self.seatRow = seatRow
             self.seatSection = seatSection
             self.seatType = seatType
+            self.venueEntranceGate = venueEntranceGate
         }
     }
 

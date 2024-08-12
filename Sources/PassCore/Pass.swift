@@ -163,6 +163,12 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
     public var semantics: SemanticTags?
+    
+    public var bagPolicyURL: URL?
+    
+    public var orderFoodURL: URL?
+    
+    public var parkingInformationURL: URL?
 
     /// Creates a Pass object
     /// - Parameters:
@@ -228,7 +234,10 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         authenticationToken: String? = nil,
         webServiceURL: URL? = nil,
         nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
+        semantics: SemanticTags? = nil,
+        bagPolicyURL: URL? = nil,
+        orderFoodURL: URL? = nil,
+        parkingInformationURL: URL? = nil
     ) {
         self.description = description
         self.formatVersion = 1
@@ -262,6 +271,9 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.webServiceURL = webServiceURL
         self.nfc = nfc
         self.semantics = semantics
+        self.bagPolicyURL = bagPolicyURL
+        self.orderFoodURL = orderFoodURL
+        self.parkingInformationURL = parkingInformationURL
     }
 }
 
@@ -415,6 +427,9 @@ extension Pass {
         sharingProhibited: Bool? = nil,
         authenticationToken: String? = nil,
         webServiceURL: URL? = nil,
+        bagPolicyURL: URL? = nil,
+        orderFoodURL: URL? = nil,
+        parkingInformationURL: URL? = nil,
         nfc: NFC? = nil,
         semantics: SemanticTags? = nil
     ) -> Self {
@@ -445,7 +460,10 @@ extension Pass {
             authenticationToken: authenticationToken,
             webServiceURL: webServiceURL,
             nfc: nfc,
-            semantics: semantics
+            semantics: semantics,
+            bagPolicyURL: bagPolicyURL,
+            orderFoodURL: orderFoodURL,
+            parkingInformationURL: parkingInformationURL
         )
     }
 
