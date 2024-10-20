@@ -10,7 +10,7 @@ public struct PassGenerator {
     var manifest = Manifest()
 
     public init() throws {
-        self.archive = try Archive(accessMode: .create)
+        self.archive = try Archive(accessMode: .create, pathEncoding: .utf8)
     }
 
     mutating func insert(item data: Data, as path: String) throws {

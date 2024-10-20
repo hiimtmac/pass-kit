@@ -30,7 +30,7 @@ public struct PassReader {
     let archive: Archive
 
     public init(data: Data) throws {
-        self.archive = try Archive(data: data, accessMode: .read)
+        self.archive = try Archive(data: data, accessMode: .read, pathEncoding: .utf8)
     }
 
     public func extract(file: String) throws -> Data? {
@@ -92,7 +92,7 @@ public struct PassReader {
     public func localizations() -> [String] {
         archive
             .filter { $0.type == .directory }
-            .compactMap { $0.path.wholeMatch(of: /(?<lang>[a-zA-Z\-]{2,}).lproj\//) }
+            .compactMap { $0.path(using: .utf8).wholeMatch(of: /(?<lang>[a-zA-Z\-]{2,}).lproj\//) }
             .map(\.output.lang)
             .map(String.init)
     }
