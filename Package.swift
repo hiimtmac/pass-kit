@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,18 +15,13 @@ let package = Package(
         .library(name: "PassHelpers", targets: ["PassHelpers"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.19")),
-        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.4.0")
+        // .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.19")),
+        .package(url: "https://github.com/weichsel/ZIPFoundation.git", branch: "development"),
+        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.6.0")
     ],
     targets: [
         .target(
-            name: "PassCore",
-            swiftSettings: [
-                .enableUpcomingFeature("BareSlashRegexLiterals"),
-                .enableUpcomingFeature("ExistentialAny"),
-                .enableExperimentalFeature("StrictConcurrency")
-//                .enableUpcomingFeature("StrictConcurrency") // Swift 6
-            ]
+            name: "PassCore"
         ),
         .target(
             name: "PassGen",
@@ -37,12 +32,6 @@ let package = Package(
             ],
             resources: [
                 .process("Resources")
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("BareSlashRegexLiterals"),
-                .enableUpcomingFeature("ExistentialAny"),
-                .enableExperimentalFeature("StrictConcurrency")
-//                .enableUpcomingFeature("StrictConcurrency") // Swift 6
             ]
         ),
         .target(
@@ -50,11 +39,6 @@ let package = Package(
             dependencies: [
                 .target(name: "PassCore"),
                 .target(name: "PassGen")
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency")
-//                .enableUpcomingFeature("StrictConcurrency") // Swift 6
             ]
         ),
         .testTarget(

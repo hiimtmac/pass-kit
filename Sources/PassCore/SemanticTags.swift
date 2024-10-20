@@ -212,7 +212,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// Event Ticket with NFC Only
     public var relevantDates: [SemanticTagType.RelevantDates]?
     public var admissionLevel: String?
-    public var varvenueParkingLotsOpenDate: Date?
+    public var venueParkingLotsOpenDate: Date?
     public var venueGatesOpenDate: Date?
     public var venueRegionName: String?
 
@@ -286,7 +286,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         wifiAccess: [SemanticTagType.WifiNetwork]? = nil,
         relevantDates: [SemanticTagType.RelevantDates]? = nil,
         admissionLevel: String? = nil,
-        varvenueParkingLotsOpenDate: Date? = nil,
+        venueParkingLotsOpenDate: Date? = nil,
         venueGatesOpenDate: Date? = nil,
         venueRegionName: String? = nil
     ) {
@@ -359,7 +359,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.wifiAccess = wifiAccess
         self.relevantDates = relevantDates
         self.admissionLevel = admissionLevel
-        self.varvenueParkingLotsOpenDate = varvenueParkingLotsOpenDate
+        self.venueParkingLotsOpenDate = venueParkingLotsOpenDate
         self.venueGatesOpenDate = venueGatesOpenDate
         self.venueRegionName = venueRegionName
     }

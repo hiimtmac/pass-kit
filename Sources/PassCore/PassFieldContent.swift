@@ -121,12 +121,10 @@ extension PassFieldContent {
             let container = try decoder.singleValueContainer()
             if let double = try? container.decode(Double.self) {
                 self = .double(double)
+            } else if let date = try? container.decode(Date.self) {
+                self = .date(date)
             } else if let string = try? container.decode(String.self) {
-                if let date = Value.dateFormatter.date(from: string) {
-                    self = .date(date)
-                } else {
-                    self = .string(string)
-                }
+                self = .string(string)
             } else {
                 throw DecodingError.typeMismatch(
                     Value.self,
@@ -144,17 +142,11 @@ extension PassFieldContent {
             case let .double(double):
                 try container.encode(double)
             case let .date(date):
-                let string = Value.dateFormatter.string(from: date)
-                try container.encode(string)
+                try container.encode(date)
             case let .string(string):
                 try container.encode(string)
             }
         }
-
-        static let dateFormatter: ISO8601DateFormatter = {
-            let formatter = ISO8601DateFormatter()
-            return formatter
-        }()
     }
 
     public enum DataDetectorType: String, Codable, Equatable, Hashable, CaseIterable, Sendable {

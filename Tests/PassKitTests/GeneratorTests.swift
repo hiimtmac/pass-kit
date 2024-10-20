@@ -1,11 +1,14 @@
 // GeneratorTests.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import XCTest
+import Foundation
+import Testing
 @testable import PassGen
 
-final class GeneratorTests: XCTestCase {
-    func testAddItems() throws {
+@Suite
+struct GeneratorTests {
+    @Test
+    func addItems() throws {
         var generator = try PassGenerator()
         // try generator.add(pass: .init(description: "", organizationName: "", passTypeIdentifier: "", serialNumber: "", teamIdentifier: ""))
         try generator.add(image: Data("background".utf8), as: .background(.x1))
@@ -15,7 +18,7 @@ final class GeneratorTests: XCTestCase {
         try generator.add(signature: Data("signature".utf8))
 
         let entries = generator.archive.map(\.path).sorted()
-        XCTAssertEqual(entries, [
+        #expect(entries == [
             "background.png",
             "en.lproj/strip@2x.png",
             "fr.lproj/pass.strings",
@@ -25,7 +28,7 @@ final class GeneratorTests: XCTestCase {
         ])
 
         let manifest = try generator.manifest.makeData()
-        XCTAssertEqual(String(decoding: manifest, as: UTF8.self), #"""
+        #expect(String(decoding: manifest, as: UTF8.self) == #"""
         {
           "background.png" : "248a20b62efba8f4303c75830c83230f1b088f1e",
           "en.lproj\/strip@2x.png" : "7f43a4b8b7b4436fb4271e51b9d8c55334f26c59",

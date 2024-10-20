@@ -4,7 +4,7 @@
 import SwiftASN1
 
 extension ASN1ObjectIdentifier.AlgorithmIdentifier {
-    public static let sha256: ASN1ObjectIdentifier = [2, 16, 840, 1, 101, 3, 4, 2, 1]
+    static let sha256: ASN1ObjectIdentifier = [2, 16, 840, 1, 101, 3, 4, 2, 1]
 }
 
 @usableFromInline

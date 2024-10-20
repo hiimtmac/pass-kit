@@ -1,44 +1,46 @@
 // ReaderTests.swift
 // Copyright (c) 2024 hiimtmac inc.
 
-import XCTest
+import Foundation
+import Testing
 @testable import PassGen
 
-final class ReaderTests: XCTestCase {
-    var reader: PassReader!
+@Suite
+struct ReaderTests {
+    let reader: PassReader
 
-    override func setUp() async throws {
-        try await super.setUp()
-
+    init() throws {
         let url = Bundle.module.url(forResource: "Localized", withExtension: "pkpass")!
         let data = try Data(contentsOf: url)
-        reader = try PassReader(data: data)
+        self.reader = try PassReader(data: data)
     }
 
-    func testReadLocalizations() throws {
+    @Test
+    func readLocalizations() throws {
         let localizations = reader.localizations()
-        XCTAssertEqual(localizations.sorted(), ["en", "fr"])
+        #expect(localizations.sorted() == ["en", "fr"])
     }
 
+    @Test
     func testFullRead() throws {
-        XCTAssertNoThrow(try reader.pass())
+        #expect(throws: Never.self) { try reader.pass() }
 
-        XCTAssertThrowsError(try reader.image(type: .icon(.x1)))
-        XCTAssertNoThrow(try reader.image(type: .icon(.x2)))
-        XCTAssertNoThrow(try reader.image(type: .icon(.x3)))
+        #expect(throws: (any Error).self) { try reader.image(type: .icon(.x1)) }
+        #expect(throws: Never.self) { try reader.image(type: .icon(.x2)) }
+        #expect(throws: Never.self) { try reader.image(type: .icon(.x3)) }
 
-        XCTAssertThrowsError(try reader.image(type: .footer(.x1)))
-        XCTAssertNoThrow(try reader.image(type: .footer(.x2)))
-        XCTAssertNoThrow(try reader.image(type: .footer(.x3)))
+        #expect(throws: (any Error).self) { try reader.image(type: .footer(.x1)) }
+        #expect(throws: Never.self) { try reader.image(type: .footer(.x2)) }
+        #expect(throws: Never.self) { try reader.image(type: .footer(.x3)) }
 
-        XCTAssertThrowsError(try reader.image(type: .logo(.x1), localization: "en"))
-        XCTAssertNoThrow(try reader.image(type: .logo(.x2), localization: "en"))
-        XCTAssertNoThrow(try reader.image(type: .logo(.x3), localization: "en"))
-        XCTAssertNoThrow(try reader.strings(localization: "en"))
+        #expect(throws: (any Error).self) { try reader.image(type: .logo(.x1), localization: "en") }
+        #expect(throws: Never.self) { try reader.image(type: .logo(.x2), localization: "en") }
+        #expect(throws: Never.self) { try reader.image(type: .logo(.x3), localization: "en") }
+        #expect(throws: Never.self) { try reader.strings(localization: "en") }
 
-        XCTAssertThrowsError(try reader.image(type: .logo(.x1), localization: "fr"))
-        XCTAssertNoThrow(try reader.image(type: .logo(.x2), localization: "fr"))
-        XCTAssertNoThrow(try reader.image(type: .logo(.x3), localization: "fr"))
-        XCTAssertNoThrow(try reader.strings(localization: "fr"))
+        #expect(throws: (any Error).self) { try reader.image(type: .logo(.x1), localization: "fr") }
+        #expect(throws: Never.self) { try reader.image(type: .logo(.x2), localization: "fr") }
+        #expect(throws: Never.self) { try reader.image(type: .logo(.x3), localization: "fr") }
+        #expect(throws: Never.self) { try reader.strings(localization: "fr") }
     }
 }
