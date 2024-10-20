@@ -1,0 +1,1 @@
+FROM --platform=linux/amd64 swift:6.0-jammy

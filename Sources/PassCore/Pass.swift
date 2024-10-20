@@ -43,7 +43,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// A list of iTunes Store item identifiers for the associated apps.
     ///
     /// Only one item in the list is used—the first item identifier for an app compatible with the current device. If the app is not installed, the link opens the App Store and shows the app. If the app is already installed, the link launches the app.
-    public var associatedStoreIdentifiers: [Double]?
+    public var associatedStoreIdentifiers: [Int]?
 
     // MARK: Companion App Keys
 
@@ -210,7 +210,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
@@ -288,7 +288,7 @@ extension Pass {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
@@ -349,7 +349,7 @@ extension Pass {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
@@ -408,7 +408,7 @@ extension Pass {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
@@ -475,7 +475,7 @@ extension Pass {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
@@ -534,7 +534,7 @@ extension Pass {
         serialNumber: String,
         teamIdentifier: String,
         appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Double]? = nil,
+        associatedStoreIdentifiers: [Int]? = nil,
         userInfo: [String: String]? = nil,
         expirationDate: Date? = nil,
         voided: Bool? = nil,
