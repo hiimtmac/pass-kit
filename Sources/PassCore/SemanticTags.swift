@@ -208,7 +208,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
 
     /// An array of objects that represent the WiFi networks associated with the event; for example, the network name and password associated with a developer conference. Use this key for any type of pass.
     public var wifiAccess: [SemanticTagType.WifiNetwork]?
-    
+
     // iOS 18 Event Ticket with NFC Only
     public var admissionLevel: String?
     public var admissionLevelAbbreviation: String?
@@ -299,7 +299,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         venuePhoneNumber: String? = nil,
         venueRoom: String? = nil,
         wifiAccess: [SemanticTagType.WifiNetwork]? = nil,
-        
+
         admissionLevel: String? = nil,
         admissionLevelAbbreviation: String? = nil,
         albumIDs: [String]? = nil,
@@ -388,7 +388,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.venuePhoneNumber = venuePhoneNumber
         self.venueRoom = venueRoom
         self.wifiAccess = wifiAccess
-        
+
         self.admissionLevel = admissionLevel
         self.admissionLevelAbbreviation = admissionLevelAbbreviation
         self.albumIDs = albumIDs
@@ -428,14 +428,14 @@ extension SemanticTags {
 public enum SemanticTagType {
     public struct Airplay: Codable, Equatable, Hashable, Sendable {
         public var airPlayDeviceGroupToken: String
-        
+
         public init(
             airPlayDeviceGroupToken: String
         ) {
             self.airPlayDeviceGroupToken = airPlayDeviceGroupToken
         }
     }
-    
+
     // https://developer.apple.com/documentation/walletpasses/semantictagtype/personnamecomponents
     /// An object that represents the parts of a person’s name.
     public struct PersonNameComponents: Codable, Equatable, Hashable, Sendable {
@@ -499,7 +499,7 @@ public enum SemanticTagType {
 
         /// The type of seat, such as “Reserved seating”.
         public var seatType: String?
-        
+
         // iOS 18 Event Ticket with NFC Only
         public var seatAisle: String?
         public var seatLevel: String?

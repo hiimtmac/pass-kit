@@ -31,11 +31,11 @@ final class SignerTests: XCTestCase {
 //    }
 
 //    func testSignatureGenerationMatchesOpenssl() throws {
-////        var serializer = DER.Serializer()
-////        try serializer.serializeSetOf([CMSAttribute.contentType])
-////        let bytes = ArraySlice(serializer.serializedBytes)
-////        let hexString = bytes.map { String(format: "%02x", $0) }.joined()
-////        echo hexString | xxd -r -p | openssl dgst -sha256 -sign key.pem | xxd -p
+    ////        var serializer = DER.Serializer()
+    ////        try serializer.serializeSetOf([CMSAttribute.contentType])
+    ////        let bytes = ArraySlice(serializer.serializedBytes)
+    ////        let hexString = bytes.map { String(format: "%02x", $0) }.joined()
+    ////        echo hexString | xxd -r -p | openssl dgst -sha256 -sign key.pem | xxd -p
 //
 //        let openssl = """
 //            18dbaa1495b4437f5b2d32451aa74f7209e8a1c2091eb60368a74b57aab3

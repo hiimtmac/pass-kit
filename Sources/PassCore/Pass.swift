@@ -163,7 +163,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
     public var semantics: SemanticTags?
-    
+
     // iOS 18 Event Ticket with NFC Only
     public var relevantDates: [RelevantDate]?
     public var preferredStyleSchemes: [PreferredStyleScheme]?
@@ -247,7 +247,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         webServiceURL: URL? = nil,
         nfc: NFC? = nil,
         semantics: SemanticTags? = nil,
-        
+
         relevantDates: [RelevantDate]? = nil,
         preferredStyleSchemes: [PreferredStyleScheme]? = nil,
         bagPolicyURL: URL? = nil,
@@ -297,7 +297,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.webServiceURL = webServiceURL
         self.nfc = nfc
         self.semantics = semantics
-        
+
         self.relevantDates = relevantDates
         self.preferredStyleSchemes = preferredStyleSchemes
         self.bagPolicyURL = bagPolicyURL

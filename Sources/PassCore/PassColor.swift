@@ -24,11 +24,11 @@ public struct PassColor: Codable, Equatable, Hashable, Sendable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
-        
+
         let rgb = /rgb\((?<r>\d{1,3}),\s?(?<g>\d{1,3}),\s?(?<b>\d{1,3})\)/
         let shortHex = /#(?<r>[a-fA-F\d])(?<g>[a-fA-F\d])(?<b>[a-fA-F\d])\b/
         let longHex = /#(?<r>[a-fA-F\d]{2})(?<g>[a-fA-F\d]{2})(?<b>[a-fA-F\d]{2})\b/
-        
+
         if let rgbMatch = string.wholeMatch(of: rgb) {
             guard
                 let r = Int(rgbMatch.output.r),
@@ -40,7 +40,7 @@ public struct PassColor: Codable, Equatable, Hashable, Sendable {
                     debugDescription: "rgb values must be 1-3 digit integers"
                 ))
             }
-            
+
             self.r = r
             self.g = g
             self.b = b
@@ -55,10 +55,10 @@ public struct PassColor: Codable, Equatable, Hashable, Sendable {
                     debugDescription: "rgb values must be #RGB: a-fA-F0-9"
                 ))
             }
-            
-            self.r = (r * 17) & 0xFF
-            self.g = (g * 17) & 0xFF
-            self.b = (b * 17) & 0xFF
+
+            self.r = (r * 17) & 0xff
+            self.g = (g * 17) & 0xff
+            self.b = (b * 17) & 0xff
         } else if let longHexMatch = string.wholeMatch(of: longHex) {
             guard
                 let r = Int(longHexMatch.output.r, radix: 16),
@@ -70,10 +70,10 @@ public struct PassColor: Codable, Equatable, Hashable, Sendable {
                     debugDescription: "rgb values must be #RRGGBB: a-fA-F0-9"
                 ))
             }
-            
-            self.r = r & 0xFF
-            self.g = g & 0xFF
-            self.b = b & 0xFF
+
+            self.r = r & 0xff
+            self.g = g & 0xff
+            self.b = b & 0xff
         } else {
             throw DecodingError.dataCorrupted(.init(
                 codingPath: decoder.codingPath,

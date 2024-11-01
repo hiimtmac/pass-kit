@@ -38,7 +38,7 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
 
     /// Required for boarding passes; otherwise not allowed.
     public var transitType: TransitType?
-    
+
     // iOS 18 Event Ticket with NFC Only
     public var additionalInfoFields: [PassFieldContent]?
 

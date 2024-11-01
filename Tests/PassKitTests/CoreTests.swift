@@ -15,7 +15,7 @@ struct CoreTests {
         #expect(color.g == 144)
         #expect(color.b == 226)
     }
-    
+
     @Test
     func colorHexShort() throws {
         let data = Data(##""#49E""##.utf8)
@@ -24,7 +24,7 @@ struct CoreTests {
         #expect(color.g == 153)
         #expect(color.b == 238)
     }
-    
+
     @Test
     func colorRGBSpace() throws {
         let data = Data(#""rgb(74, 144, 226)""#.utf8)
@@ -33,7 +33,7 @@ struct CoreTests {
         #expect(color.g == 144)
         #expect(color.b == 226)
     }
-    
+
     @Test
     func colorRGBTIght() throws {
         let data = Data(#""rgb(74,144,226)""#.utf8)

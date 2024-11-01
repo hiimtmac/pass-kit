@@ -1,9 +1,5 @@
-//
-//  File.swift
-//  PassKit
-//
-//  Created by Taylor McIntyre on 2024-10-31.
-//
+// PreferredStyleScheme.swift
+// Copyright (c) 2024 hiimtmac inc.
 
 import Foundation
 
