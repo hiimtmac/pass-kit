@@ -209,12 +209,27 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// An array of objects that represent the WiFi networks associated with the event; for example, the network name and password associated with a developer conference. Use this key for any type of pass.
     public var wifiAccess: [SemanticTagType.WifiNetwork]?
     
-    /// Event Ticket with NFC Only
-    public var relevantDates: [SemanticTagType.RelevantDates]?
+    // iOS 18 Event Ticket with NFC Only
     public var admissionLevel: String?
-    public var venueParkingLotsOpenDate: Date?
+    public var admissionLevelAbbreviation: String?
+    public var albumIDs: [String]?
+    public var airplay: [SemanticTagType.Airplay]?
+    public var attendeeName: String?
+    public var additionalTicketAttributes: String?
+    public var entranceDescription: String?
+    public var eventLiveMessage: String?
+    public var playlistIDs: [String]?
+    public var tailgatingAllowed: Bool?
     public var venueGatesOpenDate: Date?
+    public var venueParkingLotsOpenDate: Date?
+    public var venueBoxOfficeOpenDate: Date?
+    public var venueDoorsOpenDate: Date?
+    public var venueFanZoneOpenDate: Date?
+    public var venueCloseDate: Date?
     public var venueRegionName: String?
+    public var venueEntranceGate: String?
+    public var venueEntranceDoor: String?
+    public var venueEntrancePortal: String?
 
     public init(
         airlineCode: String? = nil,
@@ -284,11 +299,27 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         venuePhoneNumber: String? = nil,
         venueRoom: String? = nil,
         wifiAccess: [SemanticTagType.WifiNetwork]? = nil,
-        relevantDates: [SemanticTagType.RelevantDates]? = nil,
+        
         admissionLevel: String? = nil,
-        venueParkingLotsOpenDate: Date? = nil,
+        admissionLevelAbbreviation: String? = nil,
+        albumIDs: [String]? = nil,
+        airplay: [SemanticTagType.Airplay]? = nil,
+        attendeeName: String? = nil,
+        additionalTicketAttributes: String? = nil,
+        entranceDescription: String? = nil,
+        eventLiveMessage: String? = nil,
+        playlistIDs: [String]? = nil,
+        tailgatingAllowed: Bool? = nil,
         venueGatesOpenDate: Date? = nil,
-        venueRegionName: String? = nil
+        venueParkingLotsOpenDate: Date? = nil,
+        venueBoxOfficeOpenDate: Date? = nil,
+        venueDoorsOpenDate: Date? = nil,
+        venueFanZoneOpenDate: Date? = nil,
+        venueCloseDate: Date? = nil,
+        venueRegionName: String? = nil,
+        venueEntranceGate: String? = nil,
+        venueEntranceDoor: String? = nil,
+        venueEntrancePortal: String? = nil
     ) {
         self.airlineCode = airlineCode
         self.artistIDs = artistIDs
@@ -357,11 +388,27 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.venuePhoneNumber = venuePhoneNumber
         self.venueRoom = venueRoom
         self.wifiAccess = wifiAccess
-        self.relevantDates = relevantDates
+        
         self.admissionLevel = admissionLevel
-        self.venueParkingLotsOpenDate = venueParkingLotsOpenDate
+        self.admissionLevelAbbreviation = admissionLevelAbbreviation
+        self.albumIDs = albumIDs
+        self.airplay = airplay
+        self.attendeeName = attendeeName
+        self.additionalTicketAttributes = additionalTicketAttributes
+        self.entranceDescription = entranceDescription
+        self.eventLiveMessage = eventLiveMessage
+        self.playlistIDs = playlistIDs
+        self.tailgatingAllowed = tailgatingAllowed
         self.venueGatesOpenDate = venueGatesOpenDate
+        self.venueParkingLotsOpenDate = venueParkingLotsOpenDate
+        self.venueBoxOfficeOpenDate = venueBoxOfficeOpenDate
+        self.venueDoorsOpenDate = venueDoorsOpenDate
+        self.venueFanZoneOpenDate = venueFanZoneOpenDate
+        self.venueCloseDate = venueCloseDate
         self.venueRegionName = venueRegionName
+        self.venueEntranceGate = venueEntranceGate
+        self.venueEntranceDoor = venueEntranceDoor
+        self.venueEntrancePortal = venueEntrancePortal
     }
 }
 
@@ -379,16 +426,13 @@ extension SemanticTags {
 }
 
 public enum SemanticTagType {
-    public struct RelevantDates: Codable, Equatable, Hashable, Sendable {
-        public var startDate: Date
-        public var endDate: Date
+    public struct Airplay: Codable, Equatable, Hashable, Sendable {
+        public var airPlayDeviceGroupToken: String
         
         public init(
-            startDate: Date,
-            endDate: Date
+            airPlayDeviceGroupToken: String
         ) {
-            self.startDate = startDate
-            self.endDate = endDate
+            self.airPlayDeviceGroupToken = airPlayDeviceGroupToken
         }
     }
     
@@ -456,7 +500,10 @@ public enum SemanticTagType {
         /// The type of seat, such as “Reserved seating”.
         public var seatType: String?
         
-        public var venueEntranceGate: String?
+        // iOS 18 Event Ticket with NFC Only
+        public var seatAisle: String?
+        public var seatLevel: String?
+        public var seatSectionColor: PassColor?
 
         public init(
             seatDescription: String? = nil,
@@ -465,7 +512,9 @@ public enum SemanticTagType {
             seatRow: String? = nil,
             seatSection: String? = nil,
             seatType: String? = nil,
-            venueEntranceGate: String? = nil
+            seatAisle: String? = nil,
+            seatLevel: String? = nil,
+            seatSectionColor: PassColor? = nil
         ) {
             self.seatDescription = seatDescription
             self.seatIdentifier = seatIdentifier
@@ -473,7 +522,9 @@ public enum SemanticTagType {
             self.seatRow = seatRow
             self.seatSection = seatSection
             self.seatType = seatType
-            self.venueEntranceGate = venueEntranceGate
+            self.seatAisle = seatAisle
+            self.seatLevel = seatLevel
+            self.seatSectionColor = seatSectionColor
         }
     }
 
