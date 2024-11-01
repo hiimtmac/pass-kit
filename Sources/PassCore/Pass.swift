@@ -163,12 +163,24 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
     public var semantics: SemanticTags?
-    
+
+    // iOS 18 Event Ticket with NFC Only
+    public var relevantDates: [RelevantDate]?
+    public var preferredStyleSchemes: [PreferredStyleScheme]?
     public var bagPolicyURL: URL?
-    
     public var orderFoodURL: URL?
-    
     public var parkingInformationURL: URL?
+    public var directionsInformationURL: URL?
+    public var contactVenueEmail: String?
+    public var contactVenuePhoneNumber: String?
+    public var contactVenueWebsite: String?
+    public var purchaseParkingURL: URL?
+    public var merchandiseURL: URL?
+    public var transitInformationURL: URL?
+    public var accessibilityURL: URL?
+    public var addOnURL: URL?
+    public var transferURL: URL?
+    public var shareURL: URL?
 
     /// Creates a Pass object
     /// - Parameters:
@@ -235,9 +247,23 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         webServiceURL: URL? = nil,
         nfc: NFC? = nil,
         semantics: SemanticTags? = nil,
+
+        relevantDates: [RelevantDate]? = nil,
+        preferredStyleSchemes: [PreferredStyleScheme]? = nil,
         bagPolicyURL: URL? = nil,
         orderFoodURL: URL? = nil,
-        parkingInformationURL: URL? = nil
+        parkingInformationURL: URL? = nil,
+        directionsInformationURL: URL? = nil,
+        contactVenueEmail: String? = nil,
+        contactVenuePhoneNumber: String? = nil,
+        contactVenueWebsite: String? = nil,
+        purchaseParkingURL: URL? = nil,
+        merchandiseURL: URL? = nil,
+        transitInformationURL: URL? = nil,
+        accessibilityURL: URL? = nil,
+        addOnURL: URL? = nil,
+        transferURL: URL? = nil,
+        shareURL: URL? = nil
     ) {
         self.description = description
         self.formatVersion = 1
@@ -271,9 +297,23 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.webServiceURL = webServiceURL
         self.nfc = nfc
         self.semantics = semantics
+
+        self.relevantDates = relevantDates
+        self.preferredStyleSchemes = preferredStyleSchemes
         self.bagPolicyURL = bagPolicyURL
         self.orderFoodURL = orderFoodURL
         self.parkingInformationURL = parkingInformationURL
+        self.directionsInformationURL = directionsInformationURL
+        self.contactVenueEmail = contactVenueEmail
+        self.contactVenuePhoneNumber = contactVenuePhoneNumber
+        self.contactVenueWebsite = contactVenueWebsite
+        self.purchaseParkingURL = purchaseParkingURL
+        self.merchandiseURL = merchandiseURL
+        self.transitInformationURL = transitInformationURL
+        self.accessibilityURL = accessibilityURL
+        self.addOnURL = addOnURL
+        self.transferURL = transferURL
+        self.shareURL = shareURL
     }
 }
 

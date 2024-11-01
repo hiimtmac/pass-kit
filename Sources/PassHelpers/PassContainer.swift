@@ -23,7 +23,7 @@ public struct PassContainer<Image> {
     public var thumbnailImage: Image?
     /// The background image (background.png) is displayed behind the entire front of the pass. The expected dimensions are 180 x 220 points. The image is cropped slightly on all sides and blurred. Depending on the image, you can often provide an image at a smaller size and let it be scaled up, because the blur effect hides details. This lets you reduce the file size without a noticeable difference in the pass.
     public var backgroundImage: Image?
-    
+
     public var artwork: Image?
     public var secondaryLogo: Image?
 
@@ -125,7 +125,7 @@ public struct PassContainer<Image> {
             localizations: localizations
         )
     }
-    
+
     public static func eventTicket(
         pass: Pass,
         icon: Image,

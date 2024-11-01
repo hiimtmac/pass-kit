@@ -38,9 +38,9 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
 
     /// Required for boarding passes; otherwise not allowed.
     public var transitType: TransitType?
-    
-    /// Event Ticket Only
-    public var preferredStyleSchemes: [PreferredStyleScheme]?
+
+    // iOS 18 Event Ticket with NFC Only
+    public var additionalInfoFields: [PassFieldContent]?
 
     /// These keys are used for all pass styles and partition the fields into the various parts of the pass
     /// - Parameters:
@@ -57,7 +57,7 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
         primaryFields: [PassFieldContent]? = nil,
         secondaryFields: [PassFieldContent]? = nil,
         transitType: TransitType? = nil,
-        preferredStyleSchemes: [PreferredStyleScheme]? = nil
+        additionalInfoFields: [PassFieldContent]? = nil
     ) {
         self.auxiliaryFields = auxiliaryFields
         self.backFields = backFields
@@ -65,16 +65,11 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
         self.primaryFields = primaryFields
         self.secondaryFields = secondaryFields
         self.transitType = transitType
-        self.preferredStyleSchemes = preferredStyleSchemes
+        self.additionalInfoFields = additionalInfoFields
     }
 }
 
 extension PassFields {
-    public enum PreferredStyleScheme: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
-        case posterEventTicket
-        case eventTicket
-    }
-    
     public enum TransitType: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
         case air = "PKTransitTypeAir"
         case boat = "PKTransitTypeBoat"

@@ -5,7 +5,7 @@ import _CryptoExtras
 import Crypto
 import Foundation
 import SwiftASN1
-//import X509
+// import X509
 @_spi(CMS) import X509
 
 enum Signature {
@@ -28,7 +28,7 @@ enum Signature {
             privateKey: Certificate.PrivateKey(pemEncoded: key.pemRepresentation),
             signingTime: Date()
         )
-        
+
         return Data(signature)
     }
 
