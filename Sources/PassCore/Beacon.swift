@@ -1,5 +1,5 @@
 // Beacon.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 // https://developer.apple.com/documentation/walletpasses/pass/beacons
 extension Pass {
@@ -14,7 +14,9 @@ extension Pass {
         /// Unique identifier of a Bluetooth Low Energy location beacon.
         public var proximityUUID: String
 
-        /// Text displayed on the lock screen when the pass is currently relevant. For example, a description of the nearby location such as “Store nearby on 1st and Main.”
+        /// Text displayed on the lock screen when the pass is currently relevant.
+        ///
+        /// For example, a description of the nearby location such as “Store nearby on 1st and Main.”
         public var relevantText: String?
 
         /// Information about a location beacon

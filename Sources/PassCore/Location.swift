@@ -1,5 +1,5 @@
 // Location.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 // https://developer.apple.com/documentation/walletpasses/pass/locations
 extension Pass {

@@ -1,16 +1,25 @@
 // RelevantDate.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 import Foundation
 
 extension Pass {
     public struct RelevantDate: Codable, Equatable, Hashable, Sendable {
-        public var startDate: Date
-        public var endDate: Date
+        /// The date and time when the pass becomes relevant.
+        public var date: Date?
+
+        /// The date and time for the pass relevancy interval to end.
+        ///
+        /// Required when providing ``startDate``.
+        public var endDate: Date?
+
+        /// The date and time for the pass relevancy interval to begin
+        public var startDate: Date?
 
         public init(
-            startDate: Date,
-            endDate: Date
+            date: Date? = nil,
+            startDate: Date? = nil,
+            endDate: Date? = nil
         ) {
             self.startDate = startDate
             self.endDate = endDate

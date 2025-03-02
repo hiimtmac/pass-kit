@@ -1,5 +1,5 @@
 // PassFields.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/LowerLevel.html#//apple_ref/doc/uid/TP40012026-CH3-SW14
 /// These keys are used for all pass styles and partition the fields into the various parts of the pass
@@ -19,53 +19,49 @@
 // https://developer.apple.com/documentation/walletpasses/passfields
 /// An object that represents the groups of fields that display information on the front and back of a pass.
 public struct PassFields: Codable, Equatable, Hashable, Sendable {
-    /// Additional fields to be displayed on the front of the pass.
-    public var auxiliaryFields: [PassFieldContent]?
-
-    /// Fields to be on the back of the pass.
-    public var backFields: [PassFieldContent]?
-
-    /// Fields to be displayed in the header on the front of the pass.
+    /// An object that represents fields that display in the Additional Info section below a pass.
     ///
-    /// Use header fields sparingly; unlike all other fields, they remain visible when a stack of passes are displayed.
-    public var headerFields: [PassFieldContent]?
-
-    /// Fields to be displayed prominently on the front of the pass.
-    public var primaryFields: [PassFieldContent]?
-
-    /// Fields to be displayed on the front of the pass.
-    public var secondaryFields: [PassFieldContent]?
-
-    /// Required for boarding passes; otherwise not allowed.
-    public var transitType: TransitType?
-
-    // iOS 18 Event Ticket with NFC Only
+    /// This key works only for poster event tickets.
     public var additionalInfoFields: [PassFieldContent]?
 
-    /// These keys are used for all pass styles and partition the fields into the various parts of the pass
-    /// - Parameters:
-    ///   - auxiliaryFields: Additional fields to be displayed on the front of the pass
-    ///   - backFields: Fields to be on the back of the pass
-    ///   - headerFields: Fields to be displayed in the header on the front of the pass
-    ///   - primaryFields: Fields to be displayed prominently on the front of the pass
-    ///   - secondaryFields: Fields to be displayed on the front of the pass
-    ///   - transitType: Required for boarding passes; otherwise not allowed.
+    /// An object that represents the fields that display additional information on the front of a pass.
+    public var auxiliaryFields: [PassFieldContent]?
+
+    /// An object that represents the fields that display information on the back of a pass.
+    public var backFields: [PassFieldContent]?
+
+    /// An object that represents the fields that display information at the top of a pass.
+    public var headerFields: [PassFieldContent]?
+
+    /// An object that represents the fields that display the most important information on a pass.
+    public var primaryFields: [PassFieldContent]?
+
+    /// An object that represents the fields that display supporting information on the front of a pass.
+    public var secondaryFields: [PassFieldContent]?
+
+    /// The type of transit for a boarding pass.
+    ///
+    /// This key is invalid for other types of passes.
+    ///
+    /// The system may use the value to display more information, such as showing an airplane icon for the pass on watchOS when the value is set to ``TransitType.air``.
+    public var transitType: TransitType?
+
     public init(
+        additionalInfoFields: [PassFieldContent]? = nil,
         auxiliaryFields: [PassFieldContent]? = nil,
         backFields: [PassFieldContent]? = nil,
         headerFields: [PassFieldContent]? = nil,
         primaryFields: [PassFieldContent]? = nil,
         secondaryFields: [PassFieldContent]? = nil,
-        transitType: TransitType? = nil,
-        additionalInfoFields: [PassFieldContent]? = nil
+        transitType: TransitType? = nil
     ) {
+        self.additionalInfoFields = additionalInfoFields
         self.auxiliaryFields = auxiliaryFields
         self.backFields = backFields
         self.headerFields = headerFields
         self.primaryFields = primaryFields
         self.secondaryFields = secondaryFields
         self.transitType = transitType
-        self.additionalInfoFields = additionalInfoFields
     }
 }
 

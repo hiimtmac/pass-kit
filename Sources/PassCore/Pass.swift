@@ -1,22 +1,20 @@
 // Pass.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
 /// The following sections list the required and optional keys used in this dictionary
 public struct Pass: Codable, Equatable, Hashable, Sendable {
-    // MARK: Standard Keys
+    // MARK: Required Keys
 
-    /// Information that is required for all passes.
-
-    /// Brief description of the pass, used by the iOS accessibility technologies.
+    /// (Required) A short description that iOS accessibility technologies use for a pass.
     ///
     /// Don’t try to include all of the data on the pass in its description, just include enough detail to distinguish passes of the same type.
     public var description: String
 
     /// Version of the file format. The value must be 1.
-    public var formatVersion: Int
+    public let formatVersion: Int
 
     /// Display name of the organization that originated and signed the pass.
     public var organizationName: String
@@ -30,240 +28,303 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// Team identifier of the organization that originated and signed the pass, as issued by Apple.
     public var teamIdentifier: String
 
-    // MARK: Associated App Keys
+    // MARK: Optional Keys
 
-    /// Information about an app that is associated with a pass.
-
-    /// A URL to be passed to the associated app when launching it.
+    /// A URL that links to your accessiblity content, or the venue’s.
     ///
-    /// The app receives this URL in the application:didFinishLaunchingWithOptions: and application:openURL:options: methods of its app delegate.
-    /// If this key is present, the associatedStoreIdentifiers key must also be present.
+    /// This key works only for poster event tickets.
+    public var accessibilityURL: URL?
+
+    /// A URL that can link to experiences that someone can add to the pass.
+    ///
+    /// This key works only for poster event tickets.
+    public var addOnURL: URL?
+
+    /// A URL the system passes to the associated app from associatedStoreIdentifiers during launch.
+    ///
+    /// The app receives this URL in the `application(_:didFinishLaunchingWithOptions:)` and `application(_:open:options:)` methods of its app delegate.
+    ///
+    /// This key isn’t supported for watchOS.
     public var appLaunchURL: URL?
 
-    /// A list of iTunes Store item identifiers for the associated apps.
+    /// An array of App Store identifiers for apps associated with the pass. The associated app on a device is the first item in the array that’s compatible with that device.
     ///
-    /// Only one item in the list is used—the first item identifier for an app compatible with the current device. If the app is not installed, the link opens the App Store and shows the app. If the app is already installed, the link launches the app.
+    /// A link to launch the app is on the back of the pass. If the app isn’t installed, the link opens the App Store.
+    ///
+    /// This key works only for payment passes.
+    ///
+    /// This key isn’t supported for watchOS.
     public var associatedStoreIdentifiers: [Int]?
 
-    // MARK: Companion App Keys
-
-    /// Custom information about a pass provided for a companion app to use.
-
-    /// Custom information for companion apps. This data is not displayed to the user.
-    /// For example, a pass for a cafe could include information about the user’s favorite drink and sandwich in a machine-readable form for the companion app to read, making it easy to place an order for “the usual” from the app.
-    public var userInfo: [String: String]?
-
-    // MARK: Expiration Keys
-
-    /// Information about when a pass expires and whether it is still valid.
-    /// A pass is marked as expired if the current date is after the pass’s expiration date, or if the pass has been explicitly marked as voided.
-
-    /// Date and time when the pass expires.
+    /// An array of additional App Store identifiers for apps associated with the pass. The associated app on a device is the first item in the array that’s compatible with that device.
     ///
-    /// The value must be a complete date with hours and minutes, and may optionally include seconds.
-    public var expirationDate: Date?
-
-    /// Indicates that the pass is void—for example, a one time use coupon that has been redeemed. The default value is false.
-    public var voided: Bool?
-
-    // MARK: Relevance Keys
-
-    /// Information about where and when a pass is relevant.
-
-    /// Beacons marking locations where the pass is relevant.
-    public var beacons: [Beacon]?
-
-    /// Locations where the pass is relevant. For example, the location of your store.
-    public var locations: [Location]?
-
-    /// Maximum distance in meters from a relevant latitude and longitude that the pass is relevant. This number is compared to the pass’s default distance and the smaller value is used.
-    public var maxDistance: Double?
-
-    /// Recommended for event tickets and boarding passes; otherwise optional.
+    /// This key works only for poster event tickets. A link to launch the app is in the event guide of the pass. If the app isn’t installed, the link opens the App Store.
     ///
-    /// Date and time when the pass becomes relevant. For example, the start time of a movie.
-    /// The value must be a complete date with hours and minutes, and may optionally include seconds.
-    public var relevantDate: Date?
+    /// This key isn’t supported for watchOS.
+    public var auxiliaryStoreIdentifiers: [Int]?
 
-    // MARK: Style Keys
+    /// The authentication token to use with the web service in the ``webServiceURL`` key.
+    public var authenticationToken: String?
 
-    /// Keys that specify the pass style
-    /// Provide exactly one key—the key that corresponds with the pass’s type.
-
-    /// Information specific to a boarding pass.
-    public var boardingPass: PassFields?
-
-    /// Information specific to a coupon.
-    public var coupon: PassFields?
-
-    /// Information specific to an event ticket.
-    public var eventTicket: PassFields?
-
-    /// Information specific to a generic pass.
-    public var generic: PassFields?
-
-    /// Information specific to a store card.
-    public var storeCard: PassFields?
-
-    // MARK: Visual Appearance Keys
-
-    /// Keys that define the visual style and appearance of the pass.
-    ///
-    /// Information specific to the pass’s barcode. The system uses the first valid barcode dictionary in the array. Additional dictionaries can be added as fallbacks. For this dictionary’s keys, see Barcode Dictionary Keys.
-    public var barcodes: [Barcode]?
-
-    /// Background color of the pass, specified as an CSS-style RGB triple. For example, rgb(23, 187, 82).
+    /// A background color for the pass, specified as a CSS-style RGB triple, such as rgb(23, 187, 82).
     public var backgroundColor: PassColor?
 
-    /// Foreground color of the pass, specified as a CSS-style RGB triple. For example, rgb(100, 10, 110).
+    /// A URL that links to the bag policy of the venue for the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var bagPolicyURL: URL?
+
+    /// An object that represents a barcode on a pass.
+    ///
+    /// This object is deprecated. Use ``barcodes`` instead.
+    public var barcode: Barcode?
+
+    /// An array of objects that represent possible barcodes on a pass.
+    ///
+    /// The system uses the first displayable barcode for the device.
+    public var barcodes: [Barcode]?
+
+    /// An array of objects that represent the identity of Bluetooth Low Energy beacons the system uses to show a relevant pass.
+    public var beacons: [Beacon]?
+
+    /// An object that contains the information for a boarding pass.
+    public var boardingPass: PassFields?
+
+    /// The preferred email address to contact the venue, event, or issuer.
+    ///
+    /// This key works only for poster event tickets.
+    public var contactVenueEmail: String?
+
+    /// The phone number for contacting the venue, event, or issuer.
+    ///
+    /// This key works only for poster event tickets.
+    public var contactVenuePhoneNumber: String?
+
+    /// A URL that links to the website of the venue, event, or issuer.
+    ///
+    /// This key works only for poster event tickets.
+    public var contactVenueWebsite: String?
+
+    /// An object that contains the information for a coupon.
+    public var coupon: PassFields?
+
+    /// A URL that links to directions for the event.
+    ///
+    /// This key works only for poster event tickets.
+    public var directionsInformationURL: URL?
+
+    /// The text to display next to the logo on the pass.
+    ///
+    /// This key works only for poster event tickets
+    public var eventLogoText: String?
+
+    /// An object that contains the information for an event ticket.
+    public var eventTicket: PassFields?
+
+    /// The date and time the pass expires.
+    ///
+    /// The value needs to be a complete date that includes hours and minutes, and may optionally include seconds.
+    public var expirationDate: Date?
+
+    /// A background color for the footer of the pass, specified as a CSS-style RGB triple, such as rgb(100, 10, 110).
+    ///
+    /// This key works only for poster event tickets.
+    public var footerBackgroundColor: PassColor?
+
+    /// A foreground color for the pass, specified as a CSS-style RGB triple, such as rgb(100, 10, 110).
     public var foregroundColor: PassColor?
 
-    /// Optional for event tickets and boarding passes; otherwise not allowed. Identifier used to group related passes. If a grouping identifier is specified, passes with the same style, pass type identifier, and grouping identifier are displayed as a group. Otherwise, passes are grouped automatically.
-    /// Use this to group passes that are tightly related, such as the boarding passes for different connections of the same trip.
+    /// An object that contains the information for a generic pass.
+    public var generic: PassFields?
+
+    /// An identifier the system uses to group related boarding passes or event tickets.
+    ///
+    /// Wallet displays passes with the same groupingIdentifier, passTypeIdentifier, and type as a group.
+    ///
+    /// Use this identifier to group passes that are tightly related, such as boarding passes for different connections on the same trip.
     public var groupingIdentifier: String?
 
-    /// Color of the label text, specified as a CSS-style RGB triple. For example, rgb(255, 255, 255).
+    /// A color for the label text of the pass, specified as a CSS-style RGB triple, such as rgb(100, 10, 110).
     ///
-    /// If omitted, the label color is determined automatically.
+    /// If you don’t provide a value, the system determines the label color.
     public var labelColor: PassColor?
 
-    /// Text displayed next to the logo on the pass.
+    /// An array of up to 10 objects that represent geographic locations the system uses to show a relevant pass.
+    public var locations: [Location]?
+
+    /// The text to display next to the logo on the pass.
+    ///
+    /// This key doesn’t work for poster event tickets.
     public var logoText: String?
 
-    /// A Boolean value that controls whether to display the strip image without a shine effect. The default value is true.
-    public var suppressStripShine: Bool?
-
-    /// A Boolean value introduced in iOS 11 that controls whether to show the Share button on the back of a pass. A value of true removes the button. The default value is false. This flag has no effect in earlier versions of iOS, nor does it prevent sharing the pass in some other way.
-    public var sharingProhibited: Bool?
-
-    // MARK: Web Service Keys
-
-    /// Information used to update passes using the web service.
-    /// If a web service URL is provided, an authentication token is required; otherwise, these keys are not allowed.
-
-    /// The authentication token to use with the web service. The token must be 16 characters or longer.
-    public var authenticationToken: String?
-    /// The URL of a web service that conforms to the API described in PassKit Web Service Reference (https://developer.apple.com/library/archive/documentation/PassKit/Reference/PassKit_WebService/WebService.html#//apple_ref/doc/uid/TP40011988).
+    /// The maximum distance, in meters, from a location in the locations array at which the pass is relevant.
     ///
-    /// The web service must use the HTTPS protocol; the leading https:// is included in the value of this key.
-    /// On devices configured for development, there is UI in Settings to allow HTTP web services.
-    public var webServiceURL: URL?
+    /// The system uses the smaller of this distance or the default distance.
+    public var maxDistance: Double?
 
-    // MARK: NFC-Enabled Pass Keys
+    /// A URL that links to a site for ordering merchandise for the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var merchandiseURL: URL?
 
-    /// NFC-enabled pass keys support sending reward card information as part of an Apple Pay transaction.
-    /// Important: NFC-enabled pass keys are only supported in passes that contain an Enhanced Passbook/NFC certificate. For more information, contact merchant support at https://developer.apple.com/contact/passkit/.
-    /// Passes can send reward card information to a terminal as part of an Apple Pay transaction. This feature requires a payment terminal that supports NFC-entitled passes. Specifically, the terminal must implement the Value Added Services Protocol.
-    /// Passes provide the required information using the nfc key. The value of this key is a dictionary containing the keys described in NFC Dictionary Keys. This functionality allows passes to act as the user’s credentials in the context of the NFC Value Added Service Protocol. It is available only for storeCard style passes.
-
-    /// Information used for Value Added Service Protocol transactions.
+    /// An object that contains the information to use for Value-Added Services protocol transactions.
     public var nfc: NFC?
 
-    // MARK: Semantics
+    /// A URL that links to the food ordering page for the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var orderFoodURL: URL?
 
-    /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
+    /// A URL that links to parking information for the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var parkingInformationURL: URL?
+
+    /// An array of schemes to validate the pass with.
+    ///
+    /// The system validates the pass and its contents to ensure they meet the schemes’ requirements, falling back to the designed type if validation fails for all the provided schemes.
+    public var preferredStyleSchemes: [PreferredStyleScheme]?
+
+    /// A URL that links to a site to purchase parking for the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var purchaseParkingURL: URL?
+
+    /// The date and time when the pass becomes relevant, as a W3C timestamp, such as the start time of a movie.
+    ///
+    /// The value needs to be a complete date that includes hours and minutes, and may optionally include seconds.
+    ///
+    /// For information about the W3C timestamp format, see Time and Date Formats on the W3C website.
+    ///
+    /// This object is deprecated. Use relevantDates instead.
+    public var relevantDate: Date?
+
+    /// An array of objects that represent date intervals that the system uses to show a relevant pass.
+    public var relevantDates: [Date]?
+
+    /// A URL that links to the selling flow for the ticket the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var sellURL: URL?
+
+    /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions.
+    ///
+    /// For example, setting Don’t Disturb mode for the duration of a movie.
     public var semantics: SemanticTags?
 
-    // iOS 18 Event Ticket with NFC Only
-    public var relevantDates: [RelevantDate]?
-    public var preferredStyleSchemes: [PreferredStyleScheme]?
-    public var bagPolicyURL: URL?
-    public var orderFoodURL: URL?
-    public var parkingInformationURL: URL?
-    public var directionsInformationURL: URL?
-    public var contactVenueEmail: String?
-    public var contactVenuePhoneNumber: String?
-    public var contactVenueWebsite: String?
-    public var purchaseParkingURL: URL?
-    public var merchandiseURL: URL?
-    public var transitInformationURL: URL?
-    public var accessibilityURL: URL?
-    public var addOnURL: URL?
-    public var transferURL: URL?
-    public var shareURL: URL?
+    /// A Boolean value introduced in iOS 11 that controls whether to show the Share button on the back of a pass.
+    ///
+    /// A value of `true` removes the button.
+    /// The default value is `false`.
+    ///
+    /// This flag has no effect in earlier versions of iOS, nor does it prevent sharing the pass in some other way.
+    public var sharingProhibited: Bool?
 
-    /// Creates a Pass object
-    /// - Parameters:
-    ///   - description: Brief description of the pass, used by the iOS accessibility technologies
-    ///   - organizationName: Display name of the organization that originated and signed the pass
-    ///   - passTypeIdentifier: Pass type identifier, as issued by Apple
-    ///   - serialNumber: Serial number that uniquely identifies the pass
-    ///   - teamIdentifier: Team identifier of the organization that originated and signed the pass, as issued by Apple
-    ///   - appLaunchURL: A URL to be passed to the associated app when launching it
-    ///   - associatedStoreIdentifiers: A list of iTunes Store item identifiers for the associated apps
-    ///   - userInfo: Custom information for companion apps
-    ///   - expirationDate: Date and time when the pass expires
-    ///   - voided: Indicates that the pass is void
-    ///   - beacons: Beacons marking locations where the pass is relevant
-    ///   - locations: Locations where the pass is relevant
-    ///   - maxDistance: Maximum distance in meters from a relevant latitude and longitude that the pass is relevant
-    ///   - relevantDate: Date and time when the pass becomes relevant
-    ///   - boardingPass: Information specific to a boarding pass
-    ///   - coupon: Information specific to a coupon
-    ///   - eventTicket: Information specific to an event ticket
-    ///   - generic: Information specific to a generic pass
-    ///   - storeCard: Information specific to a store card
-    ///   - barcodes: Information specific to the pass’s barcode
-    ///   - backgroundColor: Background color of the pass, specified as an CSS-style RGB triple
-    ///   - foregroundColor: Foreground color of the pass, specified as a CSS-style RGB triple
-    ///   - groupingIdentifier: Identifier used to group related passes
-    ///   - labelColor: Color of the label text, specified as a CSS-style RGB triple
-    ///   - logoText: Text displayed next to the logo on the pass
-    ///   - suppressStripShine: If true, the strip image is displayed without a shine effect
-    ///   - sharingProhibited: Controls whether to show the Share button on the back of a pass
-    ///   - authenticationToken: The authentication token to use with the web service
-    ///   - webServiceURL: The URL of a web service that conforms to the API described in PassKit Web Service Reference
-    ///   - nfc: NFC-enabled pass keys support sending reward card information as part of an Apple Pay transaction
-    ///   - semantics: An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions
+    /// An object that contains the information for a store card.
+    public var storeCard: PassFields?
+
+    /// A Boolean value that controls whether to display the strip image without a shine effect.
+    ///
+    /// The default value is `true`.
+    public var suppressStripShine: Bool?
+
+    /// A Boolean value that controls whether to display the header darkening gradient on poster event tickets.
+    ///
+    /// The default value is `false`.
+    ///
+    /// This key works only for poster event tickets.
+    public var suppressHeaderDarkening: Bool?
+
+    /// A URL that links to the transferring flow for the ticket that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var transferURL: URL?
+
+    /// A URL that links to information about transit options in the area of the event that the pass represents.
+    ///
+    /// This key works only for poster event tickets.
+    public var transitInformationURL: URL?
+
+    /// A Boolean value that controls whether Wallet computes the foreground and label color that the pass uses. The system derives the background color from the background image of the pass.
+    ///
+    /// This key works only for poster event tickets.
+    ///
+    /// This key ignores the values that ``foregroundColor`` and ``labelColor`` specify.
+    public var useAutomaticColors: Bool?
+
+    /// A JSON dictionary that contains any custom information for companion apps.
+    ///
+    /// The data doesn’t appear to the user.
+    ///
+    /// For example, a pass for a cafe might include information about the customer’s favorite drink and sandwich in a machine-readable form.
+    ///
+    /// The companion app uses the data for placing an order for the usual.
+    public var userInfo: [String: String]?
+
+    /// A Boolean value that indicates that the pass is void, such as a redeemed, one-time-use coupon.
+    ///
+    /// The default value is `false`.
+    public var voided: Bool?
+
+    /// The URL for a web service that you use to update or personalize the pass.
+    ///
+    /// The URL can include an optional port number.
+    public var webServiceURL: URL?
+
     public init(
         description: String,
         organizationName: String,
         passTypeIdentifier: String,
         serialNumber: String,
         teamIdentifier: String,
+        accessibilityURL: URL? = nil,
+        addOnURL: URL? = nil,
         appLaunchURL: URL? = nil,
         associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        boardingPass: PassFields? = nil,
-        coupon: PassFields? = nil,
-        eventTicket: PassFields? = nil,
-        generic: PassFields? = nil,
-        storeCard: PassFields? = nil,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        groupingIdentifier: String? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
+        auxiliaryStoreIdentifiers: [Int]? = nil,
         authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil,
-
-        relevantDates: [RelevantDate]? = nil,
-        preferredStyleSchemes: [PreferredStyleScheme]? = nil,
+        backgroundColor: PassColor? = nil,
         bagPolicyURL: URL? = nil,
-        orderFoodURL: URL? = nil,
-        parkingInformationURL: URL? = nil,
-        directionsInformationURL: URL? = nil,
+        barcode: Barcode? = nil,
+        barcodes: [Barcode]? = nil,
+        beacons: [Beacon]? = nil,
+        boardingPass: PassFields? = nil,
         contactVenueEmail: String? = nil,
         contactVenuePhoneNumber: String? = nil,
         contactVenueWebsite: String? = nil,
-        purchaseParkingURL: URL? = nil,
+        coupon: PassFields? = nil,
+        directionsInformationURL: URL? = nil,
+        eventLogoText: String? = nil,
+        eventTicket: PassFields? = nil,
+        expirationDate: Date? = nil,
+        footerBackgroundColor: PassColor? = nil,
+        foregroundColor: PassColor? = nil,
+        generic: PassFields? = nil,
+        groupingIdentifier: String? = nil,
+        labelColor: PassColor? = nil,
+        locations: [Location]? = nil,
+        logoText: String? = nil,
+        maxDistance: Double? = nil,
         merchandiseURL: URL? = nil,
-        transitInformationURL: URL? = nil,
-        accessibilityURL: URL? = nil,
-        addOnURL: URL? = nil,
+        nfc: NFC? = nil,
+        orderFoodURL: URL? = nil,
+        parkingInformationURL: URL? = nil,
+        preferredStyleSchemes: [PreferredStyleScheme]? = nil,
+        purchaseParkingURL: URL? = nil,
+        relevantDate: Date? = nil,
+        relevantDates: [Date]? = nil,
+        sellURL: URL? = nil,
+        semantics: SemanticTags? = nil,
+        sharingProhibited: Bool? = nil,
+        storeCard: PassFields? = nil,
+        suppressStripShine: Bool? = nil,
+        suppressHeaderDarkening: Bool? = nil,
         transferURL: URL? = nil,
-        shareURL: URL? = nil
+        transitInformationURL: URL? = nil,
+        useAutomaticColors: Bool? = nil,
+        userInfo: [String: String]? = nil,
+        voided: Bool? = nil,
+        webServiceURL: URL? = nil
     ) {
         self.description = description
         self.formatVersion = 1
@@ -271,357 +332,53 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.passTypeIdentifier = passTypeIdentifier
         self.serialNumber = serialNumber
         self.teamIdentifier = teamIdentifier
+        self.accessibilityURL = accessibilityURL
+        self.addOnURL = addOnURL
         self.appLaunchURL = appLaunchURL
         self.associatedStoreIdentifiers = associatedStoreIdentifiers
-        self.userInfo = userInfo
-        self.expirationDate = expirationDate
-        self.voided = voided
-        self.beacons = beacons
-        self.locations = locations
-        self.maxDistance = maxDistance
-        self.relevantDate = relevantDate
-        self.boardingPass = boardingPass
-        self.coupon = coupon
-        self.eventTicket = eventTicket
-        self.generic = generic
-        self.storeCard = storeCard
-        self.barcodes = barcodes
-        self.backgroundColor = backgroundColor
-        self.foregroundColor = foregroundColor
-        self.groupingIdentifier = groupingIdentifier
-        self.labelColor = labelColor
-        self.logoText = logoText
-        self.suppressStripShine = suppressStripShine
-        self.sharingProhibited = sharingProhibited
+        self.auxiliaryStoreIdentifiers = auxiliaryStoreIdentifiers
         self.authenticationToken = authenticationToken
-        self.webServiceURL = webServiceURL
-        self.nfc = nfc
-        self.semantics = semantics
-
-        self.relevantDates = relevantDates
-        self.preferredStyleSchemes = preferredStyleSchemes
+        self.backgroundColor = backgroundColor
         self.bagPolicyURL = bagPolicyURL
-        self.orderFoodURL = orderFoodURL
-        self.parkingInformationURL = parkingInformationURL
-        self.directionsInformationURL = directionsInformationURL
+        self.barcode = barcode
+        self.barcodes = barcodes
+        self.beacons = beacons
+        self.boardingPass = boardingPass
         self.contactVenueEmail = contactVenueEmail
         self.contactVenuePhoneNumber = contactVenuePhoneNumber
         self.contactVenueWebsite = contactVenueWebsite
-        self.purchaseParkingURL = purchaseParkingURL
+        self.coupon = coupon
+        self.directionsInformationURL = directionsInformationURL
+        self.eventLogoText = eventLogoText
+        self.eventTicket = eventTicket
+        self.expirationDate = expirationDate
+        self.footerBackgroundColor = footerBackgroundColor
+        self.foregroundColor = foregroundColor
+        self.generic = generic
+        self.groupingIdentifier = groupingIdentifier
+        self.labelColor = labelColor
+        self.locations = locations
+        self.logoText = logoText
+        self.maxDistance = maxDistance
         self.merchandiseURL = merchandiseURL
-        self.transitInformationURL = transitInformationURL
-        self.accessibilityURL = accessibilityURL
-        self.addOnURL = addOnURL
+        self.nfc = nfc
+        self.orderFoodURL = orderFoodURL
+        self.parkingInformationURL = parkingInformationURL
+        self.preferredStyleSchemes = preferredStyleSchemes
+        self.purchaseParkingURL = purchaseParkingURL
+        self.relevantDate = relevantDate
+        self.relevantDates = relevantDates
+        self.sellURL = sellURL
+        self.semantics = semantics
+        self.sharingProhibited = sharingProhibited
+        self.storeCard = storeCard
+        self.suppressStripShine = suppressStripShine
+        self.suppressHeaderDarkening = suppressHeaderDarkening
         self.transferURL = transferURL
-        self.shareURL = shareURL
-    }
-}
-
-// MARK: - Conveniences
-
-extension Pass {
-    /// An object that represents the groups of fields that display the information for a boarding pass.
-    public static func boardingPass(
-        description: String,
-        organizationName: String,
-        passTypeIdentifier: String,
-        serialNumber: String,
-        teamIdentifier: String,
-        appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        structure: PassFields,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        groupingIdentifier: String? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
-        authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            description: description,
-            organizationName: organizationName,
-            passTypeIdentifier: passTypeIdentifier,
-            serialNumber: serialNumber,
-            teamIdentifier: teamIdentifier,
-            appLaunchURL: appLaunchURL,
-            associatedStoreIdentifiers: associatedStoreIdentifiers,
-            userInfo: userInfo,
-            expirationDate: expirationDate,
-            voided: voided,
-            beacons: beacons,
-            locations: locations,
-            maxDistance: maxDistance,
-            relevantDate: relevantDate,
-            boardingPass: structure,
-            barcodes: barcodes,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            groupingIdentifier: groupingIdentifier,
-            labelColor: labelColor,
-            logoText: logoText,
-            suppressStripShine: suppressStripShine,
-            sharingProhibited: sharingProhibited,
-            authenticationToken: authenticationToken,
-            webServiceURL: webServiceURL,
-            nfc: nfc,
-            semantics: semantics
-        )
-    }
-
-    /// An object that represents the groups of fields that display the information for a coupon.
-    public static func coupon(
-        description: String,
-        organizationName: String,
-        passTypeIdentifier: String,
-        serialNumber: String,
-        teamIdentifier: String,
-        appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        structure: PassFields,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
-        authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            description: description,
-            organizationName: organizationName,
-            passTypeIdentifier: passTypeIdentifier,
-            serialNumber: serialNumber,
-            teamIdentifier: teamIdentifier,
-            appLaunchURL: appLaunchURL,
-            associatedStoreIdentifiers: associatedStoreIdentifiers,
-            userInfo: userInfo,
-            expirationDate: expirationDate,
-            voided: voided,
-            beacons: beacons,
-            locations: locations,
-            maxDistance: maxDistance,
-            relevantDate: relevantDate,
-            coupon: structure,
-            barcodes: barcodes,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            labelColor: labelColor,
-            logoText: logoText,
-            suppressStripShine: suppressStripShine,
-            sharingProhibited: sharingProhibited,
-            authenticationToken: authenticationToken,
-            webServiceURL: webServiceURL,
-            nfc: nfc,
-            semantics: semantics
-        )
-    }
-
-    /// An object that represents the groups of fields that display the information for an event ticket.
-    public static func eventTicket(
-        description: String,
-        organizationName: String,
-        passTypeIdentifier: String,
-        serialNumber: String,
-        teamIdentifier: String,
-        appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        structure: PassFields,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        groupingIdentifier: String? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
-        authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        bagPolicyURL: URL? = nil,
-        orderFoodURL: URL? = nil,
-        parkingInformationURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            description: description,
-            organizationName: organizationName,
-            passTypeIdentifier: passTypeIdentifier,
-            serialNumber: serialNumber,
-            teamIdentifier: teamIdentifier,
-            appLaunchURL: appLaunchURL,
-            associatedStoreIdentifiers: associatedStoreIdentifiers,
-            userInfo: userInfo,
-            expirationDate: expirationDate,
-            voided: voided,
-            beacons: beacons,
-            locations: locations,
-            maxDistance: maxDistance,
-            relevantDate: relevantDate,
-            eventTicket: structure,
-            barcodes: barcodes,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            groupingIdentifier: groupingIdentifier,
-            labelColor: labelColor,
-            logoText: logoText,
-            suppressStripShine: suppressStripShine,
-            sharingProhibited: sharingProhibited,
-            authenticationToken: authenticationToken,
-            webServiceURL: webServiceURL,
-            nfc: nfc,
-            semantics: semantics,
-            bagPolicyURL: bagPolicyURL,
-            orderFoodURL: orderFoodURL,
-            parkingInformationURL: parkingInformationURL
-        )
-    }
-
-    /// An object that represents the groups of fields that display the information for a generic pass.
-    public static func generic(
-        description: String,
-        organizationName: String,
-        passTypeIdentifier: String,
-        serialNumber: String,
-        teamIdentifier: String,
-        appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        structure: PassFields,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
-        authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            description: description,
-            organizationName: organizationName,
-            passTypeIdentifier: passTypeIdentifier,
-            serialNumber: serialNumber,
-            teamIdentifier: teamIdentifier,
-            appLaunchURL: appLaunchURL,
-            associatedStoreIdentifiers: associatedStoreIdentifiers,
-            userInfo: userInfo,
-            expirationDate: expirationDate,
-            voided: voided,
-            beacons: beacons,
-            locations: locations,
-            maxDistance: maxDistance,
-            relevantDate: relevantDate,
-            generic: structure,
-            barcodes: barcodes,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            labelColor: labelColor,
-            logoText: logoText,
-            suppressStripShine: suppressStripShine,
-            sharingProhibited: sharingProhibited,
-            authenticationToken: authenticationToken,
-            webServiceURL: webServiceURL,
-            nfc: nfc,
-            semantics: semantics
-        )
-    }
-
-    /// An object that represents groups of fields that show the information for a store card.
-    public static func storeCard(
-        description: String,
-        organizationName: String,
-        passTypeIdentifier: String,
-        serialNumber: String,
-        teamIdentifier: String,
-        appLaunchURL: URL? = nil,
-        associatedStoreIdentifiers: [Int]? = nil,
-        userInfo: [String: String]? = nil,
-        expirationDate: Date? = nil,
-        voided: Bool? = nil,
-        beacons: [Beacon]? = nil,
-        locations: [Location]? = nil,
-        maxDistance: Double? = nil,
-        relevantDate: Date? = nil,
-        structure: PassFields,
-        barcodes: [Barcode]? = nil,
-        backgroundColor: PassColor? = nil,
-        foregroundColor: PassColor? = nil,
-        labelColor: PassColor? = nil,
-        logoText: String? = nil,
-        suppressStripShine: Bool? = nil,
-        sharingProhibited: Bool? = nil,
-        authenticationToken: String? = nil,
-        webServiceURL: URL? = nil,
-        nfc: NFC? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            description: description,
-            organizationName: organizationName,
-            passTypeIdentifier: passTypeIdentifier,
-            serialNumber: serialNumber,
-            teamIdentifier: teamIdentifier,
-            appLaunchURL: appLaunchURL,
-            associatedStoreIdentifiers: associatedStoreIdentifiers,
-            userInfo: userInfo,
-            expirationDate: expirationDate,
-            voided: voided,
-            beacons: beacons,
-            locations: locations,
-            maxDistance: maxDistance,
-            relevantDate: relevantDate,
-            storeCard: structure,
-            barcodes: barcodes,
-            backgroundColor: backgroundColor,
-            foregroundColor: foregroundColor,
-            labelColor: labelColor,
-            logoText: logoText,
-            suppressStripShine: suppressStripShine,
-            sharingProhibited: sharingProhibited,
-            authenticationToken: authenticationToken,
-            webServiceURL: webServiceURL,
-            nfc: nfc,
-            semantics: semantics
-        )
+        self.transitInformationURL = transitInformationURL
+        self.useAutomaticColors = useAutomaticColors
+        self.userInfo = userInfo
+        self.voided = voided
+        self.webServiceURL = webServiceURL
     }
 }

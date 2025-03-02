@@ -1,5 +1,5 @@
 // Barcode.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 // https://developer.apple.com/documentation/walletpasses/pass/barcodes
 extension Pass {
@@ -13,7 +13,6 @@ extension Pass {
         /// The format of the barcode.
         ///
         /// The barcode format PKBarcodeFormatCode128 isn’t supported for watchOS.
-        /// Possible Values: PKBarcodeFormatQR, PKBarcodeFormatPDF417, PKBarcodeFormatAztec, PKBarcodeFormatCode128
         public var format: BarcodeFormat
 
         /// The message or payload to display as a barcode.

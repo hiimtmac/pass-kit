@@ -1,5 +1,5 @@
 // TimeCalculations.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 extension Int64 {
     // 2000-03-01 (mod 400 year, immediately after feb29

@@ -1,5 +1,5 @@
 // PreferredStyleScheme.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 import Foundation
 

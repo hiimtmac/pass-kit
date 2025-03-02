@@ -1,28 +1,61 @@
 // PassFieldContent.swift
-// Copyright (c) 2024 hiimtmac inc.
+// Copyright (c) 2025 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/passfieldcontent
 /// An object that represents the information to display in a field on a pass.
 public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
-    /// Attributed value of the field.
-    /// The value may contain HTML markup for links. Only the <a> tag and its href attribute are supported.
-    /// For example, the following is key-value pair specifies a link with the text “Edit my profile”: "attributedValue": "<a href='http://example.com/customers/123'>Edit my profile</a>"
+    /// The value of the field, including HTML markup for links.
     ///
-    /// This key’s value overrides the text specified by the value key.
+    /// The only supported tag is the <a> tag and its href attribute. The value of this key overrides that of the value key.
+    ///
+    /// For example, the following is a key-value pair that specifies a link with the text “Edit my profile”:
+    /// ```json
+    /// "attributedValue": "<a href='http://example.com/customers/123'>Edit my profile</a>"
+    /// ```
+    ///
+    /// The attributed value isn’t used for watchOS; use the value field instead.
     public var attributedValue: AttributedValue?
 
-    /// Format string for the alert text that is displayed when the pass is updated. The format string must contain the escape %@, which is replaced with the field’s new value. For example, “Gate changed to %@.”
+    /// A format string for the alert text to display when the pass updates.
     ///
-    /// If you don’t specify a change message, the user isn’t notified when the field changes.
+    /// The format string needs to contain the escape %@, which the field’s new value replaces. For example, Gate changed to %@.
+    ///
+    /// You need to provide a value for the system to show a change notification.
+    ///
+    /// This field isn’t used for watchOS.
     public var changeMessage: String?
 
-    /// Data detectors that are applied to the field’s value.
-    /// The default value is all data detectors. Provide an empty array to use no data detectors.
+    /// The ISO 4217 currency code to use for the value of the field.
+    public var currencyCode: String?
+
+    /// The data detectors to apply to the value of a field on the back of the pass.
     ///
-    /// Data detectors are applied only to back fields.
+    /// The default is to apply all data detectors. To use no data detectors, specify an empty array.
+    ///
+    /// You don’t use data detectors for fields on the front of the pass.
+    ///
+    /// This field isn’t used for watchOS.
     public var dataDetectorTypes: [DataDetectorType]?
+
+    /// The style of the date to display in the field.
+    public var dateStyle: DateTimeStyle?
+
+    /// A Boolean value that controls the time zone for the time and date to display in the field.
+    ///
+    /// The default value is `false`, which displays the time and date using the current device’s time zone.
+    /// Otherwise, the time and date appear in the time zone associated with the date and time of value.
+    ///
+    /// This key doesn’t affect the pass relevance calculation.
+    public var ignoresTimeZone: Bool?
+
+    /// A Boolean value that controls whether the date appears as a relative date.
+    ///
+    /// The default value is `false`, which displays the date as an absolute date.
+    ///
+    /// This key doesn’t affect the pass relevance calculation.
+    public var isRelative: Bool?
 
     /// The key must be unique within the scope of the entire pass. For example, “departure-gate.”
     public var key: String
@@ -30,52 +63,38 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
     /// Label text for the field.
     public var label: String?
 
-    /// Alignment for the field’s contents.
-    /// The default value is natural alignment, which aligns the text appropriately based on its script direction.
+    /// The style of the number to display in the field.
     ///
-    /// This key is not allowed for primary fields or back fields.
+    /// Formatter styles have the same meaning as the formats with corresponding names in ``NumberFormatter.Style``.
+    public var numberStyle: NumberStyle?
+
+    /// A number you use to add a row to the auxiliary field in an event ticket pass type.
+    ///
+    /// This key is invalid for other types of passes.
+    ///
+    /// Set the value to `1` to add an auxiliary row.
+    ///
+    /// Each row displays up to four fields.
+    public var row: Row?
+
+    /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions.
+    ///
+    /// For example, setting Don’t Disturb mode for the duration of a movie.
+    public var semantics: SemanticTags?
+
+    /// The alignment for the content of a field.
+    ///
+    /// The default is `natural` alignment, which aligns the text based on its script direction.
+    ///
+    /// This key is invalid for primary and back fields.
     public var textAlignment: TextAlignment?
+
+    /// The style of the time displayed in the field.
+    public var timeStyle: DateTimeStyle?
 
     /// Value of the field, for example, 42.
     public var value: Value
 
-    /// Style of date to display
-    public var dateStyle: DateTimeStyle?
-
-    /// Always display the time and date in the given time zone, not in the user’s current time zone. The default value is false.
-    /// The format for a date and time always requires a time zone, even if it will be ignored.
-    /// For backward compatibility with iOS 6, provide an appropriate time zone, so that the information is displayed meaningfully even without ignoring time zones.
-    ///
-    /// This key does not affect how relevance is calculated.
-    public var ignoresTimeZone: Bool?
-
-    /// If true, the label’s value is displayed as a relative date; otherwise, it is displayed as an absolute date.
-    /// The default value is false.
-    ///
-    /// This key does not affect how relevance is calculated.
-    public var isRelative: Bool?
-
-    /// Style of time to display
-    public var timeStyle: DateTimeStyle?
-
-    /// ISO 4217 currency code for the field’s value.
-    ///
-    /// This cannot be set if `numberStyle` is set
-    public var currencyCode: String?
-
-    /// Style of number to display.
-    ///
-    /// Number styles have the same meaning as the Cocoa number formatter styles with corresponding names. For more information, see NSNumberFormatterStyle.
-    /// This cannot be set if `currencyCode` is set
-    public var numberStyle: NumberStyle?
-
-    /// A number you use to add a row to the auxiliary field in an event ticket pass type. Set the value to 1 to add an auxiliary row. Each row displays up to four fields.
-    public var row: Row?
-
-    /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions. For example, setting Don’t Disturb mode for the duration of a movie.
-    public var semantics: SemanticTags?
-
-    /// Prefer conveniences over this initializer
     public init(
         attributedValue: AttributedValue? = nil,
         changeMessage: String? = nil,
@@ -182,11 +201,7 @@ extension PassFieldContent {
         case zero
         case one
     }
-}
 
-// MARK: - Conveniences
-
-extension PassFieldContent {
     public struct AttributedValue: Codable, Equatable, Hashable, Sendable {
         public var href: URL
         public var display: String
@@ -219,472 +234,5 @@ extension PassFieldContent {
             var container = encoder.singleValueContainer()
             try container.encode("<a href='\(href)'>\(display)</a>")
         }
-    }
-}
-
-// MARK: - String
-
-extension PassFieldContent {
-    /// Prefer conveniences over this initializer
-    public init(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: String,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: .string(value),
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func primary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        value: String,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            value: value,
-            semantics: semantics
-        )
-    }
-
-    public static func secondary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: String,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            semantics: semantics
-        )
-    }
-
-    public static func auxiliary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: String,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func header(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: String,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            semantics: semantics
-        )
-    }
-
-    public static func back(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        value: String,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            value: value,
-            semantics: semantics
-        )
-    }
-}
-
-// MARK: - Double
-
-extension PassFieldContent {
-    /// Prefer conveniences over this initializer
-    public init(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: .double(value),
-            currencyCode: style?.currencyCode,
-            numberStyle: style?.numberStyle,
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func primary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            value: value,
-            style: style,
-            semantics: semantics
-        )
-    }
-
-    public static func secondary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            style: style,
-            semantics: semantics
-        )
-    }
-
-    public static func auxiliary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            style: style,
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func header(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            style: style,
-            semantics: semantics
-        )
-    }
-
-    public static func back(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        value: Double,
-        style: NumberStyleType? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            value: value,
-            style: style,
-            semantics: semantics
-        )
-    }
-
-    public enum NumberStyleType: Codable {
-        case currencyCode(String)
-        case numberStyle(NumberStyle)
-
-        var currencyCode: String? {
-            switch self {
-            case let .currencyCode(code): code
-            case .numberStyle: nil
-            }
-        }
-
-        var numberStyle: NumberStyle? {
-            switch self {
-            case .currencyCode: nil
-            case let .numberStyle(style): style
-            }
-        }
-    }
-}
-
-// MARK: - Date
-
-extension PassFieldContent {
-    /// Prefer conveniences over this initializer
-    public init(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: .date(value),
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func primary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            value: value,
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            semantics: semantics
-        )
-    }
-
-    public static func secondary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            semantics: semantics
-        )
-    }
-
-    public static func auxiliary(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        row: Row? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            row: row,
-            semantics: semantics
-        )
-    }
-
-    public static func header(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        key: String,
-        label: String? = nil,
-        textAligment: TextAlignment? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            key: key,
-            label: label,
-            textAligment: textAligment,
-            value: value,
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            semantics: semantics
-        )
-    }
-
-    public static func back(
-        attributedValue: AttributedValue? = nil,
-        changeMessage: String? = nil,
-        dataDetectorTypes: [DataDetectorType]? = nil,
-        key: String,
-        label: String? = nil,
-        value: Date,
-        dateStyle: DateTimeStyle? = nil,
-        ignoresTimeZone: Bool? = nil,
-        isRelative: Bool? = nil,
-        timeStyle: DateTimeStyle? = nil,
-        semantics: SemanticTags? = nil
-    ) -> Self {
-        self.init(
-            attributedValue: attributedValue,
-            changeMessage: changeMessage,
-            dataDetectorTypes: dataDetectorTypes,
-            key: key,
-            label: label,
-            value: value,
-            dateStyle: dateStyle,
-            ignoresTimeZone: ignoresTimeZone,
-            isRelative: isRelative,
-            timeStyle: timeStyle,
-            semantics: semantics
-        )
     }
 }
