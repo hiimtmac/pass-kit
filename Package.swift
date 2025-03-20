@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         // .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.19")),
         .package(url: "https://github.com/weichsel/ZIPFoundation.git", branch: "development"),
-        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.7.0")
+        .package(url: "https://github.com/apple/swift-certificates.git", from: "1.8.0")
     ],
     targets: [
         .target(
