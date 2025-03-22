@@ -15,8 +15,7 @@ let package = Package(
         .library(name: "PassHelpers", targets: ["PassHelpers"]),
     ],
     dependencies: [
-        // .package(url: "https://github.com/weichsel/ZIPFoundation.git", .upToNextMajor(from: "0.9.19")),
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", branch: "development"),
+        .package(url: "https://github.com/adam-fowler/swift-zip-archive.git", .upToNextMajor(from: "0.6.2")),
         .package(url: "https://github.com/apple/swift-certificates.git", from: "1.8.0")
     ],
     targets: [
@@ -27,7 +26,7 @@ let package = Package(
             name: "PassGen",
             dependencies: [
                 .target(name: "PassCore"),
-                .product(name: "ZIPFoundation", package: "ZIPFoundation"),
+                .product(name: "ZipArchive", package: "swift-zip-archive"),
                 .product(name: "X509", package: "swift-certificates")
             ],
             resources: [

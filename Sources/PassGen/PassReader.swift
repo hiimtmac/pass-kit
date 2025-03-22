@@ -3,7 +3,7 @@
 
 import Foundation
 import PassCore
-import ZIPFoundation
+import ZipArchive
 
 extension DecodingError {
     fileprivate var message: String {
@@ -27,20 +27,19 @@ extension DecodingError {
 }
 
 public struct PassReader {
-    let archive: Archive
+    let archive: ZipArchiveReader<ZipMemoryStorage<[UInt8]>>
 
     public init(data: Data) throws {
-        self.archive = try Archive(data: data, accessMode: .read, pathEncoding: .utf8)
+        self.archive = try ZipArchiveReader(buffer: Array(data))
     }
 
     public func extract(file: String) throws -> Data? {
-        guard let entry = archive[file] else { return nil }
-
-        var data = Data()
-
-        _ = try archive.extract(entry) { data.append($0) }
-
-        return data.isEmpty ? nil : data
+        let directory = try archive.readDirectory()
+        guard
+            let header = directory.first(where: { $0.filename == .init(file) })
+        else { return nil }
+        let buffer = try archive.readFile(header)
+        return Data(buffer)
     }
 
     public func pass() throws -> Pass {
@@ -89,10 +88,13 @@ public struct PassReader {
         return data
     }
 
-    public func localizations() -> [String] {
-        archive
-            .filter { $0.type == .directory }
-            .compactMap { $0.path(using: .utf8).wholeMatch(of: /(?<lang>[a-zA-Z\-]{2,}).lproj\//) }
+    public func localizations() throws -> [String] {
+        try archive
+            .readDirectory()
+            .compactMap(\.filename.lastComponent)
+            .filter { $0.extension == "lproj" }
+            .map(\.stem)
+            .compactMap { $0.wholeMatch(of: /(?<lang>[a-zA-Z\-]{2,})/) }
             .map(\.output.lang)
             .map(String.init)
     }

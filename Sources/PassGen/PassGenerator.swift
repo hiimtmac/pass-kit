@@ -3,18 +3,18 @@
 
 import Foundation
 import PassCore
-import ZIPFoundation
+import ZipArchive
 
 public struct PassGenerator {
-    let archive: Archive
+    let archive: ZipArchiveWriter<ZipMemoryStorage<[UInt8]>>
     var manifest = Manifest()
 
     public init() throws {
-        self.archive = try Archive(accessMode: .create, pathEncoding: .utf8)
+        self.archive = ZipArchiveWriter()
     }
 
     mutating func insert(item data: Data, as path: String) throws {
-        try archive.addFile(with: path, data: data)
+        try archive.writeFile(filename: path, contents: Array(data))
         manifest.addHash(name: path, data: data)
     }
 
@@ -37,11 +37,11 @@ public struct PassGenerator {
     }
 
     public mutating func add(manifest data: Data) throws {
-        try archive.addFile(with: "manifest.json", data: data)
+        try archive.writeFile(filename: "manifest.json", contents: Array(data))
     }
 
     public mutating func add(signature data: Data) throws {
-        try archive.addFile(with: "signature", data: data)
+        try archive.writeFile(filename: "signature", contents: Array(data))
     }
 
     public func manifestData() throws -> Data {
@@ -59,14 +59,11 @@ public struct PassGenerator {
     }
 
     public func archiveData() throws -> Data {
-        guard let data = archive.data else {
-            throw Error.archiveData
-        }
-        return data
+        let buffer = try archive.finalizeBuffer()
+        return Data(buffer)
     }
 
     public enum Error: Swift.Error {
-        case archiveData
         case missingWWDR
     }
 }
@@ -74,7 +71,6 @@ public struct PassGenerator {
 extension PassGenerator.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .archiveData: "could not get in-memory archive data"
         case .missingWWDR: "could not find WWDR certificate in bundle"
         }
     }

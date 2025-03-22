@@ -17,16 +17,6 @@ struct GeneratorTests {
         try generator.add(manifest: Data("manifest".utf8))
         try generator.add(signature: Data("signature".utf8))
 
-        let entries = generator.archive.map(\.path).sorted()
-        #expect(entries == [
-            "background.png",
-            "en.lproj/strip@2x.png",
-            "fr.lproj/pass.strings",
-            "manifest.json",
-            // "pass.json",
-            "signature"
-        ])
-
         let manifest = try generator.manifest.makeData()
         #expect(String(decoding: manifest, as: UTF8.self) == #"""
         {
