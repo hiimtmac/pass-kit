@@ -15,8 +15,7 @@ let package = Package(
         .library(name: "PassHelpers", targets: ["PassHelpers"]),
     ],
     dependencies: [
-//        .package(url: "https://github.com/adam-fowler/swift-zip-archive.git", .upToNextMajor(from: "0.6.2")),
-        .package(url: "https://github.com/hiimtmac/swift-zip-archive.git", branch: "data-descriptor"),
+        .package(url: "https://github.com/adam-fowler/swift-zip-archive.git", .upToNextMajor(from: "0.6.3")),
         .package(url: "https://github.com/apple/swift-certificates.git", from: "1.8.0")
     ],
     targets: [
