@@ -17,7 +17,7 @@ struct ReaderTests {
 
     @Test
     func readLocalizations() throws {
-        let localizations = reader.localizations()
+        let localizations = try reader.localizations()
         #expect(localizations.sorted() == ["en", "fr"])
     }
 
