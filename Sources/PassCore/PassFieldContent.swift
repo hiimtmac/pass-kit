@@ -117,7 +117,7 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
         self.dataDetectorTypes = dataDetectorTypes
         self.key = key
         self.label = label
-        self.textAlignment = textAligment
+        self.textAlignment = textAlignment
         self.value = value
         self.dateStyle = dateStyle
         self.ignoresTimeZone = ignoresTimeZone
