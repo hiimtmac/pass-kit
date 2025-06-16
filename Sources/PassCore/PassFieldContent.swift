@@ -101,7 +101,7 @@ public struct PassFieldContent: Codable, Equatable, Hashable, Sendable {
         dataDetectorTypes: [DataDetectorType]? = nil,
         key: String,
         label: String? = nil,
-        textAligment: TextAlignment? = nil,
+        textAlignment: TextAlignment? = nil,
         value: Value,
         dateStyle: DateTimeStyle? = nil,
         ignoresTimeZone: Bool? = nil,
