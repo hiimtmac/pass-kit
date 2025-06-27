@@ -200,7 +200,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     public var relevantDate: Date?
 
     /// An array of objects that represent date intervals that the system uses to show a relevant pass.
-    public var relevantDates: [Date]?
+    public var relevantDates: [RelevantDate]?
 
     /// A URL that links to the selling flow for the ticket the pass represents.
     ///
@@ -312,7 +312,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         preferredStyleSchemes: [PreferredStyleScheme]? = nil,
         purchaseParkingURL: URL? = nil,
         relevantDate: Date? = nil,
-        relevantDates: [Date]? = nil,
+        relevantDates: [RelevantDate]? = nil,
         sellURL: URL? = nil,
         semantics: SemanticTags? = nil,
         sharingProhibited: Bool? = nil,
