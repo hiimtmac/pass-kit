@@ -270,6 +270,49 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     ///
     /// The URL can include an optional port number.
     public var webServiceURL: URL?
+    
+    /// A URL for changing the seat for the ticket.
+    public var changeSeatURL: URL?
+    
+    /// A URL for in-flight entertainment.
+    public var entertainmentURL: URL?
+    
+    /// A URL for adding checked bags for the ticket.
+    public var purchaseAdditionalBaggageURL: URL?
+    
+    /// A URL that links to information to purchase lounge access.
+    public var purchaseLoungeAccessURL: URL?
+    
+    /// A URL for purchasing in-flight wifi.
+    public var purchaseWifiURL: URL?
+    
+    /// A URL for upgrading the flight.
+    public var upgradeURL: URL?
+    
+    /// An ordered list of all upcoming pass information entries.
+    public var upcomingPassInformation: [UpcomingPassInformationEntry]?
+    
+    /// A URL for management.
+    public var managementURL: URL?
+    
+    /// A URL for registering a service animal.
+    public var registerServiceAnimalURL: URL?
+    
+    /// A URL to report a lost bag.
+    public var reportLostBagURL: URL?
+    
+    /// A URL to request a wheel chair.
+    public var requestWheelchairURL: URL?
+    
+    /// The email for the transit provider.
+    public var transitProviderEmail: URL?
+    
+    /// The phone number for the transit provider.
+    public var transitProviderPhoneNumber: URL?
+    
+    /// The URL for the transit provider.
+    public var transitProviderWebsiteURL: URL?
+    
 
     public init(
         description: String,
@@ -324,7 +367,21 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         useAutomaticColors: Bool? = nil,
         userInfo: [String: String]? = nil,
         voided: Bool? = nil,
-        webServiceURL: URL? = nil
+        webServiceURL: URL? = nil,
+        changeSeatURL: URL? = nil,
+        entertainmentURL: URL? = nil,
+        purchaseAdditionalBaggageURL: URL? = nil,
+        purchaseLoungeAccessURL: URL? = nil,
+        purchaseWifiURL: URL? = nil,
+        upgradeURL: URL? = nil,
+        upcomingPassInformation: [UpcomingPassInformationEntry]? = nil,
+        managementURL: URL? = nil,
+        registerServiceAnimalURL: URL? = nil,
+        reportLostBagURL: URL? = nil,
+        requestWheelchairURL: URL? = nil,
+        transitProviderEmail: URL? = nil,
+        transitProviderPhoneNumber: URL? = nil,
+        transitProviderWebsiteURL: URL? = nil
     ) {
         self.description = description
         self.formatVersion = 1
@@ -380,5 +437,19 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.userInfo = userInfo
         self.voided = voided
         self.webServiceURL = webServiceURL
+        self.changeSeatURL = changeSeatURL
+        self.entertainmentURL = entertainmentURL
+        self.purchaseAdditionalBaggageURL = purchaseAdditionalBaggageURL
+        self.purchaseLoungeAccessURL = purchaseLoungeAccessURL
+        self.purchaseWifiURL = purchaseWifiURL
+        self.upgradeURL = upgradeURL
+        self.upcomingPassInformation = upcomingPassInformation
+        self.managementURL = managementURL
+        self.registerServiceAnimalURL = registerServiceAnimalURL
+        self.reportLostBagURL = reportLostBagURL
+        self.requestWheelchairURL = requestWheelchairURL
+        self.transitProviderEmail = transitProviderEmail
+        self.transitProviderPhoneNumber = transitProviderPhoneNumber
+        self.transitProviderWebsiteURL = transitProviderWebsiteURL
     }
 }

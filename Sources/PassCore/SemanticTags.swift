@@ -25,6 +25,14 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key only for airline boarding passes.
     public var airlineCode: String?
+    
+    /// A MapKit Place ID that references the airline lounge location.
+    ///
+    /// For more information see [Identifying unique locations with Place IDs.](https://developer.apple.com/documentation/MapKit/identifying-unique-locations-with-place-ids)
+    public var airlineLoungePlaceID: String?
+    
+    /// A list of airline specific capabilties the passenger has. Only use this key for airline boarding passes.
+    public var airlinePassengerCapabilities: [AirlinePassengerCapability]?
 
     /// An array of the Apple Music persistent ID for each album corresponding to the event, in decreasing order of significance.
     ///
@@ -70,6 +78,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key for any type of boarding pass.
     public var boardingSequenceNumber: String?
+    
+    /// A zone number for boarding. Don’t include the word zone.
+    public var boardingZone: String?
 
     /// The number of the passenger car.
     ///
@@ -107,7 +118,18 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key only for airline boarding passes.
     public var departureAirportName: String?
+    
+    /// A list of security programs that exist in the departure airport.
+    ///
+    /// This only shows in the UI if a program is in passengerEligibleSecurityPrograms and at least one of departureAirportSecurityPrograms or destinationAirportSecurityPrograms.
+    public var departureAirportSecurityPrograms: [AirportSecurityProgram]?
+    
+    /// The time zone for the distination airport, such as America/LosAngeles.
+    public var depatureAirportTimeZone: String?
 
+    // The name of the destination city to display on the boarding pass, such as London or Shanghai.
+    public var departureCityName: String?
+    
     /// The gate number or letters of the departure gate, such as “1A”.
     ///
     /// Do not include the word “Gate.”
@@ -147,6 +169,19 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key only for airline boarding passes.
     public var destinationAirportName: String?
+    
+    /// A list of security programs that exist in the destination airport.
+    ///
+    /// This only shows in the UI if a program is in passengerEligibleSecurityPrograms and at least one of departureAirportSecurityPrograms or destinationAirportSecurityPrograms.
+    public var destinationAirportSecurityPrograms: [AirportSecurityProgram]?
+    
+    /// The time zone for the destination airport, such as America/Los_Angeles.
+    ///
+    /// See the [IANA Time Zone Database](https://www.iana.org/time-zones) for the full list of supported time zones.
+    public var destinationAirportTimeZone: String?
+    
+    /// The name of the destination city to display on the boarding pass, such as London or Shanghai.
+    public var destinationCityName: String?
 
     /// The gate number or letter of the destination gate, such as “1A”. Don’t include the word “Gate.”
     ///
@@ -242,6 +277,16 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key only for a sports event ticket.
     public var homeTeamName: String?
+    
+    /// An optional boolean that indicates whether the passenger’s international documents are verified.
+    ///
+    /// If set to true Wallet displays the badge on the boarding pass with the value from `internationalDocumentsVerifiedDeclarationName`.
+    public var internationalDocumentsAreVerified: Bool?
+    
+    /// The name of the declaration given once the passenger’s international documents are verified.
+    ///
+    /// Examples include DOCS OK or Travel Ready. If `internationalDocumentsAreVerified` is true, Wallet displays a badge on the boarding pass with this value.
+    public var internationalDocumentsVerifiedDeclarationName: String?
 
     /// The abbreviated league name for a sports event.
     ///
@@ -277,11 +322,24 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key for any type of boarding pass.
     public var originalDepartureDate: Date?
+    
+    /// An array of airline-specific SSRs that apply to the ticketed passenger.
+    public var passengerAirlineSSRs: String?
+    
+    /// An array of IATA information SSRs that apply to the ticketed passenger.
+    ///
+    /// A comprehensive list of service SSRs can be found in the [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Information SSRs.
+    public var passengerInformationSSRs: String?
 
     /// An object that represents the name of the passenger.
     ///
     /// Use this key for any type of boarding pass.
     public var passengerName: SemanticTagType.PersonNameComponents?
+    
+    /// An array of IATA information SSRs that apply to the ticketed passenger.
+    ///
+    /// A comprehensive list of service SSRs can be found in the [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Service SSRs.
+    public var passengerServiceSSRs: String?
 
     /// An array of the full names of the performers and opening acts at the event, in decreasing order of significance.
     ///
@@ -324,6 +382,11 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     ///
     /// Use this key for any type of event ticket.
     public var tailgaitingAllowed: Bool?
+    
+    /// A localizable string that denotes the ticket class, such as Saver, Economy, First.
+    ///
+    /// This value displays as a badge on the boarding pass.
+    public var ticketFareClass: String?
 
     /// The total price for the pass.
     ///
@@ -454,6 +517,8 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         admissionLevel: String? = nil,
         admissionLevelAbbreviation: String? = nil,
         airlineCode: String? = nil,
+        airlineLoungePlaceID: String? = nil,
+        airlinePassengerCapabilities: [AirlinePassengerCapability]? = nil,
         albumIDs: [String]? = nil,
         artistIDs: [String]? = nil,
         attendeeName: String? = nil,
@@ -463,6 +528,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         balance: SemanticTagType.CurrencyAmount? = nil,
         boardingGroup: String? = nil,
         boardingSequenceNumber: String? = nil,
+        boardingZone: String? = nil,
         carNumber: String? = nil,
         confirmationNumber: String? = nil,
         currentArrivalDate: Date? = nil,
@@ -470,6 +536,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         currentDepartureDate: Date? = nil,
         departureAirportCode: String? = nil,
         departureAirportName: String? = nil,
+        departureAirportSecurityPrograms: [AirportSecurityProgram]? = nil,
+        depatureAirportTimeZone: String? = nil,
+        departureCityName: String? = nil,
         departureGate: String? = nil,
         departureLocation: SemanticTagType.Location? = nil,
         departureLocationDescription: String? = nil,
@@ -478,6 +547,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         departureTerminal: String? = nil,
         destinationAirportCode: String? = nil,
         destinationAirportName: String? = nil,
+        destinationAirportSecurityPrograms: [AirportSecurityProgram]? = nil,
+        destinationAirportTimeZone: String? = nil,
+        destinationCityName: String? = nil,
         destinationGate: String? = nil,
         destinationLocation: SemanticTagType.Location? = nil,
         destinationLocationDescription: String? = nil,
@@ -497,6 +569,8 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         homeTeamAbbreviation: String? = nil,
         homeTeamLocation: String? = nil,
         homeTeamName: String? = nil,
+        internationalDocumentsAreVerified: Bool? = nil,
+        internationalDocumentsVerifiedDeclarationName: String? = nil,
         leagueAbbreviation: String? = nil,
         leagueName: String? = nil,
         membershipProgramName: String? = nil,
@@ -504,7 +578,10 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         originalArrivalDate: Date? = nil,
         originalBoardingDate: Date? = nil,
         originalDepartureDate: Date? = nil,
+        passengerAirlineSSRs: String? = nil,
+        passengerInformationSSRs: String? = nil,
         passengerName: SemanticTagType.PersonNameComponents? = nil,
+        passengerServiceSSRs: String? = nil,
         performerNames: [String]? = nil,
         playlistIDs: [String]? = nil,
         priorityStatus: String? = nil,
@@ -513,6 +590,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         silenceRequested: Bool? = nil,
         sportName: String? = nil,
         tailgaitingAllowed: Bool? = nil,
+        ticketFareClass: String? = nil,
         totalPrice: SemanticTagType.CurrencyAmount? = nil,
         transitProvider: String? = nil,
         transitStatus: String? = nil,
@@ -542,6 +620,8 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.admissionLevel = admissionLevel
         self.admissionLevelAbbreviation = admissionLevelAbbreviation
         self.airlineCode = airlineCode
+        self.airlineLoungePlaceID = airlineLoungePlaceID
+        self.airlinePassengerCapabilities = airlinePassengerCapabilities
         self.albumIDs = albumIDs
         self.artistIDs = artistIDs
         self.attendeeName = attendeeName
@@ -551,6 +631,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.balance = balance
         self.boardingGroup = boardingGroup
         self.boardingSequenceNumber = boardingSequenceNumber
+        self.boardingZone = boardingZone
         self.carNumber = carNumber
         self.confirmationNumber = confirmationNumber
         self.currentArrivalDate = currentArrivalDate
@@ -558,6 +639,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.currentDepartureDate = currentDepartureDate
         self.departureAirportCode = departureAirportCode
         self.departureAirportName = departureAirportName
+        self.departureAirportSecurityPrograms = departureAirportSecurityPrograms
+        self.depatureAirportTimeZone = depatureAirportTimeZone
+        self.departureCityName = departureCityName
         self.departureGate = departureGate
         self.departureLocation = departureLocation
         self.departureLocationDescription = departureLocationDescription
@@ -566,6 +650,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.departureTerminal = departureTerminal
         self.destinationAirportCode = destinationAirportCode
         self.destinationAirportName = destinationAirportName
+        self.destinationAirportSecurityPrograms = destinationAirportSecurityPrograms
+        self.destinationAirportTimeZone = destinationAirportTimeZone
+        self.destinationCityName = destinationCityName
         self.destinationGate = destinationGate
         self.destinationLocation = destinationLocation
         self.destinationLocationDescription = destinationLocationDescription
@@ -585,6 +672,8 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.homeTeamAbbreviation = homeTeamAbbreviation
         self.homeTeamLocation = homeTeamLocation
         self.homeTeamName = homeTeamName
+        self.internationalDocumentsAreVerified = internationalDocumentsAreVerified
+        self.internationalDocumentsVerifiedDeclarationName = internationalDocumentsVerifiedDeclarationName
         self.leagueAbbreviation = leagueAbbreviation
         self.leagueName = leagueName
         self.membershipProgramName = membershipProgramName
@@ -592,7 +681,10 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.originalArrivalDate = originalArrivalDate
         self.originalBoardingDate = originalBoardingDate
         self.originalDepartureDate = originalDepartureDate
+        self.passengerAirlineSSRs = passengerAirlineSSRs
+        self.passengerInformationSSRs = passengerInformationSSRs
         self.passengerName = passengerName
+        self.passengerServiceSSRs = passengerServiceSSRs
         self.performerNames = performerNames
         self.playlistIDs = playlistIDs
         self.priorityStatus = priorityStatus
@@ -601,6 +693,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.silenceRequested = silenceRequested
         self.sportName = sportName
         self.tailgaitingAllowed = tailgaitingAllowed
+        self.ticketFareClass = ticketFareClass
         self.totalPrice = totalPrice
         self.transitProvider = transitProvider
         self.transitStatus = transitStatus
@@ -638,6 +731,23 @@ extension SemanticTags {
         case convention = "PKEventTypeConvention"
         case workshop = "PKEventTypeWorkshop"
         case socialGathering = "PKEventTypeSocialGathering"
+    }
+    
+    public enum AirlinePassengerCapability: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
+        case preboarding = "PKAirlinePassengerCapabilityPreboarding"
+        case priorityBoarding = "PKAirlinePassengerCapabilityPriorityBoarding"
+        case carryon = "PKAirlinePassengerCapabilityCarryon"
+        case personalItem = "PKAirlinePassengerCapabilityPersonalItem"
+    }
+    
+    public enum AirportSecurityProgram: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
+        case tsaPrecheck = "PKAirportSecurityProgramTSAPreCheck"
+        case tsaPrecheckTouchessId = "PKAirportSecurityProgramTSAPreCheckTouchlessID"
+        case oss = "PKAirportSecurityProgramOSS"
+        case iti = "PKAirportSecurityProgramITI"
+        case itd = "PKAirportSecurityProgramITD"
+        case globalEntry = "PKAirportSecurityProgramGlobalEntry"
+        case clear = "PKAirportSecurityProgramCLEAR"
     }
 }
 
