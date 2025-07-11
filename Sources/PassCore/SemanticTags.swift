@@ -125,9 +125,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     public var departureAirportSecurityPrograms: [AirportSecurityProgram]?
     
     /// The time zone for the distination airport, such as America/LosAngeles.
-    public var depatureAirportTimeZone: String?
+    public var departureAirportTimeZone: String?
 
-    // The name of the destination city to display on the boarding pass, such as London or Shanghai.
+    /// The name of the departure city to display on the boarding pass, such as “London” or “Shanghai”.
     public var departureCityName: String?
     
     /// The gate number or letters of the departure gate, such as “1A”.
@@ -324,12 +324,12 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     public var originalDepartureDate: Date?
     
     /// An array of airline-specific SSRs that apply to the ticketed passenger.
-    public var passengerAirlineSSRs: String?
+    public var passengerAirlineSSRs: [String]?
     
     /// An array of IATA information SSRs that apply to the ticketed passenger.
     ///
     /// A comprehensive list of service SSRs can be found in the [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Information SSRs.
-    public var passengerInformationSSRs: String?
+    public var passengerInformationSSRs: [String]?
 
     /// An object that represents the name of the passenger.
     ///
@@ -339,7 +339,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// An array of IATA information SSRs that apply to the ticketed passenger.
     ///
     /// A comprehensive list of service SSRs can be found in the [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Service SSRs.
-    public var passengerServiceSSRs: String?
+    public var passengerServiceSSRs: [String]?
 
     /// An array of the full names of the performers and opening acts at the event, in decreasing order of significance.
     ///
@@ -537,7 +537,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         departureAirportCode: String? = nil,
         departureAirportName: String? = nil,
         departureAirportSecurityPrograms: [AirportSecurityProgram]? = nil,
-        depatureAirportTimeZone: String? = nil,
+        departureAirportTimeZone: String? = nil,
         departureCityName: String? = nil,
         departureGate: String? = nil,
         departureLocation: SemanticTagType.Location? = nil,
@@ -578,10 +578,10 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         originalArrivalDate: Date? = nil,
         originalBoardingDate: Date? = nil,
         originalDepartureDate: Date? = nil,
-        passengerAirlineSSRs: String? = nil,
-        passengerInformationSSRs: String? = nil,
+        passengerAirlineSSRs: [String]? = nil,
+        passengerInformationSSRs: [String]? = nil,
         passengerName: SemanticTagType.PersonNameComponents? = nil,
-        passengerServiceSSRs: String? = nil,
+        passengerServiceSSRs: [String]? = nil,
         performerNames: [String]? = nil,
         playlistIDs: [String]? = nil,
         priorityStatus: String? = nil,
@@ -640,7 +640,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
         self.departureAirportCode = departureAirportCode
         self.departureAirportName = departureAirportName
         self.departureAirportSecurityPrograms = departureAirportSecurityPrograms
-        self.depatureAirportTimeZone = depatureAirportTimeZone
+        self.departureAirportTimeZone = departureAirportTimeZone
         self.departureCityName = departureCityName
         self.departureGate = departureGate
         self.departureLocation = departureLocation
