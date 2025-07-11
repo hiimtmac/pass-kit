@@ -39,7 +39,7 @@ public struct UpcomingPassInformationEntry: Codable, Equatable, Hashable, Sendab
     /// The type of upcoming pass information entry.
     public let type: String
     
-    init(
+    public init(
         URLs: URLs? = nil,
         additionalInfoFields: PassFieldContent? = nil,
         auxiliaryStoreIdentifiers: [Int]? = nil,
