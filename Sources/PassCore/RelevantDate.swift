@@ -21,6 +21,7 @@ extension Pass {
             startDate: Date? = nil,
             endDate: Date? = nil
         ) {
+            self.date = date
             self.startDate = startDate
             self.endDate = endDate
         }
