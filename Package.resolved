@@ -1,5 +1,5 @@
 {
-  "originHash" : "3a39009c6ae994e7ddb48832793a692924054e41ed63b363c88479e1cbd7a936",
+  "originHash" : "05ed0ffc7454b3d08a3c748de3759793931fb124150150cebd44dc814aaae960",
   "pins" : [
     {
       "identity" : "swift-asn1",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-certificates.git",
       "state" : {
-        "revision" : "86eca758281a7187191fcb4e0ae5a87dbd876095",
-        "version" : "1.9.0"
+        "revision" : "870f4d5fe5fcfedc13f25d70e103150511746404",
+        "version" : "1.11.0"
       }
     },
     {
