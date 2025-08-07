@@ -4,7 +4,8 @@
 import Foundation
 
 extension Pass {
-    public struct RelevantDate: Codable, Equatable, Hashable, Sendable {
+    /// https://developer.apple.com/documentation/walletpasses/pass/relevantdates-data.dictionary
+    public struct RelevantDates: Codable, Equatable, Hashable, Sendable {
         /// The date and time when the pass becomes relevant.
         public var date: Date?
 

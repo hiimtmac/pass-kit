@@ -200,7 +200,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     public var relevantDate: Date?
 
     /// An array of objects that represent date intervals that the system uses to show a relevant pass.
-    public var relevantDates: [RelevantDate]?
+    public var relevantDates: [RelevantDates]?
 
     /// A URL that links to the selling flow for the ticket the pass represents.
     ///
@@ -305,10 +305,10 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     public var requestWheelchairURL: URL?
     
     /// The email for the transit provider.
-    public var transitProviderEmail: URL?
+    public var transitProviderEmail: String?
     
     /// The phone number for the transit provider.
-    public var transitProviderPhoneNumber: URL?
+    public var transitProviderPhoneNumber: String?
     
     /// The URL for the transit provider.
     public var transitProviderWebsiteURL: URL?
@@ -355,7 +355,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         preferredStyleSchemes: [PreferredStyleScheme]? = nil,
         purchaseParkingURL: URL? = nil,
         relevantDate: Date? = nil,
-        relevantDates: [RelevantDate]? = nil,
+        relevantDates: [RelevantDates]? = nil,
         sellURL: URL? = nil,
         semantics: SemanticTags? = nil,
         sharingProhibited: Bool? = nil,
@@ -379,8 +379,8 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         registerServiceAnimalURL: URL? = nil,
         reportLostBagURL: URL? = nil,
         requestWheelchairURL: URL? = nil,
-        transitProviderEmail: URL? = nil,
-        transitProviderPhoneNumber: URL? = nil,
+        transitProviderEmail: String? = nil,
+        transitProviderPhoneNumber: String? = nil,
         transitProviderWebsiteURL: URL? = nil
     ) {
         self.description = description

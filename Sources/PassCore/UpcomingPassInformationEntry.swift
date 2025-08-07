@@ -204,6 +204,14 @@ extension UpcomingPassInformationEntry {
         ///
         /// This can be a remote asset and is available for event entries.
         public var venueMap: UpcomingPassInformationEntryType.Image?
+        
+        public init(
+            headerImage: UpcomingPassInformationEntryType.Image? = nil,
+            venueMap: UpcomingPassInformationEntryType.Image? = nil
+        ) {
+            self.headerImage = headerImage
+            self.venueMap = venueMap
+        }
     }
 }
 
