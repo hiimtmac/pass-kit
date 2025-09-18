@@ -2,11 +2,12 @@
 // Copyright (c) 2025 hiimtmac inc.
 
 import _CryptoExtras
-#if canImport(FoundationEssentials)
-import FoundationEssentials
-#else
+// TODO: `Bundle` is not available in FoundationEssentials
+// #if canImport(FoundationEssentials)
+// import FoundationEssentials
+// #else
 import Foundation
-#endif
+// #endif
 import PassCore
 import X509
 import ZipArchive
