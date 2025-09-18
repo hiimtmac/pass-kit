@@ -2,7 +2,11 @@
 // Copyright (c) 2025 hiimtmac inc.
 
 import Crypto
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 struct Manifest {
     var hashes: [String: String] = [:]

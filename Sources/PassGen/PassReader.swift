@@ -1,7 +1,11 @@
 // PassReader.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import PassCore
 import ZipArchive
 
