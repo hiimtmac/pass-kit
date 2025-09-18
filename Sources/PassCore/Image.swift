@@ -1,8 +1,6 @@
 // Image.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
-
 public struct Image {
     public let type: ImageType
     public let scale: ImageScale

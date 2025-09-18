@@ -10,13 +10,13 @@ public struct UpcomingPassInformationEntry: Codable, Equatable, Hashable, Sendab
     public var URLs: URLs?
     
     /// The fields of information displayed on the Additional Info section below a pass.
-    public var additionalInfoFields: PassFieldContent?
+    public var additionalInfoFields: [PassFieldContent]?
     
     /// An array of App Store identifiers for apps associated with the upcoming pass information entry. The associated app on a device is the first item in the array that’s compatible with that device. This key works only for upcoming pass information entries for an event. A link to launch the app is in the event guide of the entry details view. If the app isn’t installed, the link opens to the App Store.
     public var auxiliaryStoreIdentifiers: [Int]?
     
     /// The fields of information displayed on the details view of the upcoming pass information entry.
-    public var backFields: PassFieldContent?
+    public var backFields: [PassFieldContent]?
     
     /// Information about the start and end time of the upcoming pass information entry. If omitted, the entry is labeled as TBD.
     public var dateInformation: DateInformation?
@@ -41,9 +41,9 @@ public struct UpcomingPassInformationEntry: Codable, Equatable, Hashable, Sendab
     
     public init(
         URLs: URLs? = nil,
-        additionalInfoFields: PassFieldContent? = nil,
+        additionalInfoFields: [PassFieldContent]? = nil,
         auxiliaryStoreIdentifiers: [Int]? = nil,
-        backFields: PassFieldContent? = nil,
+        backFields: [PassFieldContent]? = nil,
         dateInformation: DateInformation? = nil,
         identifier: String,
         images: UpcomingPassInformationEntry.Images? = nil,
