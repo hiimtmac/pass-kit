@@ -1,8 +1,6 @@
 // Personalization.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
-
 // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/PassPersonalization.html#//apple_ref/doc/uid/TP40012195-CH12-SW2
 
 public struct Personalization: Codable, Equatable, Hashable, Sendable {

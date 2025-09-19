@@ -1,7 +1,11 @@
 // Extensions.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension JSONEncoder {
     public static let passKit: JSONEncoder = {

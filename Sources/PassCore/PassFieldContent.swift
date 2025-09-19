@@ -1,7 +1,11 @@
 // PassFieldContent.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 // https://developer.apple.com/documentation/walletpasses/passfieldcontent
 /// An object that represents the information to display in a field on a pass.

@@ -1,7 +1,11 @@
 // Pass.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
 /// The following sections list the required and optional keys used in this dictionary

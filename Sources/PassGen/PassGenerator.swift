@@ -1,8 +1,15 @@
 // PassGenerator.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+import _CryptoExtras
+// TODO: `Bundle` is not available in FoundationEssentials
+// #if canImport(FoundationEssentials)
+// import FoundationEssentials
+// #else
 import Foundation
+// #endif
 import PassCore
+import X509
 import ZipArchive
 
 public struct PassGenerator {
@@ -47,15 +54,30 @@ public struct PassGenerator {
     public func manifestData() throws -> Data {
         try manifest.makeData()
     }
-
-    public func signatureData(manifest: Data, cert: Data, key: Data) throws -> Data {
-        guard let wwdrUrl = Bundle.module.url(forResource: "wwdr", withExtension: "pem") else {
+    
+    public func signatureData(manifest: Data, cert: Data, key: Data, representation: Representation = .pem) throws -> Data {
+        guard let wwdrUrl = Bundle.module.url(forResource: "AppleWWDRCAG4", withExtension: "cer") else {
             throw Error.missingWWDR
         }
 
-        let wwdr = try Data(contentsOf: wwdrUrl)
-
+        let wwdr = try Certificate(derEncoded: Array(Data(contentsOf: wwdrUrl)))
+        
+        let cert: Certificate = switch representation {
+        case .pem: try Certificate(pemEncoded: String(decoding: cert, as: UTF8.self))
+        case .der: try Certificate(derEncoded: Array(cert))
+        }
+        
+        let key: _RSA.Signing.PrivateKey = switch representation {
+        case .pem: try _RSA.Signing.PrivateKey(pemRepresentation: String(decoding: key, as: UTF8.self))
+        case .der: try _RSA.Signing.PrivateKey(derRepresentation: key)
+        }
+        
         return try Signature.makeData(manifest: manifest, cert: cert, wwdr: wwdr, key: key)
+    }
+    
+    public enum Representation {
+        case pem
+        case der
     }
 
     public func archiveData() throws -> Data {

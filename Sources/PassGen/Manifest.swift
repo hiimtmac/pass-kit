@@ -2,7 +2,11 @@
 // Copyright (c) 2025 hiimtmac inc.
 
 import Crypto
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 struct Manifest {
     var hashes: [String: String] = [:]
@@ -13,9 +17,17 @@ struct Manifest {
     }
 
     func makeData() throws -> Data {
-        try JSONSerialization.data(
-            withJSONObject: hashes,
-            options: [.prettyPrinted, .sortedKeys]
-        )
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        return try encoder.encode(Intermediate(hashes: hashes))
+    }
+
+    private struct Intermediate: Encodable {
+        let hashes: [String: String]
+
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(hashes)
+        }
     }
 }
