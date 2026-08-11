@@ -47,6 +47,10 @@ extension Pass.Barcode {
         case pdf = "PKBarcodeFormatPDF417"
         case aztec = "PKBarcodeFormatAztec"
         case code128 = "PKBarcodeFormatCode128"
+        case code39 = "PKBarcodeFormatCode39"
+        case codabar = "PKBarcodeFormatCodabar"
+        case ean13 = "PKBarcodeFormatEAN13"
+        case i2of5 = "PKBarcodeFormatI2of5"
     }
 
     /// See: https://docs.lansa.com/14/en/lansa093/content/lansa/intb7_0510.htm

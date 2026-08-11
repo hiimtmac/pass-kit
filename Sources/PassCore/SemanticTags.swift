@@ -750,6 +750,7 @@ extension SemanticTags {
         case priorityBoarding = "PKPassengerCapabilityPriorityBoarding"
         case carryon = "PKPassengerCapabilityCarryon"
         case personalItem = "PKPassengerCapabilityPersonalItem"
+        case lapInfant = "PKPassengerCapabilityLapInfant"
     }
     
     public enum TransitSecurityProgram: String, Codable, Equatable, Hashable, CaseIterable, Sendable {
@@ -935,12 +936,22 @@ public enum SemanticTagType {
         /// The name for the WiFi network.
         public var ssid: String
 
+        /// Token credential required to log in to Captive Portal.
+        public var captiveToken: String?
+
+        /// The URL of the authentication server that verifies the client using a token credential.
+        public var captiveTokenAuthURL: String?
+
         public init(
             password: String,
-            ssid: String
+            ssid: String,
+            captiveToken: String? = nil,
+            captiveTokenAuthURL: String? = nil
         ) {
             self.password = password
             self.ssid = ssid
+            self.captiveToken = captiveToken
+            self.captiveTokenAuthURL = captiveTokenAuthURL
         }
     }
 }
