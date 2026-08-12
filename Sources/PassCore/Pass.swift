@@ -307,7 +307,10 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     
     /// A URL to request a wheel chair.
     public var requestWheelchairURL: URL?
-    
+
+    /// A URL to track baggage through the airline app.
+    public var trackBagsURL: URL?
+
     /// The email for the transit provider.
     public var transitProviderEmail: String?
     
@@ -316,7 +319,6 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     
     /// The URL for the transit provider.
     public var transitProviderWebsiteURL: URL?
-    
 
     public init(
         description: String,
@@ -383,6 +385,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         registerServiceAnimalURL: URL? = nil,
         reportLostBagURL: URL? = nil,
         requestWheelchairURL: URL? = nil,
+        trackBagsURL: URL? = nil,
         transitProviderEmail: String? = nil,
         transitProviderPhoneNumber: String? = nil,
         transitProviderWebsiteURL: URL? = nil
@@ -452,6 +455,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.registerServiceAnimalURL = registerServiceAnimalURL
         self.reportLostBagURL = reportLostBagURL
         self.requestWheelchairURL = requestWheelchairURL
+        self.trackBagsURL = trackBagsURL
         self.transitProviderEmail = transitProviderEmail
         self.transitProviderPhoneNumber = transitProviderPhoneNumber
         self.transitProviderWebsiteURL = transitProviderWebsiteURL
