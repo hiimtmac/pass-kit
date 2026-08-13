@@ -7,8 +7,8 @@ import FoundationEssentials
 import Foundation
 #endif
 
-// https://developer.apple.com/library/archive/documentation/UserExperience/Reference/PassKit_Bundle/Chapters/TopLevel.html
-/// The following sections list the required and optional keys used in this dictionary
+// https://developer.apple.com/documentation/walletpasses/pass
+/// An object that represents a pass.
 public struct Pass: Codable, Equatable, Hashable, Sendable {
     // MARK: Required Keys
 
@@ -34,7 +34,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     // MARK: Optional Keys
 
-    /// A URL that links to your accessiblity content, or the venue’s.
+    /// A URL that links to your accessibility content, or the venue’s.
     ///
     /// This key works only for poster event tickets.
     public var accessibilityURL: URL?
@@ -54,8 +54,6 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// An array of App Store identifiers for apps associated with the pass. The associated app on a device is the first item in the array that’s compatible with that device.
     ///
     /// A link to launch the app is on the back of the pass. If the app isn’t installed, the link opens the App Store.
-    ///
-    /// This key works only for payment passes.
     ///
     /// This key isn’t supported for watchOS.
     public var associatedStoreIdentifiers: [Int]?
@@ -119,7 +117,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     /// The text to display next to the logo on the pass.
     ///
-    /// This key works only for poster event tickets
+    /// This key works only for poster event tickets.
     public var eventLogoText: String?
 
     /// An object that contains the information for an event ticket.
@@ -296,7 +294,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// An ordered list of all upcoming pass information entries.
     public var upcomingPassInformation: [UpcomingPassInformationEntry]?
     
-    /// A URL for management.
+    /// A URL that links out to ticket management options for the boarding pass.
     public var managementURL: URL?
     
     /// A URL for registering a service animal.

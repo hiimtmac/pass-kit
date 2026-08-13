@@ -1,7 +1,7 @@
 // Barcode.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-// https://developer.apple.com/documentation/walletpasses/pass/barcodes
+// https://developer.apple.com/documentation/walletpasses/pass/barcodes-data.dictionary
 extension Pass {
     /// Information about a pass’s barcode
     public struct Barcode: Codable, Equatable, Hashable, Sendable {

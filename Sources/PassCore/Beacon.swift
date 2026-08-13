@@ -1,7 +1,7 @@
 // Beacon.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-// https://developer.apple.com/documentation/walletpasses/pass/beacons
+// https://developer.apple.com/documentation/walletpasses/pass/beacons-data.dictionary
 extension Pass {
     /// Information about a location beacon
     public struct Beacon: Codable, Equatable, Hashable, Sendable {

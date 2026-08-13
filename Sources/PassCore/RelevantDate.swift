@@ -14,7 +14,7 @@ extension Pass {
         /// Required when providing ``startDate``.
         public var endDate: Date?
 
-        /// The date and time for the pass relevancy interval to begin
+        /// The date and time for the pass relevancy interval to begin.
         public var startDate: Date?
 
         public init(

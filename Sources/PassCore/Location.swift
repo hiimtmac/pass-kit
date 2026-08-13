@@ -1,7 +1,7 @@
 // Location.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-// https://developer.apple.com/documentation/walletpasses/pass/locations
+// https://developer.apple.com/documentation/walletpasses/pass/locations-data.dictionary
 extension Pass {
     /// Information about a location
     public struct Location: Codable, Equatable, Hashable, Sendable {
