@@ -4,7 +4,7 @@
 import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/semantictags
-
+/// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions.
 public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// Additional ticket attributes that other tags or keys in the pass don’t include.
     ///
@@ -117,6 +117,8 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     public var departureLocationSecurityPrograms: [TransitSecurityProgram]?
     
     /// The time zone of the departure location, such as America/Chicago.
+    ///
+    /// See the [IANA Time Zone Database](https://www.iana.org/time-zones) for the full list of supported time zones.
     public var departureLocationTimeZone: String?
 
     /// The name of the departure city to display on the boarding pass, such as “London” or “Shanghai”.
@@ -328,7 +330,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// An array of airline-specific SSRs that apply to the ticketed passenger.
     public var passengerAirlineSSRs: [String]?
     
-    /// A list of capabilties the passenger has. Only use this key for airline boarding passes.
+    /// A list of capabilities the passenger has. Only use this key for airline boarding passes.
     public var passengerCapabilities: [PassengerCapability]?
 
     /// A list of security programs the passenger is eligible for. This only shows in the UI if a program is in passengerEligibleSecurityPrograms and at least one of departureLocationSecurityPrograms or destinationLocationSecurityPrograms.
@@ -344,9 +346,9 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// Use this key for any type of boarding pass.
     public var passengerName: SemanticTagType.PersonNameComponents?
     
-    /// An array of IATA information SSRs that apply to the ticketed passenger.
+    /// An array of IATA SSRs that apply to the ticketed passenger.
     ///
-    /// A comprehensive list of service SSRs can be found in the [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Service SSRs.
+    /// A comprehensive list of service SSRs can be found in [the IATA Airlines Developer Guide](https://guides.developer.iata.org/docs/21-1_ImplementationGuide.pdf) under A List of Service SSRs.
     public var passengerServiceSSRs: [String]?
 
     /// An array of the full names of the performers and opening acts at the event, in decreasing order of significance.
@@ -374,7 +376,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// Use this key for any type of boarding pass.
     public var securityScreening: String?
 
-    /// A Boolean value that determines whether the user’s device remains silent during an event or transit journey.
+    /// A Boolean value that determines whether the person’s device remains silent during an event or transit journey.
     ///
     /// The system may override the key and determine the length of the period of silence.
     ///
@@ -500,7 +502,7 @@ public struct SemanticTags: Codable, Equatable, Hashable, Sendable {
     /// Use this key for any type of event ticket.
     public var venueParkingLotsOpenDate: Date?
 
-    /// The phone number for enquiries about the venue’s ticketed event.
+    /// The phone number for inquiries about the venue’s ticketed event.
     ///
     /// Use this key for any type of event ticket.
     public var venuePhoneNumber: String?
@@ -894,7 +896,7 @@ public enum SemanticTagType {
         }
     }
 
-    // https://developer.apple.com/documentation/walletpasses/semantictagtype/currencyamount
+    // https://developer.apple.com/documentation/walletpasses/semantictagtype/currencyamount-data.dictionary
     /// An object that represents an amount of money and type of currency.
     public struct CurrencyAmount: Codable, Equatable, Hashable, Sendable {
         /// The amount of money.
@@ -912,7 +914,7 @@ public enum SemanticTagType {
         }
     }
 
-    // https://developer.apple.com/documentation/walletpasses/semantictagtype/location
+    // https://developer.apple.com/documentation/walletpasses/semantictagtype/location-data.dictionary
     /// An object that represents the coordinates of a location.
     public struct Location: Codable, Equatable, Hashable, Sendable {
         /// The latitude, in degrees.
@@ -927,7 +929,7 @@ public enum SemanticTagType {
         }
     }
 
-    // https://developer.apple.com/documentation/walletpasses/semantictagtype/wifinetwork
+    // https://developer.apple.com/documentation/walletpasses/semantictagtype/wifinetwork-data.dictionary
     /// An object that contains information required to connect to a WiFi network.
     public struct WifiNetwork: Codable, Equatable, Hashable, Sendable {
         /// The password for the WiFi network.

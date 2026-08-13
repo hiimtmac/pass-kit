@@ -1,10 +1,10 @@
-// SemanticTags.swift
+// UpcomingPassInformationEntry.swift
 // Copyright (c) 2025 hiimtmac inc.
 
 import Foundation
 
 // https://developer.apple.com/documentation/walletpasses/upcomingpassinformationentry
-
+/// An object that represents the ordered list of all upcoming pass information entries.
 public struct UpcomingPassInformationEntry: Codable, Equatable, Hashable, Sendable {
     /// A collection of URLs used to populate UI elements in the details view.
     public var URLs: URLs?
@@ -67,7 +67,7 @@ public struct UpcomingPassInformationEntry: Codable, Equatable, Hashable, Sendab
 
 extension UpcomingPassInformationEntry {
     public struct URLs: Codable, Equatable, Hashable, Sendable {
-        /// A URL that links to your or the venue’s accessiblity content.
+        /// A URL that links to your or the venue’s accessibility content.
         public var accessibilityURL: URL?
         
         /// A URL that links to experiences that you can add on to your ticket or that allows you to access your existing prepurchased or preloaded add-on experiences, including any necessary QR or barcode links to access the experience.
@@ -217,7 +217,7 @@ extension UpcomingPassInformationEntry {
 
 public enum UpcomingPassInformationEntryType {
     public struct Image: Codable, Equatable, Hashable, Sendable {
-        /// A list of URLs used to retreive an image.
+        /// A list of URLs used to retrieve an image.
         ///
         /// The upcoming pass information entry uses the item that best matches the device’s scale.
         public var URLs: [ImageURLEntry]?

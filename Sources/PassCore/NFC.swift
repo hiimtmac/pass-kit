@@ -1,7 +1,7 @@
 // NFC.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-// hhttps://developer.apple.com/documentation/walletpasses/pass/nfc
+// https://developer.apple.com/documentation/walletpasses/pass/nfc-data.dictionary
 extension Pass {
     /// Information about the NFC payload passed to an Apple Pay terminal.
     public struct NFC: Codable, Equatable, Hashable, Sendable {
