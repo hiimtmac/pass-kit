@@ -1,7 +1,11 @@
 // SemanticTags.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
+#if canImport(FoundationEssentials)
+public import FoundationEssentials
+#else
+public import Foundation
+#endif
 
 // https://developer.apple.com/documentation/walletpasses/semantictags
 /// An object that contains machine-readable metadata the system uses to offer a pass and suggest related actions.

@@ -1,7 +1,12 @@
 // UpcomingPassInformationEntry.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
+#if canImport(FoundationEssentials)
+public import FoundationEssentials
+#else
+public import Foundation
+#endif
+
 
 // https://developer.apple.com/documentation/walletpasses/upcomingpassinformationentry
 /// An object that represents the ordered list of all upcoming pass information entries.

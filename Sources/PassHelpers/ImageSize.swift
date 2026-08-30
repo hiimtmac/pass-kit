@@ -1,7 +1,7 @@
 // ImageSize.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
+public import Foundation
 
 public enum ImageSize: Hashable {
     case icon
