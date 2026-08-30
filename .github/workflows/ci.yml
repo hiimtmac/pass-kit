@@ -12,7 +12,7 @@ jobs:
   test-linux:
     name: "Test Linux"
     runs-on: ubuntu-latest
-    container: swift:6.0-jammy
+    container: swift:6.1-noble
     steps:
       - name: Checkout
         uses: actions/checkout@v4
