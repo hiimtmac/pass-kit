@@ -3,6 +3,7 @@
 
 import Foundation
 import Testing
+import PassCore
 @testable import PassGen
 
 @Suite

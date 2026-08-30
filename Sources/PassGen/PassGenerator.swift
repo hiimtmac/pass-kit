@@ -4,11 +4,12 @@
 import _CryptoExtras
 // TODO: `Bundle` is not available in FoundationEssentials
 // #if canImport(FoundationEssentials)
-// import FoundationEssentials
+// public import FoundationEssentials
 // #else
-import Foundation
+public import Foundation
 // #endif
-import PassCore
+public import PassCore
+import SwiftASN1
 import X509
 import ZipArchive
 

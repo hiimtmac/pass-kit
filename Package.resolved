@@ -1,5 +1,5 @@
 {
-  "originHash" : "80abcad025789e7c46ac8ef30ab5480c5c71e5f67deab23941ea02aa0d3e4c09",
+  "originHash" : "1004d7770f037692eafd2643efaa35efbb242989cbb9c4e606a3b6bd33f73a7a",
   "pins" : [
     {
       "identity" : "swift-asn1",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-certificates.git",
       "state" : {
-        "revision" : "4b092f15164144c24554e0a75e080a960c5190a6",
-        "version" : "1.14.0"
+        "revision" : "449dbbecd0f31e82b510ada227ca152caa8b5e98",
+        "version" : "1.19.4"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/adam-fowler/swift-zip-archive.git",
       "state" : {
-        "revision" : "2cf559f47443d99924950c4114aba1af3e688c7d",
-        "version" : "0.6.3"
+        "revision" : "0958a719c924d2b3cb27cd7d9f76b4cfb04549f2",
+        "version" : "0.8.1"
       }
     }
   ],

@@ -1,7 +1,11 @@
 // RelevantDate.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
+#if canImport(FoundationEssentials)
+public import FoundationEssentials
+#else
+public import Foundation
+#endif
 
 extension Pass {
     /// https://developer.apple.com/documentation/walletpasses/pass/relevantdates-data.dictionary

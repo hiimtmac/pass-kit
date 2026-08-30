@@ -1,8 +1,12 @@
 // PassContainer.swift
 // Copyright (c) 2025 hiimtmac inc.
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
-import PassCore
+#endif
+public import PassCore
 
 // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/index.html#//apple_ref/doc/uid/TP40012195-CH1-SW1
 

@@ -1,8 +1,12 @@
 // PassFieldContent+Extensions.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import Foundation
-import PassCore
+#if canImport(FoundationEssentials)
+public import FoundationEssentials
+#else
+public import Foundation
+#endif
+public import PassCore
 
 // MARK: - String
 

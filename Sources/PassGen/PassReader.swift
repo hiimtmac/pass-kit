@@ -2,11 +2,12 @@
 // Copyright (c) 2025 hiimtmac inc.
 
 #if canImport(FoundationEssentials)
-import FoundationEssentials
+public import FoundationEssentials
 #else
-import Foundation
+public import Foundation
 #endif
-import PassCore
+public import PassCore
+import SystemPackage
 import ZipArchive
 
 extension DecodingError {

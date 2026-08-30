@@ -2,7 +2,7 @@
 // Copyright (c) 2025 hiimtmac inc.
 
 #if canImport(UniformTypeIdentifiers)
-import UniformTypeIdentifiers
+public import UniformTypeIdentifiers
 
 extension UTType {
     public static let pkpass = UTType("com.apple.pkpass-data")!

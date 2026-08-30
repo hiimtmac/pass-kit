@@ -1,7 +1,7 @@
 // PassFields+Extensions.swift
 // Copyright (c) 2025 hiimtmac inc.
 
-import PassCore
+public import PassCore
 
 extension PassFields {
     public static func boardingPass(
