@@ -27,8 +27,11 @@ public struct PassContainer<Image> {
     public var thumbnailImage: Image?
     /// The background image (background.png) is displayed behind the entire front of the pass. The expected dimensions are 180 x 220 points. The image is cropped slightly on all sides and blurred. Depending on the image, you can often provide an image at a smaller size and let it be scaled up, because the blur effect hides details. This lets you reduce the file size without a noticeable difference in the pass.
     public var backgroundImage: Image?
-
+    /// The artwork image (artwork.png) is displayed on poster passes. The allotted space is 358 x 448 points.
     public var artwork: Image?
+    /// The primary logo (primaryLogo.png) is displayed at the top of poster passes. The allotted space is 126 x 30 points.
+    public var primaryLogo: Image?
+    /// The secondary logo (secondaryLogo.png) is displayed on poster passes that include one. The allotted space is 135 x 12 points.
     public var secondaryLogo: Image?
 
     public var personalization: Personalization?
@@ -45,6 +48,7 @@ public struct PassContainer<Image> {
         thumbnail: Image? = nil,
         background: Image? = nil,
         artwork: Image? = nil,
+        primaryLogo: Image? = nil,
         secondaryLogo: Image? = nil,
         personalization: Personalization? = nil,
         personalizationLogo: Image? = nil,
@@ -58,6 +62,7 @@ public struct PassContainer<Image> {
         self.thumbnailImage = thumbnail
         self.backgroundImage = background
         self.artwork = artwork
+        self.primaryLogo = primaryLogo
         self.secondaryLogo = secondaryLogo
         self.personalization = personalization
         self.personalizationImage = personalizationLogo
@@ -182,6 +187,24 @@ public struct PassContainer<Image> {
             strip: strip,
             personalization: personalization,
             personalizationLogo: personalizationLogo,
+            localizations: localizations
+        )
+    }
+
+    public static func posterGeneric(
+        pass: Pass,
+        icon: Image,
+        logo: Image? = nil,
+        artwork: Image? = nil,
+        primaryLogo: Image? = nil,
+        localizations: [Localization<Image>]? = nil
+    ) -> Self {
+        .init(
+            pass: pass,
+            icon: icon,
+            logo: logo,
+            artwork: artwork,
+            primaryLogo: primaryLogo,
             localizations: localizations
         )
     }

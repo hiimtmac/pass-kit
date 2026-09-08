@@ -16,6 +16,7 @@ extension PassFields {
             additionalInfoFields: nil,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
@@ -35,6 +36,7 @@ extension PassFields {
             additionalInfoFields: additionalInfoFields,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
@@ -53,6 +55,7 @@ extension PassFields {
             additionalInfoFields: nil,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
@@ -71,6 +74,7 @@ extension PassFields {
             additionalInfoFields: nil,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
@@ -89,6 +93,7 @@ extension PassFields {
             additionalInfoFields: nil,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
@@ -107,9 +112,29 @@ extension PassFields {
             additionalInfoFields: nil,
             auxiliaryFields: auxiliaryFields,
             backFields: backFields,
+            footerFields: nil,
             headerFields: headerFields,
             primaryFields: primaryFields,
             secondaryFields: secondaryFields,
+            transitType: nil
+        )
+    }
+
+    public static func posterGeneric(
+        additionalInfoFields: [PassFieldContent]? = nil,
+        backFields: [PassFieldContent]? = nil,
+        footerFields: [PassFieldContent]? = nil,
+        headerFields: [PassFieldContent]? = nil,
+        primaryFields: [PassFieldContent]? = nil
+    ) -> Self {
+        Self(
+            additionalInfoFields: additionalInfoFields,
+            auxiliaryFields: nil,
+            backFields: backFields,
+            footerFields: footerFields,
+            headerFields: headerFields,
+            primaryFields: primaryFields,
+            secondaryFields: nil,
             transitType: nil
         )
     }

@@ -10,6 +10,9 @@ public enum ImageSize: Hashable {
     case strip(Strip)
     case background
     case footer
+    case artwork
+    case primaryLogo
+    case secondaryLogo
     case personalization
 
     public enum Strip {
@@ -38,6 +41,9 @@ public enum ImageSize: Hashable {
         case let .strip(strip): strip.size
         case .background: CGSize(width: 180, height: 220)
         case .footer: CGSize(width: 286, height: 15)
+        case .artwork: CGSize(width: 358, height: 448)
+        case .primaryLogo: CGSize(width: 126, height: 30)
+        case .secondaryLogo: CGSize(width: 135, height: 12)
         case .personalization: CGSize(width: 150, height: 40)
         }
     }
