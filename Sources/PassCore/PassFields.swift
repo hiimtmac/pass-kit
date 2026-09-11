@@ -20,8 +20,6 @@
 /// An object that represents the groups of fields that display information on the front and back of a pass.
 public struct PassFields: Codable, Equatable, Hashable, Sendable {
     /// An object that represents fields that display in the Additional Info section below a pass.
-    ///
-    /// This key works only for poster event tickets.
     public var additionalInfoFields: [PassFieldContent]?
 
     /// An object that represents the fields that display additional information on the front of a pass.
@@ -29,6 +27,9 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
 
     /// An object that represents the fields that display information on the back of a pass.
     public var backFields: [PassFieldContent]?
+
+    /// An object that represents the fields that display information on the footer of a pass.
+    public var footerFields: [PassFieldContent]?
 
     /// An object that represents the fields that display information at the top of a pass.
     public var headerFields: [PassFieldContent]?
@@ -50,6 +51,7 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
         additionalInfoFields: [PassFieldContent]? = nil,
         auxiliaryFields: [PassFieldContent]? = nil,
         backFields: [PassFieldContent]? = nil,
+        footerFields: [PassFieldContent]? = nil,
         headerFields: [PassFieldContent]? = nil,
         primaryFields: [PassFieldContent]? = nil,
         secondaryFields: [PassFieldContent]? = nil,
@@ -58,6 +60,7 @@ public struct PassFields: Codable, Equatable, Hashable, Sendable {
         self.additionalInfoFields = additionalInfoFields
         self.auxiliaryFields = auxiliaryFields
         self.backFields = backFields
+        self.footerFields = footerFields
         self.headerFields = headerFields
         self.primaryFields = primaryFields
         self.secondaryFields = secondaryFields

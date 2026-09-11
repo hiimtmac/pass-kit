@@ -30,6 +30,18 @@ public struct Image {
         .init(type: .background, scale: scale)
     }
 
+    public static func artwork(_ scale: ImageScale) -> Self {
+        .init(type: .artwork, scale: scale)
+    }
+
+    public static func primaryLogo(_ scale: ImageScale) -> Self {
+        .init(type: .primaryLogo, scale: scale)
+    }
+
+    public static func secondaryLogo(_ scale: ImageScale) -> Self {
+        .init(type: .secondaryLogo, scale: scale)
+    }
+
     public static func footer(_ scale: ImageScale) -> Self {
         .init(type: .footer, scale: scale)
     }
@@ -44,6 +56,9 @@ public enum ImageType: String {
     case strip
     case background
     case footer
+    case artwork
+    case primaryLogo
+    case secondaryLogo
     case personalization = "personalizationLogo"
 }
 

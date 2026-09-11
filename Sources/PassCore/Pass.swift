@@ -128,6 +128,9 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// The value needs to be a complete date that includes hours and minutes, and may optionally include seconds.
     public var expirationDate: Date?
 
+    /// An array of featured pass actions.
+    public var featuredActions: [Action]?
+
     /// A background color for the footer of the pass, specified as a CSS-style RGB triple, such as rgb(100, 10, 110).
     ///
     /// This key works only for poster event tickets.
@@ -159,6 +162,9 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     /// This key doesn’t work for poster event tickets.
     public var logoText: String?
 
+    /// An SF Symbol to display as a logo image.
+    public var logoSymbolName: String?
+
     /// The maximum distance, in meters, from a location in the locations array at which the pass is relevant.
     ///
     /// The system uses the smaller of this distance or the default distance.
@@ -181,6 +187,9 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
     ///
     /// This key works only for poster event tickets.
     public var parkingInformationURL: URL?
+
+    /// An object that contains the information for a poster generic pass.
+    public var posterGeneric: PassFields?
 
     /// An array of schemes to validate the pass with.
     ///
@@ -224,6 +233,9 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
 
     /// An object that contains the information for a store card.
     public var storeCard: PassFields?
+
+    /// A color for the strip of the pass, specified as a CSS-style RGB triple, such as rgb(100, 10, 110).
+    public var stripColor: PassColor?
 
     /// A Boolean value that controls whether to display the strip image without a shine effect.
     ///
@@ -344,6 +356,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         eventLogoText: String? = nil,
         eventTicket: PassFields? = nil,
         expirationDate: Date? = nil,
+        featuredActions: [Action]? = nil,
         footerBackgroundColor: PassColor? = nil,
         foregroundColor: PassColor? = nil,
         generic: PassFields? = nil,
@@ -351,11 +364,13 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         labelColor: PassColor? = nil,
         locations: [Location]? = nil,
         logoText: String? = nil,
+        logoSymbolName: String? = nil,
         maxDistance: Double? = nil,
         merchandiseURL: URL? = nil,
         nfc: NFC? = nil,
         orderFoodURL: URL? = nil,
         parkingInformationURL: URL? = nil,
+        posterGeneric: PassFields? = nil,
         preferredStyleSchemes: [PreferredStyleScheme]? = nil,
         purchaseParkingURL: URL? = nil,
         relevantDate: Date? = nil,
@@ -364,6 +379,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         semantics: SemanticTags? = nil,
         sharingProhibited: Bool? = nil,
         storeCard: PassFields? = nil,
+        stripColor: PassColor? = nil,
         suppressStripShine: Bool? = nil,
         suppressHeaderDarkening: Bool? = nil,
         transferURL: URL? = nil,
@@ -414,6 +430,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.eventLogoText = eventLogoText
         self.eventTicket = eventTicket
         self.expirationDate = expirationDate
+        self.featuredActions = featuredActions
         self.footerBackgroundColor = footerBackgroundColor
         self.foregroundColor = foregroundColor
         self.generic = generic
@@ -421,11 +438,13 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.labelColor = labelColor
         self.locations = locations
         self.logoText = logoText
+        self.logoSymbolName = logoSymbolName
         self.maxDistance = maxDistance
         self.merchandiseURL = merchandiseURL
         self.nfc = nfc
         self.orderFoodURL = orderFoodURL
         self.parkingInformationURL = parkingInformationURL
+        self.posterGeneric = posterGeneric
         self.preferredStyleSchemes = preferredStyleSchemes
         self.purchaseParkingURL = purchaseParkingURL
         self.relevantDate = relevantDate
@@ -434,6 +453,7 @@ public struct Pass: Codable, Equatable, Hashable, Sendable {
         self.semantics = semantics
         self.sharingProhibited = sharingProhibited
         self.storeCard = storeCard
+        self.stripColor = stripColor
         self.suppressStripShine = suppressStripShine
         self.suppressHeaderDarkening = suppressHeaderDarkening
         self.transferURL = transferURL
