@@ -18,22 +18,28 @@ extension Pass {
         /// (Required) The action type to perform.
         public var type: ActionType
 
-        /// The URL the action opens, if applicable.
+        /// The URL the action opens.
         public var url: URL?
+
+        /// Identifies the Apple Maps location opened by a `.place` action.
+        public var placeIdentifier: String?
 
         /// An object that represents a featured action on a pass.
         /// - Parameters:
         ///   - identifier: A unique identifier for the action.
         ///   - type: The action type to perform.
         ///   - url: The URL the action opens, if applicable.
+        ///   - placeIdentifier: The Apple Maps Place ID for a `.place` action.
         public init(
             identifier: String,
             type: ActionType,
-            url: URL? = nil
+            url: URL? = nil,
+            placeIdentifier: String? = nil
         ) {
             self.identifier = identifier
             self.type = type
             self.url = url
+            self.placeIdentifier = placeIdentifier
         }
     }
 }
